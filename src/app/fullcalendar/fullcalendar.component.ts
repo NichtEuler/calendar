@@ -34,10 +34,10 @@ export class FullcalendarComponent implements OnInit {
     height: screen.height - screen.height / 4,
     businessHours: {
       // days of week. an array of zero-based day of week integers (0=Sunday)
-      daysOfWeek: [1, 2, 3, 4, 5], // Monday - Friday
+      daysOfWeek: [1, 2, 3, 4, 5, 6], // Monday - Friday
 
       startTime: '08:00', // a start time (10am in this example)
-      endTime: '18:00', // an end time (6pm in this example)
+      endTime: '20:00', // an end time (6pm in this example)
     }
     /* you can update a remote database when these fire:
     eventAdd:
