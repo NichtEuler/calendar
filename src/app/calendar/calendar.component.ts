@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { CalendarOptions } from '@fullcalendar/angular';
+import { Calendar, CalendarOptions } from '@fullcalendar/angular';
+import deLocale from '@fullcalendar/core/locales/de';
 
 @Component({
   selector: 'app-fullcalendar',
-  templateUrl: './fullcalendar.component.html',
-  styleUrls: ['./fullcalendar.component.css']
+  templateUrl: './calendar.component.html',
+  styleUrls: ['./calendar.component.css']
 })
-export class FullcalendarComponent implements OnInit {
+export class CalendarComponent implements OnInit {
 
   constructor() { }
 
@@ -15,9 +16,9 @@ export class FullcalendarComponent implements OnInit {
 
   calendarOptions: CalendarOptions = {
     headerToolbar: {
-      right: 'prev,next today',
+      left: 'prev,next today',
       center: 'title',
-      left: 'dayGridMonth,timeGridWeek,timeGridDay',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay',
     },
     initialView: 'dayGridMonth',
     weekends: true,
@@ -29,7 +30,7 @@ export class FullcalendarComponent implements OnInit {
     // select: this.handleDateSelect.bind(this),
     // eventClick: this.handleEventClick.bind(this),
     // eventsSet: this.handleEvents.bind(this),
-    // locale: deLocale,
+    locale: deLocale,
     firstDay: 1,
     height: screen.height - screen.height / 4,
     businessHours: {

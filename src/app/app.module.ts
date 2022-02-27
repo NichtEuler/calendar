@@ -11,7 +11,7 @@ import { AngularMaterialModule } from './angular-material.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { FullcalendarComponent } from './fullcalendar/fullcalendar.component';
+import { CalendarComponent } from './calendar/calendar.component';
 import { EventCreateComponent } from './events/event-create/event-create.component';
 import { EventListComponent } from './events/event-list/event-list.component';
 
@@ -26,7 +26,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   declarations: [
     AppComponent,
     HeaderComponent,
-    FullcalendarComponent,
+    CalendarComponent,
     EventCreateComponent,
     EventListComponent,
   ],
