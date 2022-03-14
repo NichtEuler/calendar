@@ -14,7 +14,7 @@ import { HeaderComponent } from './header/header.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { EventCreateComponent } from './events/event-create/event-create.component';
 import { EventListComponent } from './events/event-list/event-list.component';
-
+import { EventModalComponent } from './events/event-modal/event-modal.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -29,6 +29,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     CalendarComponent,
     EventCreateComponent,
     EventListComponent,
+    EventModalComponent,
   ],
   imports: [
     AngularMaterialModule,
