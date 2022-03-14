@@ -5,7 +5,6 @@ export interface DialogData {
   animal: string;
   name: string;
   title: string;
-  startWeek: 2;
 }
 
 @Component({
@@ -14,9 +13,6 @@ export interface DialogData {
   styleUrls: ['./event-modal.component.css']
 })
 export class EventModalComponent implements OnInit {
-  animal: "string";
-  name: "string";
-  title: "test";
 
   constructor(
     public dialogRef: MatDialogRef<EventModalComponent>,
@@ -24,7 +20,7 @@ export class EventModalComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.dialogRef.updateSize('25%', '25%');
+    // this.dialogRef.updateSize('30%', '30%');
   }
 
   onNoClick(): void {
