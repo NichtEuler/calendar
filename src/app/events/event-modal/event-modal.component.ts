@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface DialogData {
@@ -14,16 +15,29 @@ export interface DialogData {
 })
 export class EventModalComponent implements OnInit {
 
+  form: FormGroup;
   constructor(
     public dialogRef: MatDialogRef<EventModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
   ) { }
 
   ngOnInit(): void {
-    // this.dialogRef.updateSize('30%', '30%');
+    this.form = new FormGroup({
+      title: new FormControl(null, { validators: [Validators.required, Validators.minLength(3)] }),
+      date: new FormControl(null, { validators: [Validators.required] }),
+      startTime: new FormControl(null, { validators: [Validators.required] }),
+      endTime: new FormControl(null)
+    });
   }
 
   onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+  onSaveEvent() {
+    if (this.form.invalid) {
+      return;
+    }
     this.dialogRef.close();
   }
 }
