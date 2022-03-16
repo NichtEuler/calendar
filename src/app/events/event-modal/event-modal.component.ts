@@ -3,9 +3,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface DialogData {
-  animal: string;
-  name: string;
+  modalName: string;
   title: string;
+  date: Date;
+  startTime: Date;
+  endTime: Date;
 }
 
 @Component({
@@ -16,6 +18,7 @@ export interface DialogData {
 export class EventModalComponent implements OnInit {
 
   form: FormGroup;
+
   constructor(
     public dialogRef: MatDialogRef<EventModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -35,9 +38,12 @@ export class EventModalComponent implements OnInit {
   }
 
   onSaveEvent() {
+    console.log(this.form.value)
+
     if (this.form.invalid) {
       return;
     }
+    console.log()
     this.dialogRef.close();
   }
 }

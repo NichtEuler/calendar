@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.getNames();
+    this.getRooms();
   }
 
   initForm() {
@@ -39,13 +39,14 @@ export class HeaderComponent implements OnInit {
   }
 
 
-  getNames() {
+  getRooms() {
     this.getData().subscribe(response => {
       this.options = response;
       this.filteredOptions = response;
     })
   }
 
+  //normalerweise vom service holen
   getData() {
     return this.http.get<any>('https://jsonplaceholder.typicode.com/users')
       .pipe(

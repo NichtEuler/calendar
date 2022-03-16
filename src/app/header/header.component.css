@@ -15,5 +15,7 @@ a {
 }
 
 .searchbarformfield {
-    padding: 1.5rem 0 0 40%;
+    padding: 1.5rem 0 0 30%;
+    scale: 80%;
+    width: 250%;
 }

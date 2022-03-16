@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Calendar, CalendarOptions } from '@fullcalendar/angular';
+import { MatDialog } from '@angular/material/dialog';
+import { Calendar, CalendarOptions, DateSelectArg } from '@fullcalendar/angular';
 import deLocale from '@fullcalendar/core/locales/de';
+import { EventModalComponent } from '../events/event-modal/event-modal.component';
 
 @Component({
   selector: 'app-fullcalendar',
@@ -9,7 +11,7 @@ import deLocale from '@fullcalendar/core/locales/de';
 })
 export class CalendarComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
@@ -48,8 +50,10 @@ export class CalendarComponent implements OnInit {
 
   };
 
-  handleDateSelect(){
-    
+  handleDateSelect(selectInfo: DateSelectArg) {
+    const dialogRef = this.dialog.open(EventModalComponent, {
+      data: { modalName: "Create Event", title: selectInfo.startStr, date: selectInfo.startStr, startTime: selectInfo.start, endTime: selectInfo.end }
+    });
   }
 
 }
