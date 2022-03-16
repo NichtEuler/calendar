@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Calendar, CalendarOptions, DateSelectArg } from '@fullcalendar/angular';
+import { Calendar, CalendarOptions, DateSelectArg, EventApi, EventClickArg, EventInput } from '@fullcalendar/angular';
 import deLocale from '@fullcalendar/core/locales/de';
 import { EventModalComponent } from '../events/event-modal/event-modal.component';
 
@@ -10,6 +10,20 @@ import { EventModalComponent } from '../events/event-modal/event-modal.component
   styleUrls: ['./calendar.component.css']
 })
 export class CalendarComponent implements OnInit {
+  TODAY_STR = new Date().toISOString().replace(/T.*$/, '');
+  INITIAL_EVENTS: EventInput[] = [
+    {
+      id: "123",
+      title: 'All-day event',
+      start: this.TODAY_STR
+    },
+    {
+      id: "createEventId()",
+      title: 'Timed event',
+      start: this.TODAY_STR + 'T24:00:00'
+    }
+  ];
+  currentEvents: EventApi[] = [];
 
   constructor(public dialog: MatDialog) { }
 
@@ -23,6 +37,7 @@ export class CalendarComponent implements OnInit {
       right: 'dayGridMonth,timeGridWeek,timeGridDay',
     },
     initialView: 'dayGridMonth',
+    initialEvents: this.INITIAL_EVENTS,
     weekends: true,
     editable: true,
     selectable: true,
@@ -30,8 +45,8 @@ export class CalendarComponent implements OnInit {
     dayMaxEvents: true,
     nowIndicator: true,
     select: this.handleDateSelect.bind(this),
-    // eventClick: this.handleEventClick.bind(this),
-    // eventsSet: this.handleEvents.bind(this),
+    eventClick: this.handleEventClick.bind(this),
+    eventsSet: this.handleEvents.bind(this),
     locale: deLocale,
     firstDay: 1,
     height: screen.height - screen.height / 4,
@@ -52,8 +67,18 @@ export class CalendarComponent implements OnInit {
 
   handleDateSelect(selectInfo: DateSelectArg) {
     const dialogRef = this.dialog.open(EventModalComponent, {
-      data: { modalName: "Create Event", title: selectInfo.startStr, date: selectInfo.startStr, startTime: selectInfo.start, endTime: selectInfo.end }
+      data: { title: selectInfo.startStr, date: selectInfo.startStr, startTime: selectInfo.start, endTime: selectInfo.end }
     });
+  }
+
+  handleEventClick(clickInfo: EventClickArg) {
+    const dialogRef = this.dialog.open(EventModalComponent, {
+      data: { title: clickInfo.event.title, date: clickInfo.event.startStr, startTime: clickInfo.event.start, endTime: clickInfo.event.end, isExisting: true }
+    });
+  }
+
+  handleEvents(events: EventApi[]) {
+    this.currentEvents = events;
   }
 
 }

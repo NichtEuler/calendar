@@ -3,11 +3,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface DialogData {
-  modalName: string;
   title: string;
   date: Date;
   startTime: Date;
   endTime: Date;
+  isExisting: boolean;
 }
 
 @Component({
