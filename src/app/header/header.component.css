@@ -2,7 +2,7 @@ ul {
     list-style: none;
     padding: 0;
     margin: 0;
-    display: flex;
+    display: contents;
 }
 
 a {
@@ -12,4 +12,10 @@ a {
 
 .spacer {
     flex: 1 1 auto;
+}
+
+.searchbarformfield {
+    padding: 5%;
+    margin-top: 1.5rem;
+    width: 100%;
 }

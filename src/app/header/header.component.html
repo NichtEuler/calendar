@@ -1,9 +1,19 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" class="toolbar">
     <span><a routerLink="/">MyCalendar</a></span>
+    <mat-form-field class="searchbarformfield">
+        <mat-label>Search Room</mat-label>
+        <input type="text" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                {{option}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
     <span class="spacer"></span>
+
     <ul>
         <li>
-            <a mat-button routerLink="/create" routerLinkActive="mat-accent" (click)="onCreateEventClick()">Create Event</a>
+            <a mat-button routerLinkActive="mat-accent" (click)="onCreateEventClick()">Create Event</a>
         </li>
     </ul>
 </mat-toolbar>

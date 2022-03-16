@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { map, Observable, startWith } from 'rxjs';
 import { EventModalComponent } from '../events/event-modal/event-modal.component';
 
 @Component({
@@ -10,21 +12,27 @@ import { EventModalComponent } from '../events/event-modal/event-modal.component
 export class HeaderComponent implements OnInit {
 
   constructor(public dialog: MatDialog) { }
-  animal: "string";
-  name: "string";
+  myControl = new FormControl();
+  options: string[] = ['One', 'Two', 'Three'];
+  filteredOptions: Observable<string[]>;
 
   ngOnInit(): void {
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value)),
+    );
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.options.filter(option => option.toLowerCase().includes(filterValue));
   }
 
 
   onCreateEventClick() {
     const dialogRef = this.dialog.open(EventModalComponent, {
-      data: { name: this.name, animal: this.animal, title: "Create Event" }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.animal = result;
+      data: { title: "Create Event" }
     });
   }
 
