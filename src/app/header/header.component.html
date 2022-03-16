@@ -1,14 +1,18 @@
 <mat-toolbar color="primary" class="toolbar">
     <span><a routerLink="/">MyCalendar</a></span>
-    <mat-form-field class="searchbarformfield">
-        <mat-label>Search Room</mat-label>
-        <input type="text" aria-label="Number" matInput [formControl]="myControl" [matAutocomplete]="auto">
-        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                {{option}}
-            </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
+
+    <form [formGroup]="formGroup">
+        <mat-form-field class="searchbarformfield">
+            <mat-label>Search Room</mat-label>
+            <input type="text" matInput formControlName="roomname" [matAutocomplete]="auto">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                <mat-option *ngFor="let item of filteredOptions " [value]="item">
+                    {{item}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </form>
+
     <span class="spacer"></span>
 
     <ul>

@@ -1,7 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { map, Observable, startWith } from 'rxjs';
+import { map } from 'rxjs';
 import { EventModalComponent } from '../events/event-modal/event-modal.component';
 
 @Component({
@@ -11,24 +12,46 @@ import { EventModalComponent } from '../events/event-modal/event-modal.component
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog, private http: HttpClient, private fb: FormBuilder) { }
   myControl = new FormControl();
-  options: string[] = ['One', 'Two', 'Three'];
-  filteredOptions: Observable<string[]>;
+  filteredOptions;
+  formGroup: FormGroup;
+  options = ["Sam", "Varun", "Jasmine"];
 
   ngOnInit(): void {
-    this.filteredOptions = this.myControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value)),
-    );
+    this.initForm();
+    this.getNames();
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+  initForm() {
+    this.formGroup = this.fb.group({
+      'roomname': ['']
+    })
+    this.formGroup.get('roomname').valueChanges.subscribe(response => {
+      console.log('data is ', response);
+      this.filterData(response);
+    })
+  }
+  filterData(enteredData) {
+    this.filteredOptions = this.options.filter(item => {
+      return item.toLowerCase().indexOf(enteredData.toLowerCase()) > -1
+    })
   }
 
+
+  getNames() {
+    this.getData().subscribe(response => {
+      this.options = response;
+      this.filteredOptions = response;
+    })
+  }
+
+  getData() {
+    return this.http.get<any>('https://jsonplaceholder.typicode.com/users')
+      .pipe(
+        map((response: []) => response.map(item => item['name']))
+      )
+  }
 
   onCreateEventClick() {
     const dialogRef = this.dialog.open(EventModalComponent, {

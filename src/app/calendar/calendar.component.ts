@@ -27,7 +27,7 @@ export class CalendarComponent implements OnInit {
     selectMirror: true,
     dayMaxEvents: true,
     nowIndicator: true,
-    // select: this.handleDateSelect.bind(this),
+    select: this.handleDateSelect.bind(this),
     // eventClick: this.handleEventClick.bind(this),
     // eventsSet: this.handleEvents.bind(this),
     locale: deLocale,
@@ -47,5 +47,9 @@ export class CalendarComponent implements OnInit {
     */
 
   };
+
+  handleDateSelect(){
+    
+  }
 
 }
