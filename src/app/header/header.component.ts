@@ -60,4 +60,8 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  onLoginClick() {
+    alert("Not Implemented yet");
+
+  }
 }

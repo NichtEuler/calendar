@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Calendar, CalendarOptions, DateSelectArg, EventApi, EventClickArg, EventInput } from '@fullcalendar/angular';
+import { CalendarOptions, DateSelectArg, EventApi, EventClickArg, EventInput } from '@fullcalendar/angular';
 import deLocale from '@fullcalendar/core/locales/de';
 import { EventModalComponent } from '../events/event-modal/event-modal.component';
 
@@ -15,7 +15,8 @@ export class CalendarComponent implements OnInit {
     {
       id: "123",
       title: 'All-day event',
-      start: this.TODAY_STR
+      start: this.TODAY_STR + 'T11:03:00',
+      end: this.TODAY_STR + 'T22:00:00'
     },
     {
       id: "createEventId()",
@@ -67,14 +68,29 @@ export class CalendarComponent implements OnInit {
 
   handleDateSelect(selectInfo: DateSelectArg) {
     const dialogRef = this.dialog.open(EventModalComponent, {
-      data: { title: selectInfo.startStr, date: selectInfo.startStr, startTime: selectInfo.start, endTime: selectInfo.end }
+      data: { title: selectInfo.startStr, date: selectInfo.startStr,
+         startTime: this.extractTimeString(selectInfo.start), 
+         endTime: this.extractTimeString(selectInfo.end) }
     });
   }
 
   handleEventClick(clickInfo: EventClickArg) {
+    let start = this.extractTimeString(clickInfo.event.start);
+    let end = this.extractTimeString(clickInfo.event.end);
     const dialogRef = this.dialog.open(EventModalComponent, {
-      data: { title: clickInfo.event.title, date: clickInfo.event.startStr, startTime: clickInfo.event.start, endTime: clickInfo.event.end, isExisting: true }
+      data: {
+        title: clickInfo.event.title, date: clickInfo.event.startStr,
+        startTime: start,
+        endTime: end, isExisting: true
+      }
     });
+  }
+
+  extractTimeString(date: Date) {
+    let hours = ("0" + date.getHours()).slice(-2);
+    let minutes = ("0" + date.getMinutes()).slice(-2);
+    let timeString = hours + ':' + minutes;
+    return timeString;
   }
 
   handleEvents(events: EventApi[]) {
