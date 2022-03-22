@@ -1,0 +1,29 @@
+@startuml
+
+Event "1  " *-- User 
+Event "1" *-- Room
+
+interface User{
+    -id: String
+    -userName: String
+    -password: String
+    -email: String
+}
+
+interface Room{
+    -id: String
+    -name: String
+    -location: String
+}
+
+interface Event{
+    -id: String
+    -title: String
+    -daysOfWeek: number
+    -startTime: Date
+    -endTime: Date
+    -allDay: boolean
+    -user: User
+    -room: Room
+}
+@enduml
