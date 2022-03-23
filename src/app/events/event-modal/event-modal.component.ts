@@ -8,6 +8,7 @@ export interface DialogData {
   date: Date;
   startTime: Time;
   endTime: Time;
+  allDay: boolean;
   isExisting: boolean;
 }
 
@@ -30,7 +31,8 @@ export class EventModalComponent implements OnInit {
       title: new FormControl(null, { validators: [Validators.required, Validators.minLength(3)] }),
       date: new FormControl(null, { validators: [Validators.required] }),
       startTime: new FormControl(null, { validators: [Validators.required] }),
-      endTime: new FormControl(null)
+      endTime: new FormControl(null),
+      allDay: new FormControl(null)
     });
   }
 
@@ -39,12 +41,11 @@ export class EventModalComponent implements OnInit {
   }
 
   onSaveEvent() {
-    console.log(this.form.value)
 
     if (this.form.invalid) {
       return;
     }
-    console.log()
+    console.log(this.form.value)
     this.dialogRef.close();
   }
 }
