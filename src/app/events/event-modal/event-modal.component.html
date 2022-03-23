@@ -16,7 +16,8 @@
         </mat-form-field>
     </div>
     <section class="allday-cb">
-        <mat-checkbox formControlName="allDay" [(ngModel)]="data.allDay">All day event</mat-checkbox>
+        <mat-checkbox formControlName="allDay" [(ngModel)]="data.allDay" (change)="onCheckboxChange()">All day event
+        </mat-checkbox>
     </section>
     <div>
         <mat-form-field>
@@ -31,7 +32,7 @@
     </div>
     <div>
         <button color="primary" mat-raised-button type="submit">Save Event</button>
-        <button color="warn" mat-raised-button type="button" *ngIf="data.isExisting"
-            style="float: right;">Delete</button>
+        <button color="warn" mat-raised-button type="button" *ngIf="data.isExisting" style="float: right;"
+            onclick="onDeleteEvent()">Delete</button>
     </div>
 </form>

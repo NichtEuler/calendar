@@ -2,15 +2,8 @@ import { Time } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { EventModel } from '../event.model';
 
-export interface DialogData {
-  title: string;
-  date: Date;
-  startTime: Time;
-  endTime: Time;
-  allDay: boolean;
-  isExisting: boolean;
-}
 
 @Component({
   selector: 'app-event-modal',
@@ -23,16 +16,18 @@ export class EventModalComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<EventModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    @Inject(MAT_DIALOG_DATA) public data: EventModel,
   ) { }
+
+
 
   ngOnInit(): void {
     this.form = new FormGroup({
       title: new FormControl(null, { validators: [Validators.required, Validators.minLength(3)] }),
       date: new FormControl(null, { validators: [Validators.required] }),
       startTime: new FormControl(null, { validators: [Validators.required] }),
-      endTime: new FormControl(null),
-      allDay: new FormControl(null)
+      endTime: new FormControl({ value: "", disabled: this.data.allDay }),
+      allDay: new FormControl(null, { validators: [Validators.required] })
     });
   }
 
@@ -47,5 +42,20 @@ export class EventModalComponent implements OnInit {
     }
     console.log(this.form.value)
     this.dialogRef.close();
+  }
+
+  onDeleteEvent() {
+
+  }
+
+  onCheckboxChange() {
+    if (this.data.allDay) {
+      this.form.controls["startTime"].disable()
+      this.form.controls["endTime"].disable()
+    }
+    else {
+      this.form.controls["startTime"].enable()
+      this.form.controls["endTime"].enable()
+    }
   }
 }
