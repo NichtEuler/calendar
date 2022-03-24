@@ -34,14 +34,14 @@
         <mat-checkbox formControlName="recurringEvent" [(ngModel)]="data.isRecurring" >Recurring Event
         </mat-checkbox>
     </section>
-    <div>
+    <!-- <div>
         <mat-form-field appearance="fill">
             <mat-label>End date</mat-label>
             <input matInput [matDatepicker]="endDatePicker" [(ngModel)]="data.endRecur" formControlName="endRecur" [disabled]="!data.isRecurring">
             <mat-datepicker-toggle matSuffix [for]="endDatePicker" ></mat-datepicker-toggle>
             <mat-datepicker #endDatePicker></mat-datepicker>
         </mat-form-field>
-    </div>
+    </div> -->
     <div>
         <button color="primary" mat-raised-button type="submit">Save Event</button>
         <button color="warn" mat-raised-button type="button" *ngIf="data.isExisting" style="float: right;"
