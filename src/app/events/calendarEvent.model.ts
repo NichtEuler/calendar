@@ -1,6 +1,6 @@
 import { Time } from "@angular/common";
 
-export interface EventModel {
+export interface CalendarEvent {
     id: string;
     title: string;
     allDay: boolean;
@@ -11,4 +11,7 @@ export interface EventModel {
     user: string;
     room: string;
     isExisting: boolean;
+    isRecurring: boolean;
+    startRecur: Date;
+    endRecur: Date;
 }

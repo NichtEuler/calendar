@@ -15,8 +15,8 @@
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
     </div>
-    <section class="allday-cb">
-        <mat-checkbox formControlName="allDay" [(ngModel)]="data.allDay" (change)="onCheckboxChange()">All day event
+    <section class="cb">
+        <mat-checkbox formControlName="allDay" [(ngModel)]="data.allDay" (change)="onAllDayCheckboxChange()">All day event
         </mat-checkbox>
     </section>
     <div>
@@ -28,6 +28,18 @@
     <div>
         <mat-form-field>
             <input matInput type="time" placeholder="End Time" [(ngModel)]="data.endTime" formControlName="endTime">
+        </mat-form-field>
+    </div>
+    <section class="cb">
+        <mat-checkbox formControlName="recurringEvent" [(ngModel)]="data.isRecurring" >Recurring Event
+        </mat-checkbox>
+    </section>
+    <div>
+        <mat-form-field appearance="fill">
+            <mat-label>End date</mat-label>
+            <input matInput [matDatepicker]="endDatePicker" [(ngModel)]="data.endRecur" formControlName="endRecur" [disabled]="!data.isRecurring">
+            <mat-datepicker-toggle matSuffix [for]="endDatePicker" ></mat-datepicker-toggle>
+            <mat-datepicker #endDatePicker></mat-datepicker>
         </mat-form-field>
     </div>
     <div>

@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { CalendarOptions, DateSelectArg, EventApi, EventClickArg, EventInput } from '@fullcalendar/angular';
+import { CalendarOptions, DateSelectArg, EventApi, EventClickArg, EventInput , FullCalendarComponent} from '@fullcalendar/angular';
 import deLocale from '@fullcalendar/core/locales/de';
 import { EventModalComponent } from '../events/event-modal/event-modal.component';
 
@@ -10,18 +10,20 @@ import { EventModalComponent } from '../events/event-modal/event-modal.component
   styleUrls: ['./calendar.component.css']
 })
 export class CalendarComponent implements OnInit {
+  @ViewChild('calendar') calendarComponent: FullCalendarComponent;
   TODAY_STR = new Date().toISOString().replace(/T.*$/, '');
   INITIAL_EVENTS: EventInput[] = [
     {
-      id: "123",
-      title: 'All-day event',
-      start: this.TODAY_STR + 'T11:03:00',
-      end: this.TODAY_STR + 'T22:00:00'
+      title: 'recur event',
+      daysOfWeek: [ '6' ],
+      startTime: '10:45:00',
+      endTime: '12:45:00'
     },
     {
-      id: "createEventId()",
-      title: 'Timed event',
-      start: this.TODAY_STR + 'T24:00:00'
+      title: 'recur event 2',
+      daysOfWeek: [ '4' ],
+      startTime: '10:30:00',
+      endTime: '12:45:00'
     }
   ];
   currentEvents: EventApi[] = [];

@@ -2,7 +2,9 @@ import { Time } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { EventModel } from '../event.model';
+import { CalendarEvent } from '../calendarEvent.model';
+import { CalendarEventService } from '../calendarEventService';
+import { Subscription } from "rxjs";
 
 
 @Component({
@@ -13,10 +15,13 @@ import { EventModel } from '../event.model';
 export class EventModalComponent implements OnInit {
 
   form: FormGroup;
+  calendarEventSub: Subscription;
+  
 
   constructor(
+    public calendarEventService: CalendarEventService,
     public dialogRef: MatDialogRef<EventModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: EventModel,
+    @Inject(MAT_DIALOG_DATA) public data: CalendarEvent,
   ) { }
 
 
@@ -27,7 +32,9 @@ export class EventModalComponent implements OnInit {
       date: new FormControl(null, { validators: [Validators.required] }),
       startTime: new FormControl(null, { validators: [Validators.required] }),
       endTime: new FormControl({ value: "", disabled: this.data.allDay }),
-      allDay: new FormControl(null, { validators: [Validators.required] })
+      allDay: new FormControl(null, { validators: [Validators.required] }),
+      recurringEvent: new FormControl(null, { validators: [Validators.required] }),
+      endRecur:  new FormControl(null, { validators: [Validators.required] })
     });
   }
 
@@ -40,15 +47,19 @@ export class EventModalComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    console.log(this.form.value)
-    this.dialogRef.close();
+    if (this.data.isExisting) {
+      this.calendarEventService.updateCalendarEvent();
+    } else {
+    this.calendarEventService.addCalendarEvent();
+  }
+  this.form.reset();
   }
 
   onDeleteEvent() {
 
   }
 
-  onCheckboxChange() {
+  onAllDayCheckboxChange() {
     if (this.data.allDay) {
       this.form.controls["startTime"].disable()
       this.form.controls["endTime"].disable()

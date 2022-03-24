@@ -22,6 +22,9 @@ interface Event{
     -daysOfWeek: number
     -startTime: Date
     -endTime: Date
+    -isRecur: boolean
+    -startRecur: Date
+    -endRecur: Date
     -allDay: boolean
     -user: User
     -room: Room
