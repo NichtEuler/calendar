@@ -3,7 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CalendarEvent } from '../calendarEvent.model';
-import { CalendarEventService } from '../calendarEventService';
+import { CalendarEventService } from '../calendarEvent.service';
 import { Subscription } from "rxjs";
 
 
@@ -16,7 +16,7 @@ export class EventModalComponent implements OnInit {
 
   form: FormGroup;
   calendarEventSub: Subscription;
-  
+
 
   constructor(
     public calendarEventService: CalendarEventService,
@@ -34,7 +34,7 @@ export class EventModalComponent implements OnInit {
       endTime: new FormControl({ value: "", disabled: this.data.allDay }),
       allDay: new FormControl(null, { validators: [Validators.required] }),
       recurringEvent: new FormControl(null, { validators: [Validators.required] }),
-      endRecur:  new FormControl(null, { validators: [Validators.required] })
+      //endRecur: new FormControl(null)
     });
   }
 
@@ -43,20 +43,22 @@ export class EventModalComponent implements OnInit {
   }
 
   onSaveEvent() {
-
     if (this.form.invalid) {
       return;
     }
+    console.log(this.data)
     if (this.data.isExisting) {
+      console.log("isexisting")
       this.calendarEventService.updateCalendarEvent();
     } else {
-    this.calendarEventService.addCalendarEvent();
-  }
-  this.form.reset();
+      console.log("notexisting")
+      this.calendarEventService.addCalendarEvent();
+    }
+    this.form.reset();
   }
 
   onDeleteEvent() {
-
+    this.calendarEventService.deleteCalendarEvent(this.data.id);
   }
 
   onAllDayCheckboxChange() {

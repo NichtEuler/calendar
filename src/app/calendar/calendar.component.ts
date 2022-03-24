@@ -62,7 +62,7 @@ export class CalendarComponent implements OnInit {
     }
     /* you can update a remote database when these fire:
     eventAdd:
-    eventChange:
+    eventChange: this.handleEventChanged.bind(this)
     eventRemove:
     */
 
@@ -83,7 +83,7 @@ export class CalendarComponent implements OnInit {
       data: {
         title: clickInfo.event.title, date: clickInfo.event.startStr,
         startTime: start,
-        endTime: end, isExisting: true
+        endTime: end, isExisting: true, isRecurring: true, allDay: false
       }
     });
   }
