@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { CalendarOptions, DateSelectArg, EventApi, EventClickArg, EventInput , FullCalendarComponent} from '@fullcalendar/angular';
+import { CalendarOptions, DateComponent, DateSelectArg, EventApi, EventChangeArg, EventClickArg, EventInput, FullCalendarComponent } from '@fullcalendar/angular';
 import deLocale from '@fullcalendar/core/locales/de';
 import { EventModalComponent } from '../events/event-modal/event-modal.component';
 
@@ -9,21 +9,28 @@ import { EventModalComponent } from '../events/event-modal/event-modal.component
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css']
 })
+
+@Injectable({ providedIn: "root" })
 export class CalendarComponent implements OnInit {
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
   TODAY_STR = new Date().toISOString().replace(/T.*$/, '');
   INITIAL_EVENTS: EventInput[] = [
     {
-      title: 'recur event',
-      daysOfWeek: [ '6' ],
-      startTime: '10:45:00',
-      endTime: '12:45:00'
+      title: 'event 2',
+      id: "123",
+      start: this.TODAY_STR + 'T10:00:00',
+      end: this.TODAY_STR + 'T11:00:00'
+
     },
     {
-      title: 'recur event 2',
-      daysOfWeek: [ '4' ],
-      startTime: '10:30:00',
-      endTime: '12:45:00'
+      id: 'a',
+      title: 'my event',
+      start: this.TODAY_STR + 'T11:00:00'
+    },
+    {
+      id: "createEventId",
+      title: 'Timed event',
+      start: this.TODAY_STR + 'T23:00:00'
     }
   ];
   currentEvents: EventApi[] = [];
@@ -59,10 +66,11 @@ export class CalendarComponent implements OnInit {
 
       startTime: '08:00', // a start time (10am in this example)
       endTime: '20:00', // an end time (6pm in this example)
-    }
+    },
     /* you can update a remote database when these fire:
-    eventAdd:
-    eventChange: this.handleEventChanged.bind(this)
+    eventAdd:*/
+    eventChange: this.handleEventChanged.bind(this),
+    /*
     eventRemove:
     */
 
@@ -70,25 +78,34 @@ export class CalendarComponent implements OnInit {
 
   handleDateSelect(selectInfo: DateSelectArg) {
     const dialogRef = this.dialog.open(EventModalComponent, {
-      data: { title: selectInfo.startStr, date: selectInfo.startStr,
-         startTime: this.extractTimeString(selectInfo.start), 
-         endTime: this.extractTimeString(selectInfo.end) }
-    });
-  }
-
-  handleEventClick(clickInfo: EventClickArg) {
-    let start = this.extractTimeString(clickInfo.event.start);
-    let end = this.extractTimeString(clickInfo.event.end);
-    const dialogRef = this.dialog.open(EventModalComponent, {
       data: {
-        title: clickInfo.event.title, date: clickInfo.event.startStr,
-        startTime: start,
-        endTime: end, isExisting: true, isRecurring: true, allDay: false
+        event: selectInfo
       }
     });
   }
 
+  handleEventClick(clickInfo: EventClickArg) {
+    console.log(clickInfo.event)
+    this.dialog.open(EventModalComponent, {
+      data: {
+        event: clickInfo.event
+      }
+    });
+
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log(result);
+    // })
+
+    // const eventi = this.calendarComponent.getApi().getEventById("123");
+    // const startt = new Date('March 19, 2022 03:15:30')
+    // const endd = new Date('March 19, 2022 13:15:30')
+    // eventi.setDates(startt, endd)
+  }
+
   extractTimeString(date: Date) {
+    if (date === null) {
+      return null;
+    }
     let hours = ("0" + date.getHours()).slice(-2);
     let minutes = ("0" + date.getMinutes()).slice(-2);
     let timeString = hours + ':' + minutes;
@@ -96,7 +113,12 @@ export class CalendarComponent implements OnInit {
   }
 
   handleEvents(events: EventApi[]) {
-    this.currentEvents = events;
+    console.log(events.toString())
   }
+
+  handleEventChanged(changeInfo: EventChangeArg) {
+    console.log(changeInfo.event + ": " + changeInfo.event.id);
+  }
+
 
 }

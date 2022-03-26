@@ -1,6 +1,7 @@
 
 import { Injectable } from "@angular/core";
 import { environment } from "src/environments/environment";
+import { CalendarComponent } from "../calendar/calendar.component";
 
 const BACKEND_URL = environment.apiUrl + "/events";
 
@@ -8,12 +9,11 @@ const BACKEND_URL = environment.apiUrl + "/events";
 export class CalendarEventService {
 
 
-    constructor() { }
+    constructor(public calendarComponent: CalendarComponent) { }
 
 
     updateCalendarEvent() {
-        console.log("test")
-        //sconst test = this.calendarComponent.getApi();
+       // const test = this.calendarComponent.calendarComponent.getApi();
         //console.log(test);
     }
 
