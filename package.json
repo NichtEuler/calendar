@@ -2,8 +2,9 @@
   "name": "calendar",
   "version": "0.0.0",
   "scripts": {
+    "start frontend": "ng serve",
+    "start backend": "nodemon backend/server.js",
     "ng": "ng",
-    "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -24,7 +25,7 @@
     "@fullcalendar/daygrid": "^5.10.1",
     "@fullcalendar/interaction": "^5.10.1",
     "@fullcalendar/timegrid": "^5.10.1",
-    "mongoose": "^6.2.8",
+    "mongoose": "^6.2.9",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
