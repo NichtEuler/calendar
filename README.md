@@ -7,7 +7,7 @@
     - [x] Einarbeitung NodeJs (Middleware)
 - [ ] Frontend
     - [ ] Headertoolbar
-        - [:heavy_minus_sign] Suchleiste für Räume mit Autocomplete
+        - [-] Suchleiste für Räume mit Autocomplete
     - [ ] Kalender
     - [ ] Modales Fenster zur Eventbearbeitung
         - [ ] Datepicker
