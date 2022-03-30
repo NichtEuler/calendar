@@ -5,40 +5,35 @@
     - [x] Einarbeitung Express (Middleware)
     - [x] Einarbeitung Angular + Material (Frontend)
     - [x] Einarbeitung NodeJs (Middleware)
-- [ ] Frontend
+- [ ] Allgemein
+    - [x] Datenstruktur Backend als UML
+    - [ ] Klassen Frontend als UML
+    - [ ] Flussdiagramm UML
+- [ ] Frontend (bis 03.06.)
     - [ ] Headertoolbar
-        - [-] Suchleiste für Räume mit Autocomplete
+        - [x] Suchleiste für Räume mit Autocomplete
+        - [ ] Abfrage Räume aus Datenbank
     - [ ] Kalender
-    - [ ] Modales Fenster zur Eventbearbeitung
-        - [ ] Datepicker
-        - [ ] State-Management
-        - [ ] Validators
+        - [x] Events hinzufügen (Modales Fenster)
+        - [x] Events ändern (Modales Fenster)
+        - [ ] Modales Fenster zur Eventbearbeitung
+            - [x] Datepicker
+            - [x] Timepicker
+            - [x] State-Management
+            - [ ] Validators
+        - [ ] Kalender für Raum ändern
     - [ ] Login
         - [ ] Loginscreen
         - [ ] Statemanagement
     - [ ] Routing
-- [ ] Middleware
-    - [ ] CORS Header setzen
+- [ ] Middleware (bis 06.05.)
+    - [x] CORS Header setzen
     - [ ] Kommunikation mit Backend
-    - [ ] Modelle erstellen
+    - [x] Modelle erstellen
     - [ ] Controller erstellen
     - [ ] Routes erstellen
-- [ ] Backend
-    - [ ] MongoDB initialisieren
-    - [ ] Atlas clusters anlegen
-    - [ ]
-
-
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
-- [ ]
+- [ ] Backend (bis 15.04.)
+    - [x] MongoDB initialisieren
+    - [x] Atlas clusters anlegen
+    - [ ] Lokale Datenbank anlegen (optional)
+    - [ ] Testdaten einfügen
