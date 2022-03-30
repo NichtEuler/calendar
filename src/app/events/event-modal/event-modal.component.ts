@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CalendarEventService } from '../calendarEvent.service';
-import { Calendar, EventApi } from '@fullcalendar/angular';
+import { EventApi } from '@fullcalendar/angular';
 
 export interface CalendarEvent {
   event: EventApi
@@ -42,7 +42,7 @@ export class EventModalComponent implements OnInit {
       startDate: new FormControl(null, { validators: [Validators.required] }),
       endDate: new FormControl(null, { validators: [Validators.required] }),
       startTime: new FormControl(null, { validators: [Validators.required] }),
-      endTime: new FormControl({ value: "", disabled: this.eventApi.event.allDay }),
+      endTime: new FormControl({ value: "", disabled: this.eventApi.event.allDay}),
       allDay: new FormControl(null, { validators: [Validators.required] }),
       recurringEvent: new FormControl(null, { validators: [Validators.required] }),
       //endRecur: new FormControl(null)
@@ -71,17 +71,13 @@ export class EventModalComponent implements OnInit {
       this.calendarEventService.editCalendarEvent(this.eventApi.event, calEvent)
     }
     else {
-      const dateStartTime = this.startDate.toISOString().replace(/T.*$/, '') + "T" + this.startTime + ":00";
-      const dateEndTime = this.endDate.toISOString().replace(/T.*$/, '') + "T" + this.endTime + ":00";
-      console.log(dateStartTime);
-      console.log(dateEndTime);
+      this.setTime()
       const calEvent = {
         title: this.form.get("title").value,
-        start: dateStartTime,
-        end: dateEndTime,
+        start: this.startDate,
+        end: this.endDate,
         allDay: this.allDay
       };
-      this.eventApi.event.formatRange
       this.calendarEventService.addCalendarEvent(calEvent);
     }
     this.dialogRef.close(this.eventApi);
@@ -112,4 +108,13 @@ export class EventModalComponent implements OnInit {
     let timeString = hours + ':' + minutes;
     return timeString;
   }
+
+  setTime() {
+    const splitStart = this.startTime.split(":")
+    this.startDate.setHours(Number(splitStart[0]), Number(splitStart[1]))
+    const splitEnd = this.endTime.split(":")
+    this.endDate.setHours(Number(splitEnd[0]), Number(splitEnd[1]))
+  }
 }
+
+

@@ -48,7 +48,7 @@ export class CalendarComponent implements OnInit {
   ngOnInit(): void {
     this.calendarEventAdded = this.calenderEventService.getCalendarAddedListener()
       .subscribe((calendarEventData: { calendarEvent: EventApi }) => {
-        this.calendarComponent.getApi().addEvent(calendarEventData.calendarEvent)
+        this.calendarComponent.getApi().addEvent(calendarEventData.calendarEvent);
       });
   }
 

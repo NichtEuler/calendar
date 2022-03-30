@@ -5,6 +5,7 @@ import { Router } from "@angular/router";
 import { EventApi } from "@fullcalendar/angular";
 import { map, Subject } from "rxjs";
 import { environment } from "src/environments/environment";
+import { v4 as uuid } from "uuid";
 
 const BACKEND_URL = environment.apiUrl + "/";
 
@@ -60,15 +61,15 @@ export class CalendarEventService {
     }
 
     addCalendarEvent(calendarEvent) {
-        console.log("CalendarEventService: " + calendarEvent.allDay);
-
+        calendarEvent.id = uuid();
         this.calendarEventAdded.next({ calendarEvent: calendarEvent });
+        //hier kann man datenbank updaten
         //hier snackbar oder ähnliches einfügen event gespeichert
 
     }
 
     deleteCalendarEvent(id: String) {
-    //hier snackbar oder ähnliches einfügen event gespeichert
+        //hier snackbar oder ähnliches einfügen event gespeichert
     }
 
     getCalendarEventUpdateListener() {
@@ -82,6 +83,7 @@ export class CalendarEventService {
     editCalendarEvent(eventApi: EventApi, calEvent) {
         eventApi.setProp("title", calEvent.title);
         eventApi.setStart(calEvent.startDate);
-        eventApi.setDates(calEvent.startDate, calEvent.endDate, calEvent.allDay)
+        eventApi.setDates(calEvent.startDate, calEvent.endDate, calEvent.allDay);
+        //hier kann man datenbank updaten
     }
 }

@@ -56,7 +56,9 @@ export class HeaderComponent implements OnInit {
 
   onCreateEventClick() {
     const dialogRef = this.dialog.open(EventModalComponent, {
-      data: { title: "Create Event" }
+      data: {
+        event: { title: "Create Event", start: new Date(), end: new Date() }
+      }
     });
   }
 
