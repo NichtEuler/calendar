@@ -14,7 +14,7 @@ import { EventModalComponent } from '../events/event-modal/event-modal.component
 
 export class CalendarComponent implements OnInit {
 
-  @ViewChild('calendar') calendarComponent: CalendarApi;
+  @ViewChild('calendar') calendarComponent: FullCalendarComponent;
 
   private calendarEventsUpdated: Subscription;
   private calendarEventAdded: Subscription;
@@ -31,12 +31,14 @@ export class CalendarComponent implements OnInit {
     {
       id: 'a',
       title: 'my event',
-      start: this.TODAY_STR + 'T11:00:00'
+      start: this.TODAY_STR + 'T11:00:00',
+      end: this.TODAY_STR + 'T12:00:00'
     },
     {
       id: "createEventId",
       title: 'Timed event',
-      start: this.TODAY_STR + 'T23:00:00'
+      start: this.TODAY_STR + 'T23:00:00',
+      end: this.TODAY_STR + 'T23:30:00'
     }
   ];
   currentEvents: EventApi[] = [];
@@ -44,10 +46,10 @@ export class CalendarComponent implements OnInit {
   constructor(public calenderEventService: CalendarEventService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    // this.calendarEventAdded = this.calenderEventService.getCalendarAddedListener()
-    // .subscribe((calendarEventData:{calendarEvent: EventApi})=>{
-    //   this.calendarComponent.addEvent(calendarEventData.calendarEvent);
-    // });
+    this.calendarEventAdded = this.calenderEventService.getCalendarAddedListener()
+      .subscribe((calendarEventData: { calendarEvent: EventApi }) => {
+        this.calendarComponent.getApi().addEvent(calendarEventData.calendarEvent)
+      });
   }
 
   calendarOptions: CalendarOptions = {

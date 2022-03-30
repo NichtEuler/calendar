@@ -39,13 +39,15 @@ export class EventModalComponent implements OnInit {
   ngOnInit(): void {
     this.form = new FormGroup({
       title: new FormControl(null, { validators: [Validators.required, Validators.minLength(3)] }),
-      date: new FormControl(null, { validators: [Validators.required] }),
+      startDate: new FormControl(null, { validators: [Validators.required] }),
+      endDate: new FormControl(null, { validators: [Validators.required] }),
       startTime: new FormControl(null, { validators: [Validators.required] }),
       endTime: new FormControl({ value: "", disabled: this.eventApi.event.allDay }),
       allDay: new FormControl(null, { validators: [Validators.required] }),
       recurringEvent: new FormControl(null, { validators: [Validators.required] }),
       //endRecur: new FormControl(null)
     });
+    this.onAllDayCheckboxChange();
   }
 
   onNoClick(): void {
@@ -64,20 +66,24 @@ export class EventModalComponent implements OnInit {
         title: this.form.get("title").value,
         startDate: this.startDate,
         endDate: this.endDate,
-        allDay: this.form.get("allDay").value
+        allDay: this.allDay
       }
       this.calendarEventService.editCalendarEvent(this.eventApi.event, calEvent)
-
-    } else {
+    }
+    else {
+      const dateStartTime = this.startDate.toISOString().replace(/T.*$/, '') + "T" + this.startTime + ":00";
+      const dateEndTime = this.endDate.toISOString().replace(/T.*$/, '') + "T" + this.endTime + ":00";
+      console.log(dateStartTime);
+      console.log(dateEndTime);
       const calEvent = {
         title: this.form.get("title").value,
-        start: this.startDate,
-        end: this.endDate,
-        allDay: this.form.get("allDay").value
-      }
+        start: dateStartTime,
+        end: dateEndTime,
+        allDay: this.allDay
+      };
+      this.eventApi.event.formatRange
       this.calendarEventService.addCalendarEvent(calEvent);
     }
-    //hier snackbar oder ähnliches einfügen
     this.dialogRef.close(this.eventApi);
   }
 
@@ -88,12 +94,12 @@ export class EventModalComponent implements OnInit {
 
   onAllDayCheckboxChange() {
     if (!this.allDay) {
-      this.form.controls["startTime"].disable()
-      this.form.controls["endTime"].disable()
-    }
-    else {
       this.form.controls["startTime"].enable()
       this.form.controls["endTime"].enable()
+    }
+    else {
+      this.form.controls["startTime"].disable()
+      this.form.controls["endTime"].disable()
     }
   }
 

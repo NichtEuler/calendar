@@ -5,9 +5,9 @@ const CalendarEvent = require("../models/calendarEvent");
 exports.createCalendarEvent = (req, res, next) => {
     const url = req.protocol + "://" + req.get("host");
     const calendarEvent = new CalendarEvent({
+        _id: req.params.id,
         title: req.body.title,
         content: req.body.content,
-        imagePath: url + "/images/" + req.file.filename,
         creator: req.userData.userId
     });
     calendarEvent.save().then(createdCalendarEvent => {
@@ -68,7 +68,7 @@ exports.getCalendarEvent = (req, res, next) => {
         });
 };
 
-exports.deletePost = (req, res, next) => {
+exports.deleteCalendarEvent = (req, res, next) => {
     CalendarEvent.deleteOne({ _id: req.params.id }).then(result => {
         console.log(result);
         if (result.deletedCount > 0) {

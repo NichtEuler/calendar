@@ -3,7 +3,6 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { EventApi } from "@fullcalendar/angular";
-import { stringify } from "querystring";
 import { map, Subject } from "rxjs";
 import { environment } from "src/environments/environment";
 
@@ -56,16 +55,20 @@ export class CalendarEventService {
     updateCalendarEvent() {
         // const test = this.calendarComponent.calendarComponent.getApi();
         //console.log(test);
+        //hier snackbar oder ähnliches einfügen event gespeichert
+
     }
 
     addCalendarEvent(calendarEvent) {
         console.log("CalendarEventService: " + calendarEvent.allDay);
 
         this.calendarEventAdded.next({ calendarEvent: calendarEvent });
+        //hier snackbar oder ähnliches einfügen event gespeichert
+
     }
 
     deleteCalendarEvent(id: String) {
-
+    //hier snackbar oder ähnliches einfügen event gespeichert
     }
 
     getCalendarEventUpdateListener() {
@@ -76,7 +79,7 @@ export class CalendarEventService {
         return this.calendarEventAdded.asObservable();
     }
 
-    editCalendarEvent(eventApi: EventApi, calEvent){
+    editCalendarEvent(eventApi: EventApi, calEvent) {
         eventApi.setProp("title", calEvent.title);
         eventApi.setStart(calEvent.startDate);
         eventApi.setDates(calEvent.startDate, calEvent.endDate, calEvent.allDay)

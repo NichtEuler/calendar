@@ -9,11 +9,29 @@
     </div>
     <div>
         <mat-form-field appearance="fill">
-            <mat-label>Starting date</mat-label>
-            <input matInput [matDatepicker]="picker" [(ngModel)]="startDate" formControlName="date">
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+              <input matStartDate placeholder="Start date" [(ngModel)]="startDate" formControlName="startDate">
+              <input matEndDate placeholder="End date" [(ngModel)]="endDate" formControlName="endDate">
+            </mat-date-range-input>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          </mat-form-field>
+          
+        <!-- <mat-form-field appearance="fill">
+            <mat-label>Start date</mat-label>
+            <input matInput [matDatepicker]="startPicker" [(ngModel)]="startDate" formControlName="date">
+            <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+            <mat-datepicker #startPicker></mat-datepicker>
         </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field appearance="fill">
+            <mat-label>End date</mat-label>
+            <input matInput [matDatepicker]="endPicker" [(ngModel)]="endDate" formControlName="date">
+            <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+            <mat-datepicker #endPicker></mat-datepicker>
+        </mat-form-field> -->
     </div>
     <section class="cb">
         <mat-checkbox formControlName="allDay" [(ngModel)]="allDay" (change)="onAllDayCheckboxChange()">All
