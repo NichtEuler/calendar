@@ -5,7 +5,7 @@
 - [x] Earth (Orbit/Moon)
 - [x] Mars
 - [ ] Jupiter
-- [ ] Saturn
-- [ ] Uranus
+    - [ ] Saturn
+    - [ ] Uranus
 - [ ] Neptune
 - [ ] Comet Haley
