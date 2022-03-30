@@ -1,11 +1,44 @@
-### Solar System Exploration, 1950s – 1960s
+### TODO-Liste
 
-- [ ] Mercury
-- [x] Venus
-- [x] Earth (Orbit/Moon)
-- [x] Mars
-- [ ] Jupiter
-    - [ ] Saturn
-    - [ ] Uranus
-- [ ] Neptune
-- [ ] Comet Haley
+- [x] Einarbeitung in MEAN-Stack (bis 23.03.)
+    - [x] Einarbeitung MongoDB (Backend)
+    - [x] Einarbeitung Express (Middleware)
+    - [x] Einarbeitung Angular + Material (Frontend)
+    - [x] Einarbeitung NodeJs (Middleware)
+- [ ] Frontend
+    - [ ] Headertoolbar
+        - [:heavy_minus_sign] Suchleiste für Räume mit Autocomplete
+    - [ ] Kalender
+    - [ ] Modales Fenster zur Eventbearbeitung
+        - [ ] Datepicker
+        - [ ] State-Management
+        - [ ] Validators
+    - [ ] Login
+        - [ ] Loginscreen
+        - [ ] Statemanagement
+    - [ ] Routing
+- [ ] Middleware
+    - [ ] CORS Header setzen
+    - [ ] Kommunikation mit Backend
+    - [ ] Modelle erstellen
+    - [ ] Controller erstellen
+    - [ ] Routes erstellen
+- [ ] Backend
+    - [ ] MongoDB initialisieren
+    - [ ] Atlas clusters anlegen
+    - [ ]
+
+
+- [ ]
+- [ ]
+- [ ]
+- [ ]
+- [ ]
+- [ ]
+- [ ]
+- [ ]
+- [ ]
+- [ ]
+- [ ]
+- [ ]
+- [ ]
