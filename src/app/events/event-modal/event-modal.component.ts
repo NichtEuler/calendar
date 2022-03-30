@@ -2,8 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CalendarEventService } from '../calendarEvent.service';
-import { Subscription } from "rxjs";
-import { EventApi } from "@fullcalendar/angular";
+import { Calendar, EventApi } from '@fullcalendar/angular';
 
 export interface CalendarEvent {
   event: EventApi
@@ -17,12 +16,12 @@ export interface CalendarEvent {
 export class EventModalComponent implements OnInit {
 
   form: FormGroup;
-  calendarEventSub: Subscription;
   startDate: Date;
   endDate: Date;
   startTime: string;
   endTime: string;
   isRecurring: boolean;
+  allDay: boolean;
 
 
   constructor(
@@ -33,10 +32,9 @@ export class EventModalComponent implements OnInit {
     this.endDate = eventApi.event.end;
     this.startTime = this.extractTimeString(this.startDate);
     this.endTime = this.extractTimeString(this.endDate);
+    this.allDay = eventApi.event.allDay;
     this.isRecurring = false;
   }
-
-
 
   ngOnInit(): void {
     this.form = new FormGroup({
@@ -54,18 +52,32 @@ export class EventModalComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  onSaveEvent() {
+  onSubmit() {
     if (this.form.invalid) {
+      console.log(this.form.invalid)
       return;
     }
-    console.log("hier wird event gespeichert")
+    console.log("hier wird event gespeichert: " + this.eventApi.event.id)
     if (this.eventApi.event.id) {
-      //veränder bestehendes event
-      this.eventApi.event.setProp("title", this.form.get("title").value)
-      this.eventApi.event.setStart(this.startDate)
+      //verändere bestehendes event
+      const calEvent = {
+        title: this.form.get("title").value,
+        startDate: this.startDate,
+        endDate: this.endDate,
+        allDay: this.form.get("allDay").value
+      }
+      this.calendarEventService.editCalendarEvent(this.eventApi.event, calEvent)
+
     } else {
-      //mach neues event
+      const calEvent = {
+        title: this.form.get("title").value,
+        start: this.startDate,
+        end: this.endDate,
+        allDay: this.form.get("allDay").value
+      }
+      this.calendarEventService.addCalendarEvent(calEvent);
     }
+    //hier snackbar oder ähnliches einfügen
     this.dialogRef.close(this.eventApi);
   }
 
@@ -75,7 +87,7 @@ export class EventModalComponent implements OnInit {
   }
 
   onAllDayCheckboxChange() {
-    if (this.eventApi.event.allDay) {
+    if (!this.allDay) {
       this.form.controls["startTime"].disable()
       this.form.controls["endTime"].disable()
     }
@@ -84,6 +96,7 @@ export class EventModalComponent implements OnInit {
       this.form.controls["endTime"].enable()
     }
   }
+
   extractTimeString(date: Date) {
     if (date === null) {
       return null;

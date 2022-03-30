@@ -1,7 +1,9 @@
-import { Component, Injectable, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { CalendarOptions, DateComponent, DateSelectArg, EventApi, EventChangeArg, EventClickArg, EventInput, FullCalendarComponent } from '@fullcalendar/angular';
+import { CalendarApi, CalendarOptions, DateSelectArg, EventApi, EventChangeArg, EventClickArg, EventInput, FullCalendarComponent } from '@fullcalendar/angular';
 import deLocale from '@fullcalendar/core/locales/de';
+import { Subscription } from 'rxjs';
+import { CalendarEventService } from '../events/calendarEvent.service';
 import { EventModalComponent } from '../events/event-modal/event-modal.component';
 
 @Component({
@@ -10,16 +12,20 @@ import { EventModalComponent } from '../events/event-modal/event-modal.component
   styleUrls: ['./calendar.component.css']
 })
 
-@Injectable({ providedIn: "root" })
 export class CalendarComponent implements OnInit {
-  @ViewChild('calendar') calendarComponent: FullCalendarComponent;
+
+  @ViewChild('calendar') calendarComponent: CalendarApi;
+
+  private calendarEventsUpdated: Subscription;
+  private calendarEventAdded: Subscription;
   TODAY_STR = new Date().toISOString().replace(/T.*$/, '');
   INITIAL_EVENTS: EventInput[] = [
     {
       title: 'event 2',
       id: "123",
       start: this.TODAY_STR + 'T10:00:00',
-      end: this.TODAY_STR + 'T11:00:00'
+      end: this.TODAY_STR + 'T11:00:00',
+      overlap: false
 
     },
     {
@@ -35,9 +41,13 @@ export class CalendarComponent implements OnInit {
   ];
   currentEvents: EventApi[] = [];
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public calenderEventService: CalendarEventService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
+    // this.calendarEventAdded = this.calenderEventService.getCalendarAddedListener()
+    // .subscribe((calendarEventData:{calendarEvent: EventApi})=>{
+    //   this.calendarComponent.addEvent(calendarEventData.calendarEvent);
+    // });
   }
 
   calendarOptions: CalendarOptions = {
@@ -112,12 +122,16 @@ export class CalendarComponent implements OnInit {
     return timeString;
   }
 
+  //keine ahnung, was das macht.
+  //aus doku: This callback will be useful for syncing an external data source with all calendar event data.
   handleEvents(events: EventApi[]) {
     console.log(events.toString())
   }
 
+  //hier mongodb updaten
   handleEventChanged(changeInfo: EventChangeArg) {
     console.log(changeInfo.event + ": " + changeInfo.event.id);
+    this.calenderEventService.handleEvent(changeInfo.event);
   }
 
 
