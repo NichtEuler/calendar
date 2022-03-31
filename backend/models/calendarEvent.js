@@ -2,12 +2,11 @@ const mongoose = require("mongoose");
 
 
 //wenn event recurring dann dürfen nur startzeit und endzeit und nicht start und enddateum angegeben werden
-const calendarEventSchema = new mongose.Schema({
+const calendarEventSchema = new mongoose.Schema({
     title: { type: String, required: true },
-    allDay: { type: Boolean, required: true },
-    date: { type: Date, required: true },
-    startTime: { type: String, required: true },
-    endTime: { type: String, required: true },
+    start: { type: String, required: true },
+    end: { type: String, required: true },
+    allDay: { type: Boolean, required: false }
     // isRecur: { type: Boolean, required: true },
     // startRecur: { type: Date, required: function() { return this.isRecur === true; } },
     // endRecur: { type: Date, required: function() { return this.isRecur === true; } },
@@ -16,4 +15,4 @@ const calendarEventSchema = new mongose.Schema({
     // creator: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }
 });
 
-module.exports = mongoose.model("CalendarEvent", calendarEventSchema);
+module.exports = mongoose.model("CalendarEventModel", calendarEventSchema);

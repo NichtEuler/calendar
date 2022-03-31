@@ -4,8 +4,8 @@ const calendarEventController = require("../controllers/calendarEvent");
 
 const router = express.Router();
 
-router.post("/createcalendarevent", calendarEventController.createCalendarEvent);
+router.post("", calendarEventController.createCalendarEvent);
 
-router.put("/editcalendarevent", calendarEventController.editCalendarEvent);
+//router.put("/:id", calendarEventController.updateOne);
 
 module.exports = router;

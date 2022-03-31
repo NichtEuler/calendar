@@ -1,21 +1,18 @@
-
-const CalendarEvent = require("../models/calendarEvent");
+const CalendarEventModel = require("../models/calendarEvent");
 
 
 exports.createCalendarEvent = (req, res, next) => {
-    const url = req.protocol + "://" + req.get("host");
-    const calendarEvent = new CalendarEvent({
-        _id: req.params.id,
+    const calendarEvent = new CalendarEventModel({
         title: req.body.title,
-        content: req.body.content,
-        creator: req.userData.userId
+        start: req.body.start,
+        end: req.body.end
     });
     calendarEvent.save().then(createdCalendarEvent => {
         res.status(201).json({
             message: "Event sucessfully added",
-            calendarEvent: {
-                ...createdCalendarEvent,
-                id: createdCalendarEvent._id
+            calendarEventModel: {
+                id: createdCalendarEvent._id,
+                ...createdCalendarEvent
             }
         });
     }).catch(error => {
@@ -54,7 +51,7 @@ exports.createCalendarEvent = (req, res, next) => {
 // };
 
 exports.getCalendarEvent = (req, res, next) => {
-    CalendarEvent.findById(req.params.id).then(post => {
+    CalendarEventModel.findById(req.params.id).then(post => {
         if (post) {
             res.status(200).json(post);
         } else {
@@ -69,7 +66,7 @@ exports.getCalendarEvent = (req, res, next) => {
 };
 
 exports.deleteCalendarEvent = (req, res, next) => {
-    CalendarEvent.deleteOne({ _id: req.params.id }).then(result => {
+    CalendarEventModel.deleteOne({ _id: req.params.id }).then(result => {
         console.log(result);
         if (result.deletedCount > 0) {
             res.status(200).json({ message: "Event deleted" });
@@ -85,14 +82,13 @@ exports.deleteCalendarEvent = (req, res, next) => {
 };
 
 exports.updateOne = (req, res, next) => {
-    const calendarEvent = new CalendarEvent({
+    const calendarEvent = new CalendarEventModel({
         _id: req.body.id,
         title: req.body.title,
-        content: req.body.content,
-        imagePath: imagePath,
-        creator: req.userData.userId
+        start: req.body.start,
+        end: req.body.end
     });
-    CalendarEvent.updateOne({ _id: req.params.id, creator: req.userData.userId }, post).then(result => {
+    CalendarEventModel.updateOne({ _id: req.params.id/*, creator: req.userData.userId*/ }, calendarEvent).then(result => {
         if (result.matchedCount > 0) {
             res.status(200).json({ message: "Event edited" });
         }
