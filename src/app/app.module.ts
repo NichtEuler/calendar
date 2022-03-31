@@ -31,7 +31,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     CalendarComponent,
     EventCreateComponent,
     EventListComponent,
-    EventModalComponent
+    EventModalComponent,
   ],
   imports: [
     AngularMaterialModule,

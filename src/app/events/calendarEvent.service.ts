@@ -5,9 +5,9 @@ import { Router } from "@angular/router";
 import { EventApi } from "@fullcalendar/angular";
 import { map, Subject } from "rxjs";
 import { environment } from "src/environments/environment";
-import { v4 as uuid } from "uuid";
+import { CalendarEventModel } from "./calendarEvent.model";
 
-const BACKEND_URL = environment.apiUrl + "/";
+const BACKEND_URL = environment.apiUrl + "/events";
 
 export interface Room {
     name: string
@@ -53,16 +53,42 @@ export class CalendarEventService {
         console.log(calendarEvent.id)
     }
 
-    updateCalendarEvent() {
+    updateCalendarEvent(calendarEvent) {
         // const test = this.calendarComponent.calendarComponent.getApi();
         //console.log(test);
         //hier snackbar oder ähnliches einfügen event gespeichert
+        let calendarData: CalendarEventModel | FormData;
+        calendarData = {
+            id: calendarEvent.id,
+            title: calendarEvent.title,
+            start: calendarEvent.start,
+            end: calendarEvent.end
+        }
+        this.http.put(BACKEND_URL + "/" + calendarEvent.id, calendarData)
+            .subscribe(response => {
+                console.log(response)
+                this.router.navigate(["/"]);
+            });
 
     }
 
-    addCalendarEvent(calendarEvent) {
-        calendarEvent.id = uuid();
-        this.calendarEventAdded.next({ calendarEvent: calendarEvent });
+    createCalendarEvent(calendarEvent) {
+        let calendarEventData: CalendarEventModel;
+        console.log(BACKEND_URL);
+
+        calendarEventData = {
+            id: null,
+            title: calendarEvent.title,
+            start: calendarEvent.start,
+            end: calendarEvent.end
+        }
+        this.http.post<{ message: string; calendarEventModel: CalendarEventModel }>(BACKEND_URL, calendarEventData)
+            .subscribe(responseData => {
+                //this.router.navigate(["/"]);
+                calendarEvent.id = responseData.calendarEventModel.id
+                this.calendarEventAdded.next({ calendarEvent: calendarEvent });
+                console.log(responseData.calendarEventModel);
+            });
         //hier kann man datenbank updaten
         //hier snackbar oder ähnliches einfügen event gespeichert
 

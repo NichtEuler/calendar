@@ -78,7 +78,7 @@ export class EventModalComponent implements OnInit {
         end: this.endDate,
         allDay: this.allDay
       };
-      this.calendarEventService.addCalendarEvent(calEvent);
+      this.calendarEventService.createCalendarEvent(calEvent);
     }
     this.dialogRef.close(this.eventApi);
   }
