@@ -84,7 +84,7 @@ export class EventModalComponent implements OnInit {
   }
 
   onDeleteEvent() {
-    this.eventApi.event.remove();
+    this.calendarEventService.deleteCalendarEvent(this.eventApi.event.id);
     this.dialogRef.close();
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CalendarApi, CalendarOptions, DateSelectArg, EventApi, EventChangeArg, EventClickArg, EventInput, FullCalendarComponent } from '@fullcalendar/angular';
 import deLocale from '@fullcalendar/core/locales/de';
@@ -12,7 +12,7 @@ import { EventModalComponent } from '../events/event-modal/event-modal.component
   styleUrls: ['./calendar.component.css']
 })
 
-export class CalendarComponent implements OnInit {
+export class CalendarComponent implements OnInit, OnDestroy {
 
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
 
@@ -44,12 +44,20 @@ export class CalendarComponent implements OnInit {
   currentEvents: EventApi[] = [];
 
   constructor(public calenderEventService: CalendarEventService, public dialog: MatDialog) { }
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.');
+  }
 
   ngOnInit(): void {
     this.calendarEventAdded = this.calenderEventService.getCalendarAddedListener()
       .subscribe((calendarEventData: { calendarEvent: EventApi }) => {
         this.calendarComponent.getApi().addEvent(calendarEventData.calendarEvent);
       });
+
+    this.calendarEventsUpdated = this.calenderEventService.getCalendarEventUpdateListener()
+      .subscribe((calendarEventData: { calendarEvents: EventApi[] }) => {
+        this.calendarComponent.getApi().addEvent(calendarEventData.calendarEvents);
+      })
   }
 
   calendarOptions: CalendarOptions = {

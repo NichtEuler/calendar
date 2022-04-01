@@ -2,7 +2,7 @@
 export interface CalendarEventModel {
     id: string;
     title: string;
-    start: string;
-    end: string;
+    start: Date;
+    end: Date;
     //creator: string;
 }

@@ -23,11 +23,11 @@ export class CalendarEventService {
     constructor(private http: HttpClient, private router: Router) { }
 
 
-    getEvents(room: Room) {
-        this.http.get<{ message: string, events: any }>(BACKEND_URL + room.name)
-            .pipe(map(eventData => {
+    getEvents() {
+        this.http.get<{ message: string, events: any }>(BACKEND_URL)
+            .pipe(map(calendarEventData => {
                 return {
-                    events: eventData.events.map(calEvent => {
+                    events: calendarEventData.events.map(calEvent => {
                         return {
                             id: calEvent._id,
                             title: calEvent.title,
@@ -95,7 +95,11 @@ export class CalendarEventService {
     }
 
     deleteCalendarEvent(id: String) {
-        //hier snackbar oder ähnliches einfügen event gespeichert
+        this.http.delete<{ message: string }>(BACKEND_URL + "/" + id)
+            .subscribe(responseData => {
+                console.log(responseData.message)
+            });
+        //snackbar
     }
 
     getCalendarEventUpdateListener() {
