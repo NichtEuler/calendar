@@ -6,6 +6,9 @@ const router = express.Router();
 
 router.post("", calendarEventController.createCalendarEvent);
 
+//muss vor /:id sein sonst hält ers für ne ID
+router.get("/allEvents", calendarEventController.getCalendarEvents);
+
 router.get("/:id", calendarEventController.getCalendarEvent);
 
 router.delete("/:id", calendarEventController.deleteCalendarEvent);

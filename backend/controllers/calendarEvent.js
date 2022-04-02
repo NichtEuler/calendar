@@ -50,7 +50,25 @@ exports.createCalendarEvent = (req, res, next) => {
 //         });
 // };
 
+//holt alle Events
+exports.getCalendarEvents = (req, res, next) => {
+    console.log("Controller getCalendarEvents");
+    CalendarEventModel.find().then(calendarEvents => {
+        if (calendarEvents) {
+            res.status(200).json(calendarEvents);
+        } else {
+            res.status(404).json({ message: "No Events found!" });
+        }
+    })
+        .catch(error => {
+            res.status(500).json(
+                { message: "getCalendarEvents failed!" }
+            )
+        });
+};
+
 exports.getCalendarEvent = (req, res, next) => {
+    console.log("Controller getCalendarEvent");
     CalendarEventModel.findById(req.params.id).then(calendarEvent => {
         if (calendarEvent) {
             res.status(200).json(calendarEvent);
