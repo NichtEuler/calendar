@@ -16,7 +16,7 @@ export interface Room {
 @Injectable({ providedIn: "root" })
 export class CalendarEventService {
     private calEvents: EventApi[] = [];
-    private calendarEventUpdated = new Subject<{ calendarEvents: EventApi[] }>();
+    private calendarEventsUpdated = new Subject<{ calendarEvents: EventApi[] }>();
     private calendarEventAdded = new Subject<{ calendarEvent: EventApi }>();
 
 
@@ -40,7 +40,7 @@ export class CalendarEventService {
             }))
             .subscribe(transformedCalevents => {
                 this.calEvents = transformedCalevents.events;
-                this.calendarEventUpdated.next({ calendarEvents: [...this.calEvents] });
+                this.calendarEventsUpdated.next({ calendarEvents: [...this.calEvents] });
             });
     }
 
@@ -103,7 +103,7 @@ export class CalendarEventService {
     }
 
     getCalendarEventUpdateListener() {
-        return this.calendarEventUpdated.asObservable();
+        return this.calendarEventsUpdated.asObservable();
     }
 
     getCalendarAddedListener() {
