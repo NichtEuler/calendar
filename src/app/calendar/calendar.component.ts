@@ -43,7 +43,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
   ];
   currentEvents: EventApi[] = [];
 
-  constructor(public calenderEventService: CalendarEventService, public dialog: MatDialog) { }
+  constructor(public calenderEventService: CalendarEventService, public dialog: MatDialog) {
+    calenderEventService.getEvents();
+  }
   ngOnDestroy(): void {
     throw new Error('Method not implemented.');
   }
@@ -56,7 +58,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     this.calendarEventsUpdated = this.calenderEventService.getCalendarEventUpdateListener()
       .subscribe((calendarEventData: { calendarEvents: EventApi[] }) => {
-        this.calendarComponent.getApi().addEvent(calendarEventData.calendarEvents);
+        console.log(calendarEventData);
+
+        this.calendarComponent.getApi().addEventSource(calendarEventData.calendarEvents);
       })
   }
 

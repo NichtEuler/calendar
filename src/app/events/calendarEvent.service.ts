@@ -24,10 +24,10 @@ export class CalendarEventService {
 
 
     getEvents() {
-        this.http.get<{ message: string, events: any }>(BACKEND_URL)
+        this.http.get<{ message: string, calendarEvents: any }>(BACKEND_URL)
             .pipe(map(calendarEventData => {
                 return {
-                    events: calendarEventData.events.map(calEvent => {
+                    events: calendarEventData.calendarEvents.map(calEvent => {
                         return {
                             id: calEvent._id,
                             title: calEvent.title,
@@ -38,8 +38,8 @@ export class CalendarEventService {
                     }),
                 };
             }))
-            .subscribe(transformedCalevents => {
-                this.calEvents = transformedCalevents.events;
+            .subscribe(transformedCalendarEvents => {
+                this.calEvents = transformedCalendarEvents.events;
                 this.calendarEventsUpdated.next({ calendarEvents: [...this.calEvents] });
             });
     }

@@ -55,7 +55,7 @@ exports.getCalendarEvents = (req, res, next) => {
     console.log("Controller getCalendarEvents");
     CalendarEventModel.find().then(calendarEvents => {
         if (calendarEvents) {
-            res.status(200).json(calendarEvents);
+            res.status(200).json({ message: "Events fetched successfully", calendarEvents: calendarEvents });
         } else {
             res.status(404).json({ message: "No Events found!" });
         }
