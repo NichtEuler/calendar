@@ -52,7 +52,6 @@ exports.createCalendarEvent = (req, res, next) => {
 
 //holt alle Events
 exports.getCalendarEvents = (req, res, next) => {
-    console.log("Controller getCalendarEvents");
     CalendarEventModel.find().then(calendarEvents => {
         if (calendarEvents) {
             res.status(200).json({ message: "Events fetched successfully", calendarEvents: calendarEvents });
@@ -68,7 +67,6 @@ exports.getCalendarEvents = (req, res, next) => {
 };
 
 exports.getCalendarEvent = (req, res, next) => {
-    console.log("Controller getCalendarEvent");
     CalendarEventModel.findById(req.params.id).then(calendarEvent => {
         if (calendarEvent) {
             res.status(200).json(calendarEvent);
@@ -101,11 +99,12 @@ exports.deleteCalendarEvent = (req, res, next) => {
 
 exports.updateOne = (req, res, next) => {
     const calendarEvent = new CalendarEventModel({
-        _id: req.body.id,
+        _id: req.params.id,
         title: req.body.title,
         start: req.body.start,
         end: req.body.end
     });
+    console.log(calendarEvent);
     CalendarEventModel.updateOne({ _id: req.params.id/*, creator: req.userData.userId*/ }, calendarEvent).then(result => {
         if (result.matchedCount > 0) {
             res.status(200).json({ message: "Event edited" });

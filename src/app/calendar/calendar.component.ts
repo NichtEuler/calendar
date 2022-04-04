@@ -17,6 +17,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
 
   private calendarEventsUpdated: Subscription;
+  private calendarEventUpdated: Subscription;
   private calendarEventAdded: Subscription;
   currentEvents: EventApi[] = [];
 
@@ -33,12 +34,23 @@ export class CalendarComponent implements OnInit, OnDestroy {
         this.calendarComponent.getApi().addEvent(calendarEventData.calendarEvent);
       });
 
-    this.calendarEventsUpdated = this.calenderEventService.getCalendarEventUpdateListener()
+    this.calendarEventsUpdated = this.calenderEventService.getCalendarEventsUpdateListener()
       .subscribe((calendarEventData: { calendarEvents: EventApi[] }) => {
-        console.log(calendarEventData);
-
         this.calendarComponent.getApi().addEventSource(calendarEventData.calendarEvents);
-      })
+      });
+
+    this.calendarEventUpdated = this.calenderEventService.getCalendarEventUpdateListener()
+      .subscribe((calendarEventData: { calendarEvent: EventApi, isDeleted: boolean }) => {
+        if (calendarEventData.isDeleted) {
+          this.calendarComponent.getApi().getEventById(calendarEventData.calendarEvent.id).remove();
+        }
+        else {
+          let calEvent = this.calendarComponent.getApi().getEventById(calendarEventData.calendarEvent.id);
+          calEvent.setProp("title", calendarEventData.calendarEvent.title);
+          calEvent.setDates(calendarEventData.calendarEvent.start, calendarEventData.calendarEvent.end);
+        }
+      });
+
   }
 
   calendarOptions: CalendarOptions = {

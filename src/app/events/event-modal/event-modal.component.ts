@@ -42,7 +42,7 @@ export class EventModalComponent implements OnInit {
       startDate: new FormControl(null, { validators: [Validators.required] }),
       endDate: new FormControl(null, { validators: [Validators.required] }),
       startTime: new FormControl(null, { validators: [Validators.required] }),
-      endTime: new FormControl({ value: "", disabled: this.eventApi.event.allDay}),
+      endTime: new FormControl({ value: "", disabled: this.eventApi.event.allDay }),
       allDay: new FormControl(null, { validators: [Validators.required] }),
       recurringEvent: new FormControl(null, { validators: [Validators.required] }),
       //endRecur: new FormControl(null)
@@ -60,15 +60,19 @@ export class EventModalComponent implements OnInit {
       return;
     }
     console.log("hier wird event gespeichert: " + this.eventApi.event.id)
+    this.setTime();
     if (this.eventApi.event.id) {
       //verändere bestehendes event
+      console.log(this.endDate);
+
       const calEvent = {
+        id: this.eventApi.event.id,
         title: this.form.get("title").value,
-        startDate: this.startDate,
-        endDate: this.endDate,
+        start: this.startDate,
+        end: this.endDate,
         allDay: this.allDay
       }
-      this.calendarEventService.editCalendarEvent(this.eventApi.event, calEvent)
+      this.calendarEventService.updateCalendarEvent(calEvent)
     }
     else {
       this.setTime()
@@ -84,7 +88,7 @@ export class EventModalComponent implements OnInit {
   }
 
   onDeleteEvent() {
-    this.calendarEventService.deleteCalendarEvent(this.eventApi.event.id);
+    this.calendarEventService.deleteCalendarEvent(this.eventApi.event);
     this.dialogRef.close();
   }
 

@@ -14,6 +14,7 @@ router.get("/:id", calendarEventController.getCalendarEvent);
 router.delete("/:id", calendarEventController.deleteCalendarEvent);
 
 router.get("", calendarEventController.getCalendarEvents);
-//router.put("/:id", calendarEventController.updateOne);
+
+router.put("/:id", calendarEventController.updateOne);
 
 module.exports = router;

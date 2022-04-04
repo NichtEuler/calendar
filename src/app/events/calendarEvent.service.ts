@@ -17,6 +17,7 @@ export interface Room {
 export class CalendarEventService {
     private calEvents: EventApi[] = [];
     private calendarEventsUpdated = new Subject<{ calendarEvents: EventApi[] }>();
+    private calendarEventUpdated = new Subject<{ calendarEvent: EventApi, isDeleted: boolean }>();
     private calendarEventAdded = new Subject<{ calendarEvent: EventApi }>();
 
 
@@ -57,25 +58,26 @@ export class CalendarEventService {
         // const test = this.calendarComponent.calendarComponent.getApi();
         //console.log(test);
         //hier snackbar oder ähnliches einfügen event gespeichert
-        let calendarData: CalendarEventModel | FormData;
-        calendarData = {
+        let calendarEventData: any;
+        calendarEventData = {
             id: calendarEvent.id,
             title: calendarEvent.title,
             start: calendarEvent.start,
-            end: calendarEvent.end
+            end: calendarEvent.end,
+            allDay: calendarEvent.allDay
         }
-        this.http.put(BACKEND_URL + "/" + calendarEvent.id, calendarData)
+        console.log(calendarEventData);
+
+        this.http.put(BACKEND_URL + "/" + calendarEvent.id, calendarEventData)
             .subscribe(response => {
                 console.log(response)
-                this.router.navigate(["/"]);
+                this.calendarEventUpdated.next({ calendarEvent: calendarEventData, isDeleted: false });
             });
 
     }
 
     createCalendarEvent(calendarEvent) {
         let calendarEventData: CalendarEventModel;
-        console.log(BACKEND_URL);
-
         calendarEventData = {
             id: null,
             title: calendarEvent.title,
@@ -94,26 +96,25 @@ export class CalendarEventService {
 
     }
 
-    deleteCalendarEvent(id: String) {
-        this.http.delete<{ message: string }>(BACKEND_URL + "/" + id)
+    deleteCalendarEvent(calendarEvent: EventApi) {
+        this.http.delete<{ message: string }>(BACKEND_URL + "/" + calendarEvent.id)
             .subscribe(responseData => {
                 console.log(responseData.message)
+                this.calendarEventUpdated.next({ calendarEvent: calendarEvent, isDeleted: true })
+
             });
         //snackbar
     }
 
-    getCalendarEventUpdateListener() {
+    getCalendarEventsUpdateListener() {
         return this.calendarEventsUpdated.asObservable();
+    }
+
+    getCalendarEventUpdateListener() {
+        return this.calendarEventUpdated.asObservable();
     }
 
     getCalendarAddedListener() {
         return this.calendarEventAdded.asObservable();
-    }
-
-    editCalendarEvent(eventApi: EventApi, calEvent) {
-        eventApi.setProp("title", calEvent.title);
-        eventApi.setStart(calEvent.startDate);
-        eventApi.setDates(calEvent.startDate, calEvent.endDate, calEvent.allDay);
-        //hier kann man datenbank updaten
     }
 }
