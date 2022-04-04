@@ -18,29 +18,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   private calendarEventsUpdated: Subscription;
   private calendarEventAdded: Subscription;
-  TODAY_STR = new Date().toISOString().replace(/T.*$/, '');
-  INITIAL_EVENTS: EventInput[] = [
-    {
-      title: 'event 2',
-      id: "123",
-      start: this.TODAY_STR + 'T10:00:00',
-      end: this.TODAY_STR + 'T11:00:00',
-      overlap: false
-
-    },
-    {
-      id: 'a',
-      title: 'my event',
-      start: this.TODAY_STR + 'T11:00:00',
-      end: this.TODAY_STR + 'T12:00:00'
-    },
-    {
-      id: "createEventId",
-      title: 'Timed event',
-      start: this.TODAY_STR + 'T23:00:00',
-      end: this.TODAY_STR + 'T23:30:00'
-    }
-  ];
   currentEvents: EventApi[] = [];
 
   constructor(public calenderEventService: CalendarEventService, public dialog: MatDialog) {
@@ -71,7 +48,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
       right: 'dayGridMonth,timeGridWeek,timeGridDay',
     },
     initialView: 'dayGridMonth',
-    initialEvents: this.INITIAL_EVENTS,
     weekends: true,
     editable: true,
     selectable: true,
