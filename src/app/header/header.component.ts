@@ -48,10 +48,13 @@ export class HeaderComponent implements OnInit {
 
   //normalerweise vom service holen
   getData() {
-    return this.http.get<any>('https://jsonplaceholder.typicode.com/users')
+    return this.http.get<{ message: string, rooms: any }>('http://localhost:3000/api/rooms')
       .pipe(
-        map((response: []) => response.map(item => item['name']))
-      )
+        map(roomData =>
+          roomData.rooms.map(item => item['name'])
+        )
+        
+      );
   }
 
   onCreateEventClick() {
