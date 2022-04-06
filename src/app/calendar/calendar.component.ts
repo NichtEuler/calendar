@@ -59,7 +59,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
       center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay',
     },
-    initialView: 'dayGridMonth',
+    initialView: 'timeGridWeek',
     weekends: true,
     editable: true,
     selectable: true,
