@@ -1,19 +1,46 @@
 const Room = require("../models/room");
 
+exports.getRooms = (req, res, next) => {
+    Room.find().then(rooms => {
+        if (rooms) {
+            res.status(200).json({ message: "Rooms fetched successfully", rooms: rooms });
+        } else {
+            res.status(404).json({ message: "No Rooms found!" });
+        }
+    })
+        .catch(error => {
+            res.status(500).json(
+                { message: "Getting rooms failed failed!" }
+            )
+        });
+};
+
+exports.getRoom = (req, res, next) => {
+    Room.findById(req.params.id).then(room => {
+        if (room) {
+            res.status(200).json(room);
+        } else {
+            res.status(404).json({ room: "Room not found!" });
+        }
+    })
+        .catch(error => {
+            res.status(500).json(
+                { message: "Fetching room failed!" }
+            )
+        });
+};
+
 exports.createRoom = (req, res, next) => {
-    const url = req.protocol + "://" + req.get("host");
     const room = new Room({
-        id: req.body._id,
         name: req.body.name,
         location: req.body.location,
-        facility: req.body.facility
     });
     room.save().then(createdRoom => {
         res.status(201).json({
             message: "room sucessfully added",
             room: {
-                ...createdRoom,
-                id: createdRoom._id
+                id: createdRoom._id,
+                ...createdRoom
             }
         });
     }).catch(error => {

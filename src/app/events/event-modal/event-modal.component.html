@@ -11,13 +11,13 @@
         <mat-form-field appearance="fill">
             <mat-label>Enter a date range</mat-label>
             <mat-date-range-input [rangePicker]="picker">
-              <input matStartDate placeholder="Start date" [(ngModel)]="startDate" formControlName="startDate">
-              <input matEndDate placeholder="End date" [(ngModel)]="endDate" formControlName="endDate">
+                <input matStartDate placeholder="Start date" [(ngModel)]="startDate" formControlName="startDate">
+                <input matEndDate placeholder="End date" [(ngModel)]="endDate" formControlName="endDate">
             </mat-date-range-input>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-date-range-picker #picker></mat-date-range-picker>
-          </mat-form-field>
-          
+        </mat-form-field>
+
         <!-- <mat-form-field appearance="fill">
             <mat-label>Start date</mat-label>
             <input matInput [matDatepicker]="startPicker" [(ngModel)]="startDate" formControlName="date">
@@ -40,7 +40,8 @@
     </section>
     <div>
         <mat-form-field>
-            <input matInput type="time" placeholder="Start Time" [(ngModel)]="startTime" formControlName="startTime">
+            <input matInput type="time" placeholder="Start Time" [(ngModel)]="startTime" formControlName="startTime"
+                step="900">
         </mat-form-field>
     </div>
     <div>

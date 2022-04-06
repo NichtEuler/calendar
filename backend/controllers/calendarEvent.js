@@ -23,33 +23,6 @@ exports.createCalendarEvent = (req, res, next) => {
 
 };
 
-// exports.getCalendarEvents = (req, res, next) => {
-//     const startDate = +req.query.startDate;
-//     const endDate = +req.query.endDate;
-//     const postQuery = CalendarEvent.find();
-//     let fetchedCalendarEvents;
-//     if (startDate && endDate) {
-//         postQuery.skip(startDate * (endDate)).limit(startDate);
-//     }
-//     postQuery
-//         .then(documents => {
-//             fetchedCalendarEvents = documents;
-//             return CalendarEvent.count();
-//         })
-//         .then(count => {
-//             res.status(200).json({
-//                 message: "Posts fetched sucessfully",
-//                 posts: fetchedCalendarEvents,
-//                 maxPosts: count
-//             });
-//         })
-//         .catch(error => {
-//             res.status(500).json(
-//                 { message: "Fetching posts failed!" }
-//             )
-//         });
-// };
-
 //holt alle Events
 exports.getCalendarEvents = (req, res, next) => {
     CalendarEventModel.find().then(calendarEvents => {
