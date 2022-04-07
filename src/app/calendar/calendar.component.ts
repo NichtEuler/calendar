@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CalendarApi, CalendarOptions, DateSelectArg, EventApi, EventChangeArg, EventClickArg, EventDropArg, EventInput, FullCalendarComponent } from '@fullcalendar/angular';
 import deLocale from '@fullcalendar/core/locales/de';
+import { EventResizeDoneArg } from '@fullcalendar/interaction';
 import { Subscription } from 'rxjs';
 import { CalendarEventService } from '../events/calendarEvent.service';
 import { EventModalComponent } from '../events/event-modal/event-modal.component';
@@ -70,6 +71,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventDrop: this.handleEventDrop.bind(this),
+    eventResize: this.handleEventResize.bind(this),
     locale: deLocale,
     firstDay: 1,
     height: screen.height - screen.height / 4,
@@ -111,6 +113,10 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   handleEventDrop(eventDropinfo: EventDropArg) {
     this.calenderEventService.updateCalendarEvent(eventDropinfo.event);
+  }
+
+  handleEventResize(eventResizeInfo: EventResizeDoneArg) {
+    this.calenderEventService.updateCalendarEvent(eventResizeInfo.event);
   }
 
 
