@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { map } from 'rxjs';
 import { EventModalComponent } from '../events/event-modal/event-modal.component';
 
@@ -12,11 +13,12 @@ import { EventModalComponent } from '../events/event-modal/event-modal.component
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public dialog: MatDialog, private http: HttpClient, private fb: FormBuilder) { }
+  constructor(public dialog: MatDialog, private http: HttpClient, private fb: FormBuilder, private router: Router) { }
   myControl = new FormControl();
   filteredOptions;
   formGroup: FormGroup;
-  options = ["Sam", "Varun", "Jasmine"];
+  headerTitle = "MyCalendar";
+  options = ["Loading...", "Loading...", "Loading..."];
 
   ngOnInit(): void {
     this.initForm();
@@ -53,7 +55,7 @@ export class HeaderComponent implements OnInit {
         map(roomData =>
           roomData.rooms.map(item => item['name'])
         )
-        
+
       );
   }
 
@@ -67,6 +69,9 @@ export class HeaderComponent implements OnInit {
 
   onLoginClick() {
     alert("Not Implemented yet");
+  }
 
+  autoCompleteSelected(room: string) {
+    this.headerTitle = room;
   }
 }
