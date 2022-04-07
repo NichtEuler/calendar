@@ -4,6 +4,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { Observable, throwError } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
 
+//https://gist.github.com/taylorhutchison/6700eae2338956f04a7b9d7ddaa6fd53
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
     constructor(private snackBar: MatSnackBar) { }
