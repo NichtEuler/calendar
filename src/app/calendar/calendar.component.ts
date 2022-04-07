@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CalendarApi, CalendarOptions, DateSelectArg, EventApi, EventChangeArg, EventClickArg, EventInput, FullCalendarComponent } from '@fullcalendar/angular';
+import { CalendarApi, CalendarOptions, DateSelectArg, EventApi, EventChangeArg, EventClickArg, EventDropArg, EventInput, FullCalendarComponent } from '@fullcalendar/angular';
 import deLocale from '@fullcalendar/core/locales/de';
 import { Subscription } from 'rxjs';
 import { CalendarEventService } from '../events/calendarEvent.service';
@@ -22,7 +22,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   private calendarEventAdded: Subscription;
   currentEvents: EventApi[] = [];
 
-  constructor(public calenderEventService: CalendarEventService, public dialog: MatDialog, private _snackBar: MatSnackBar) {
+  constructor(public calenderEventService: CalendarEventService, public dialog: MatDialog) {
     calenderEventService.getEvents();
   }
   ngOnDestroy(): void {
@@ -69,7 +69,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     nowIndicator: true,
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
-    eventsSet: this.handleEvents.bind(this),
+    eventDrop: this.handleEventDrop.bind(this),
     locale: deLocale,
     firstDay: 1,
     height: screen.height - screen.height / 4,
@@ -77,16 +77,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
       // days of week. an array of zero-based day of week integers (0=Sunday)
       daysOfWeek: [1, 2, 3, 4, 5, 6], // Monday - Friday
 
-      startTime: '08:00', // a start time (10am in this example)
-      endTime: '20:00', // an end time (6pm in this example)
+      startTime: '08:00', // a start time
+      endTime: '20:00', // an end time
     },
-    /* you can update a remote database when these fire:
-    eventAdd:*/
-    eventChange: this.handleEventChanged.bind(this),
-    /*
-    eventRemove:
-    */
-
   };
 
   handleDateSelect(selectInfo: DateSelectArg) {
@@ -104,15 +97,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
         event: clickInfo.event
       }
     });
-
-    // dialogRef.afterClosed().subscribe(result => {
-    //   console.log(result);
-    // })
-
-    // const eventi = this.calendarComponent.getApi().getEventById("123");
-    // const startt = new Date('March 19, 2022 03:15:30')
-    // const endd = new Date('March 19, 2022 13:15:30')
-    // eventi.setDates(startt, endd)
   }
 
   extractTimeString(date: Date) {
@@ -125,16 +109,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
     return timeString;
   }
 
-  //keine ahnung, was das macht.
-  //aus doku: This callback will be useful for syncing an external data source with all calendar event data.
-  handleEvents(events: EventApi[]) {
-    console.log(events.toString())
-  }
-
-  //hier mongodb updaten
-  handleEventChanged(changeInfo: EventChangeArg) {
-    console.log(changeInfo.event + ": " + changeInfo.event.id);
-    this.calenderEventService.handleEvent(changeInfo.event);
+  handleEventDrop(eventDropinfo: EventDropArg) {
+    this.calenderEventService.updateCalendarEvent(eventDropinfo.event);
   }
 
 
