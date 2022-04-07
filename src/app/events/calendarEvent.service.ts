@@ -1,6 +1,6 @@
-
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
 import { EventApi } from "@fullcalendar/angular";
 import { map, Subject } from "rxjs";
@@ -21,7 +21,7 @@ export class CalendarEventService {
     private calendarEventAdded = new Subject<{ calendarEvent: EventApi }>();
 
 
-    constructor(private http: HttpClient, private router: Router) { }
+    constructor(private http: HttpClient, private router: Router, private _snackBar: MatSnackBar) { }
 
 
     getEvents() {
@@ -34,7 +34,6 @@ export class CalendarEventService {
                             title: calEvent.title,
                             start: calEvent.start,
                             end: calEvent.end
-
                         };
                     }),
                 };
@@ -66,11 +65,10 @@ export class CalendarEventService {
             end: calendarEvent.end,
             allDay: calendarEvent.allDay
         }
-        console.log(calendarEventData);
 
-        this.http.put(BACKEND_URL + "/" + calendarEvent.id, calendarEventData)
+        this.http.put<{ message: string }>(BACKEND_URL + "/" + calendarEvent.id, calendarEventData)
             .subscribe(response => {
-                console.log(response)
+                //panelClass: ['mat-toolbar', 'mat-primary'] 'mat-primary' to 'mat-accent' or 'mat-warn'
                 this.calendarEventUpdated.next({ calendarEvent: calendarEventData, isDeleted: false });
             });
 

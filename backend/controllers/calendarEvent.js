@@ -80,10 +80,10 @@ exports.updateOne = (req, res, next) => {
     console.log(calendarEvent);
     CalendarEventModel.updateOne({ _id: req.params.id/*, creator: req.userData.userId*/ }, calendarEvent).then(result => {
         if (result.matchedCount > 0) {
-            res.status(200).json({ message: "Event edited" });
+            res.status(200).json({ message: "Event edited!" });
         }
         else {
-            res.status(401).json({ message: "Not Authorized" });
+            res.status(401).json({ message: "Not Authorized!" });
         }
     })
         .catch(error => {

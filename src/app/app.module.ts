@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -18,6 +18,9 @@ import { EventCreateComponent } from './events/event-create/event-create.compone
 import { EventListComponent } from './events/event-list/event-list.component';
 import { EventModalComponent } from './events/event-modal/event-modal.component';
 
+import { ErrorInterceptor } from './message-interceptor';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
   interactionPlugin,
@@ -31,10 +34,11 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     CalendarComponent,
     EventCreateComponent,
     EventListComponent,
-    EventModalComponent,
+    EventModalComponent
   ],
   imports: [
     AngularMaterialModule,
+    MatSnackBarModule,
     AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -42,7 +46,10 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    MatSnackBarModule,
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

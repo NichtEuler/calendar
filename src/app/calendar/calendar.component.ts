@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CalendarApi, CalendarOptions, DateSelectArg, EventApi, EventChangeArg, EventClickArg, EventInput, FullCalendarComponent } from '@fullcalendar/angular';
 import deLocale from '@fullcalendar/core/locales/de';
 import { Subscription } from 'rxjs';
@@ -21,7 +22,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   private calendarEventAdded: Subscription;
   currentEvents: EventApi[] = [];
 
-  constructor(public calenderEventService: CalendarEventService, public dialog: MatDialog) {
+  constructor(public calenderEventService: CalendarEventService, public dialog: MatDialog, private _snackBar: MatSnackBar) {
     calenderEventService.getEvents();
   }
   ngOnDestroy(): void {
