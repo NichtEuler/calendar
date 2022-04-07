@@ -10,13 +10,13 @@ export class ErrorInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
         return next.handle(request).pipe(
             tap(e => {
-                if (request.method == "POST" || request.method == "PUT")
-                    if (e instanceof HttpResponse && e.status == 200) {
+                if (request.method == "POST" || request.method == "PUT" || request.method == "DELETE")
+                    if (e instanceof HttpResponse && (e.status == 200 || e.status == 201)) {
                         this.snackBar.open(e.body.message, 'Close', { duration: 2000, panelClass: ['mat-toolbar', 'mat-primary'] });
                     }
             }),
             catchError(error => {
-                this.snackBar.open(error.message, "Close", { duration: 2000, panelClass: ['mat-toolbar', 'mat-warn', "mat-primary"] });
+                this.snackBar.open(error.message, "Close", { duration: 2000, panelClass: ['mat-toolbar', 'mat-warn'] });
                 return throwError(error);
             })
         );
