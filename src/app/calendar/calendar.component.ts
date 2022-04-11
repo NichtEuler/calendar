@@ -49,9 +49,13 @@ export class CalendarComponent implements OnInit, OnDestroy {
         else {
           let calEvent = this.calendarComponent.getApi().getEventById(calendarEventData.calendarEvent.id);
           calEvent.setProp("title", calendarEventData.calendarEvent.title);
-          console.log(calendarEventData.calendarEvent.allDay);
-          calEvent.setDates(calendarEventData.calendarEvent.start, calendarEventData.calendarEvent.end);
-          calEvent.setAllDay(calendarEventData.calendarEvent.allDay);
+          if (calendarEventData.calendarEvent.allDay) {
+            calEvent.setDates(calendarEventData.calendarEvent.start, null, { allDay: calendarEventData.calendarEvent.allDay });
+          }
+          else {
+            calEvent.setDates(calendarEventData.calendarEvent.start, calendarEventData.calendarEvent.end);
+          }
+
         }
       });
 

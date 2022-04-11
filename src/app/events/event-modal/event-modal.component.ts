@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CalendarEventService } from '../calendarEvent.service';
 import { EventApi } from '@fullcalendar/angular';
@@ -29,11 +29,18 @@ export class EventModalComponent implements OnInit {
     public dialogRef: MatDialogRef<EventModalComponent>,
     @Inject(MAT_DIALOG_DATA) public eventApi: CalendarEvent) {
     this.startDate = eventApi.event.start;
-    this.endDate = eventApi.event.end;
     this.startTime = this.extractTimeString(this.startDate);
+
+    this.endDate = eventApi.event.end;
+    if (!this.endDate) {
+      this.endDate = eventApi.event.start;
+    }
     this.endTime = this.extractTimeString(this.endDate);
-    this.allDay = eventApi.event.allDay;
-    if (!this.allDay) {
+
+    if (eventApi.event.allDay) {
+      this.allDay = eventApi.event.allDay;
+    }
+    else {
       this.allDay = false;
     }
     this.isRecurring = false;
@@ -44,8 +51,8 @@ export class EventModalComponent implements OnInit {
       title: new FormControl(null, { validators: [Validators.required, Validators.minLength(3)] }),
       startDate: new FormControl(null, { validators: [Validators.required] }),
       endDate: new FormControl(null, { validators: [Validators.required] }),
-      startTime: new FormControl({ value: "", disabled: this.eventApi.event.allDay, validators: [Validators.required] }),
-      endTime: new FormControl({ value: "", disabled: this.eventApi.event.allDay }),
+      startTime: new FormControl({ value: "", disabled: this.eventApi.event.allDay }, { validators: [Validators.required] }),
+      endTime: new FormControl({ value: "", disabled: this.eventApi.event.allDay }, { validators: [Validators.required] }),
       allDay: new FormControl(null, { validators: [Validators.required] }),
       recurringEvent: new FormControl(null, { validators: [Validators.required] }),
       //endRecur: new FormControl(null)
@@ -76,7 +83,7 @@ export class EventModalComponent implements OnInit {
         allDay: this.allDay
       }
       this.calendarEventService.updateCalendarEvent(calEvent);
-      
+
     }
     else {
       this.setTime()
@@ -109,8 +116,7 @@ export class EventModalComponent implements OnInit {
 
   extractTimeString(date: Date) {
     if (date === null) {
-      console.log("error converting time");
-      return null;
+      return "00:00";
     }
     let hours = ("0" + date.getHours()).slice(-2);
     let minutes = ("0" + date.getMinutes()).slice(-2);
@@ -119,15 +125,17 @@ export class EventModalComponent implements OnInit {
   }
 
   setTime() {
-    if (this.startDate !== null) {
+    if (this.startDate !== null && this.startTime !== null) {
       const splitStart = this.startTime.split(":")
       this.startDate.setHours(Number(splitStart[0]), Number(splitStart[1]))
     }
-    if (this.endDate !== null) {
+    if (this.endDate !== null && this.endTime !== null) {
       const splitEnd = this.endTime.split(":")
       this.endDate.setHours(Number(splitEnd[0]), Number(splitEnd[1]))
     }
   }
 }
+
+
 
 
