@@ -5,6 +5,8 @@
     <div>
         <mat-form-field>
             <input matInput type="text" placeholder="Title" [ngModel]="eventApi.event.title" formControlName="title">
+            <mat-error *ngIf="form.get('title').invalid ">Please enter a title!
+            </mat-error>
         </mat-form-field>
     </div>
     <div>
@@ -16,6 +18,10 @@
             </mat-date-range-input>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-date-range-picker #picker></mat-date-range-picker>
+            <mat-error *ngIf="form.get('startDate').invalid ">Please enter a start date!
+            </mat-error>
+            <mat-error *ngIf="form.get('endDate').invalid ">Please enter an end date!
+            </mat-error>
         </mat-form-field>
 
         <!-- <mat-form-field appearance="fill">
@@ -42,11 +48,15 @@
         <mat-form-field>
             <input matInput type="time" placeholder="Start Time" [(ngModel)]="startTime" formControlName="startTime"
                 step="900">
+            <mat-error *ngIf="form.get('startTime').invalid ">Please enter a start time!
+            </mat-error>
         </mat-form-field>
     </div>
     <div>
         <mat-form-field>
             <input matInput type="time" placeholder="End Time" [(ngModel)]="endTime" formControlName="endTime">
+            <mat-error *ngIf="form.get('endTime').invalid ">Please enter a end time!
+            </mat-error>
         </mat-form-field>
     </div>
     <section class="cb">
