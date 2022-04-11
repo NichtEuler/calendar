@@ -33,6 +33,9 @@ export class EventModalComponent implements OnInit {
     this.startTime = this.extractTimeString(this.startDate);
     this.endTime = this.extractTimeString(this.endDate);
     this.allDay = eventApi.event.allDay;
+    if (!this.allDay) {
+      this.allDay = false;
+    }
     this.isRecurring = false;
   }
 
@@ -41,7 +44,7 @@ export class EventModalComponent implements OnInit {
       title: new FormControl(null, { validators: [Validators.required, Validators.minLength(3)] }),
       startDate: new FormControl(null, { validators: [Validators.required] }),
       endDate: new FormControl(null, { validators: [Validators.required] }),
-      startTime: new FormControl(null, { validators: [Validators.required] }),
+      startTime: new FormControl({ value: "", disabled: this.eventApi.event.allDay, validators: [Validators.required] }),
       endTime: new FormControl({ value: "", disabled: this.eventApi.event.allDay }),
       allDay: new FormControl(null, { validators: [Validators.required] }),
       recurringEvent: new FormControl(null, { validators: [Validators.required] }),
@@ -56,7 +59,7 @@ export class EventModalComponent implements OnInit {
 
   onSubmit() {
     if (this.form.invalid) {
-      console.log(this.form.invalid)
+      console.log(this.form.getError)
       return;
     }
     console.log("hier wird event gespeichert: " + this.eventApi.event.id)
@@ -72,7 +75,8 @@ export class EventModalComponent implements OnInit {
         end: this.endDate,
         allDay: this.allDay
       }
-      this.calendarEventService.updateCalendarEvent(calEvent)
+      this.calendarEventService.updateCalendarEvent(calEvent);
+      
     }
     else {
       this.setTime()
@@ -105,6 +109,7 @@ export class EventModalComponent implements OnInit {
 
   extractTimeString(date: Date) {
     if (date === null) {
+      console.log("error converting time");
       return null;
     }
     let hours = ("0" + date.getHours()).slice(-2);
@@ -114,10 +119,14 @@ export class EventModalComponent implements OnInit {
   }
 
   setTime() {
-    const splitStart = this.startTime.split(":")
-    this.startDate.setHours(Number(splitStart[0]), Number(splitStart[1]))
-    const splitEnd = this.endTime.split(":")
-    this.endDate.setHours(Number(splitEnd[0]), Number(splitEnd[1]))
+    if (this.startDate !== null) {
+      const splitStart = this.startTime.split(":")
+      this.startDate.setHours(Number(splitStart[0]), Number(splitStart[1]))
+    }
+    if (this.endDate !== null) {
+      const splitEnd = this.endTime.split(":")
+      this.endDate.setHours(Number(splitEnd[0]), Number(splitEnd[1]))
+    }
   }
 }
 

@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "start frontend": "ng serve",
+    "start frontend debug": "ng serve -o",
     "start backend": "nodemon backend/server.js",
     "ng": "ng",
     "build": "ng build",

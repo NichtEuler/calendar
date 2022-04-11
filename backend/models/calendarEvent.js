@@ -15,4 +15,4 @@ const calendarEventSchema = new mongoose.Schema({
     // creator: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }
 });
 
-module.exports = mongoose.model("CalendarEventModel", calendarEventSchema);
+module.exports = mongoose.model("CalendarEvent", calendarEventSchema);

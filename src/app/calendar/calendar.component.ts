@@ -49,7 +49,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
         else {
           let calEvent = this.calendarComponent.getApi().getEventById(calendarEventData.calendarEvent.id);
           calEvent.setProp("title", calendarEventData.calendarEvent.title);
+          console.log(calendarEventData.calendarEvent.allDay);
           calEvent.setDates(calendarEventData.calendarEvent.start, calendarEventData.calendarEvent.end);
+          calEvent.setAllDay(calendarEventData.calendarEvent.allDay);
         }
       });
 
@@ -68,6 +70,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
     selectMirror: true,
     dayMaxEvents: true,
     nowIndicator: true,
+    eventOverlap: false,
+    slotEventOverlap: false,
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventDrop: this.handleEventDrop.bind(this),
@@ -93,7 +97,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   handleEventClick(clickInfo: EventClickArg) {
-    console.log(clickInfo.event)
+    console.log(clickInfo.event.id)
     this.dialog.open(EventModalComponent, {
       data: {
         event: clickInfo.event

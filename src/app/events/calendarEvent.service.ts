@@ -5,7 +5,7 @@ import { Router } from "@angular/router";
 import { EventApi } from "@fullcalendar/angular";
 import { map, Subject } from "rxjs";
 import { environment } from "src/environments/environment";
-import { CalendarEventModel } from "./calendarEvent.model";
+import { CalendarEvent as CalendarEvent } from "./calendarEvent.model";
 
 const BACKEND_URL = environment.apiUrl + "/events";
 
@@ -33,7 +33,8 @@ export class CalendarEventService {
                             id: calEvent._id,
                             title: calEvent.title,
                             start: calEvent.start,
-                            end: calEvent.end
+                            end: calEvent.end,
+                            allDay: calEvent.allDay
                         };
                     }),
                 };
@@ -75,19 +76,20 @@ export class CalendarEventService {
     }
 
     createCalendarEvent(calendarEvent) {
-        let calendarEventData: CalendarEventModel;
+        let calendarEventData: CalendarEvent;
         calendarEventData = {
             id: null,
             title: calendarEvent.title,
             start: calendarEvent.start,
-            end: calendarEvent.end
+            end: calendarEvent.end,
+            allDay: calendarEvent.allDay
         }
-        this.http.post<{ message: string; calendarEventModel: CalendarEventModel }>(BACKEND_URL, calendarEventData)
+        this.http.post<{ message: string; calendarEvent: CalendarEvent }>(BACKEND_URL, calendarEventData)
             .subscribe(responseData => {
                 //this.router.navigate(["/"]);
-                calendarEvent.id = responseData.calendarEventModel.id
+                calendarEvent.id = responseData.calendarEvent.id
                 this.calendarEventAdded.next({ calendarEvent: calendarEvent });
-                console.log(responseData.calendarEventModel);
+                console.log(responseData.calendarEvent);
             });
         //hier kann man datenbank updaten
         //hier snackbar oder ähnliches einfügen event gespeichert
