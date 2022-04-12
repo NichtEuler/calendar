@@ -16,11 +16,11 @@ exports.getRooms = (req, res, next) => {
 };
 
 exports.getRoom = (req, res, next) => {
-    Room.findById(req.params.id).then(room => {
-        if (room) {
-            res.status(200).json(room);
+    Room.findById(req.params.id).then(rooms => {
+        if (rooms) {
+            res.status(200).json(rooms);
         } else {
-            res.status(404).json({ room: "Room not found!" });
+            res.status(404).json({ message: "Room not found!" });
         }
     })
         .catch(error => {

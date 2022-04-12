@@ -21,17 +21,12 @@ export class CalendarComponent implements OnInit, OnDestroy {
   private calendarEventsUpdated: Subscription;
   private calendarEventUpdated: Subscription;
   private calendarEventAdded: Subscription;
+  private roomId: string;
   currentEvents: EventApi[] = [];
 
   constructor(public calenderEventService: CalendarEventService,
     public dialog: MatDialog,
     public route: ActivatedRoute) {
-    this.route.paramMap.subscribe((paramMap: ParamMap) => {
-      if (paramMap.has("room")) {
-        console.log(paramMap.get("room"));
-        this.calenderEventService.getEvents(paramMap.get("room"));
-      }
-    });
   }
   ngOnDestroy(): void {
     this.calendarEventAdded.unsubscribe();
@@ -40,6 +35,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+
     this.calendarEventAdded = this.calenderEventService.getCalendarAddedListener()
       .subscribe((calendarEventData: { calendarEvent: EventApi }) => {
         this.calendarComponent.getApi().addEvent(calendarEventData.calendarEvent);
@@ -67,7 +64,17 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
         }
       });
-
+  }
+  //https://stackoverflow.com/questions/34947154/angular-2-viewchild-annotation-returns-undefined
+  //otherwise the viewchild returns as undefined
+  ngAfterViewInit() {
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      this.calendarComponent.getApi().removeAllEvents()
+      if (paramMap.has("roomId")) {
+        this.roomId = paramMap.get("roomId");
+        this.calenderEventService.getEvents(this.roomId);
+      }
+    });
   }
 
   calendarOptions: CalendarOptions = {
@@ -104,7 +111,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
   handleDateSelect(selectInfo: DateSelectArg) {
     const dialogRef = this.dialog.open(EventModalComponent, {
       data: {
-        event: selectInfo
+        event: selectInfo,
+        roomId : this.roomId
       }
     });
   }
@@ -113,7 +121,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
     console.log(clickInfo.event.id)
     this.dialog.open(EventModalComponent, {
       data: {
-        event: clickInfo.event
+        event: clickInfo.event,
+        roomId : this.roomId
       }
     });
   }

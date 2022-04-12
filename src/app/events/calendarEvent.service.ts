@@ -20,8 +20,8 @@ export class CalendarEventService {
     constructor(private http: HttpClient, private router: Router, private _snackBar: MatSnackBar) { }
 
 
-    getEvents(room: string) {
-        this.http.get<{ message: string, calendarEvents: any }>(BACKEND_URL + "/" + room)
+    getEvents(roomId: string) {
+        this.http.get<{ message: string, calendarEvents: any }>(BACKEND_URL + "/" + roomId)
             .pipe(map(calendarEventData => {
                 return {
                     events: calendarEventData.calendarEvents.map(calEvent => {
@@ -30,6 +30,7 @@ export class CalendarEventService {
                             title: calEvent.title,
                             start: calEvent.start,
                             end: calEvent.end,
+                            roomId: calEvent.roomId,
                             allDay: calEvent.allDay
                         };
                     }),
@@ -78,9 +79,10 @@ export class CalendarEventService {
             title: calendarEvent.title,
             start: calendarEvent.start,
             end: calendarEvent.end,
-            allDay: calendarEvent.allDay
+            allDay: calendarEvent.allDay,
+            roomId: calendarEvent.roomId
         }
-        this.http.post<{ message: string; calendarEvent: CalendarEvent }>(BACKEND_URL, calendarEventData)
+        this.http.post<{ message: string; calendarEvent: CalendarEvent }>(BACKEND_URL + "/" + calendarEvent.roomId, calendarEventData)
             .subscribe(responseData => {
                 //this.router.navigate(["/"]);
                 calendarEvent.id = responseData.calendarEvent.id

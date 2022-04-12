@@ -5,7 +5,8 @@ import { CalendarEventService } from '../calendarEvent.service';
 import { EventApi } from '@fullcalendar/angular';
 
 export interface CalendarEvent {
-  event: EventApi
+  event: EventApi,
+  roomId: string
 }
 
 @Component({
@@ -22,6 +23,7 @@ export class EventModalComponent implements OnInit {
   endTime: string;
   isRecurring: boolean;
   allDay: boolean;
+  roomId: string;
 
 
   constructor(
@@ -44,6 +46,7 @@ export class EventModalComponent implements OnInit {
       this.allDay = false;
     }
     this.isRecurring = false;
+    this.roomId = eventApi.roomId;
   }
 
   ngOnInit(): void {
@@ -80,18 +83,19 @@ export class EventModalComponent implements OnInit {
         title: this.form.get("title").value,
         start: this.startDate,
         end: this.endDate,
-        allDay: this.allDay
+        allDay: this.allDay,
+        roomId: this.roomId
       }
       this.calendarEventService.updateCalendarEvent(calEvent);
 
     }
     else {
-      this.setTime()
       const calEvent = {
         title: this.form.get("title").value,
         start: this.startDate,
         end: this.endDate,
-        allDay: this.allDay
+        allDay: this.allDay,
+        roomId: this.roomId
       };
       this.calendarEventService.createCalendarEvent(calEvent);
     }
