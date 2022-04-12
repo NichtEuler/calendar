@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { map, Observable, startWith } from 'rxjs';
+import { map, Observable, startWith, Subscription } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
 import { EventModalComponent } from '../events/event-modal/event-modal.component';
 import { Room } from '../rooms/room.model';
 
@@ -12,9 +13,11 @@ import { Room } from '../rooms/room.model';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
-  constructor(public dialog: MatDialog, private http: HttpClient, private router: Router) { }
+  constructor(private authService: AuthService, public dialog: MatDialog, private http: HttpClient, private router: Router) { }
+  userIsAuthenticated = false;
+  private authListenerSubscription: Subscription;
   roomname = new FormControl();
   filteredOptions: Observable<Room[]>;
   headerTitle = "MyCalendar";
@@ -23,8 +26,18 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.getRooms();
   }
+  ngOnDestroy(): void {
+    this.authListenerSubscription.unsubscribe()
+  }
 
   initForm() {
+    this.userIsAuthenticated = this.authService.getIsAuthed();
+    this.authListenerSubscription = this.authService
+      .getAuthStatusListener()
+      .subscribe(isAuthenticated => {
+        this.userIsAuthenticated = isAuthenticated;
+      });
+
     this.filteredOptions = this.roomname.valueChanges.pipe(
       startWith(''),
       map(value => (typeof value === 'string' ? value : value.name)),
@@ -73,8 +86,8 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  onLoginClick() {
-    alert("Not Implemented yet");
+  onLogout() {
+    this.authService.logout();
   }
 
   autoCompleteSelected(room: Room) {

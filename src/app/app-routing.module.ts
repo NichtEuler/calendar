@@ -3,7 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { CalendarComponent } from './calendar/calendar.component';
 
 const routes: Routes = [
-  { path: ":roomId", component: CalendarComponent }
+  { path: ":roomId", component: CalendarComponent },
+  { path: "auth", loadChildren: () => import("./auth/auth.module").then(m => m.AuthModule) }
 ];
 
 @NgModule({

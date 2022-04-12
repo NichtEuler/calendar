@@ -5,7 +5,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const calendarEventRoutes = require("./routes/calendarEvent");
-// const userRoutes = require("./routes/user");
+const userRoutes = require("./routes/user");
 const roomRoutes = require("./routes/room")
 
 
@@ -32,7 +32,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/events", calendarEventRoutes);
-// app.use("/api/user", userRoutes);
+app.use("/api/user", userRoutes);
 app.use("/api/rooms", roomRoutes)
 
 module.exports = app;
