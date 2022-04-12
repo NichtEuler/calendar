@@ -2,11 +2,13 @@ const CalendarEvent = require("../models/calendarEvent");
 
 
 exports.createCalendarEvent = (req, res, next) => {
+    console.log(req.params.room);
     const calendarEvent = new CalendarEvent({
         title: req.body.title,
         start: req.body.start,
         end: req.body.end,
-        allDay: req.body.allDay
+        allDay: req.body.allDay,
+        room: req.params.room
     });
     calendarEvent.save().then(createdCalendarEvent => {
         res.status(201).json({
@@ -26,7 +28,8 @@ exports.createCalendarEvent = (req, res, next) => {
 
 //holt alle Events
 exports.getCalendarEvents = (req, res, next) => {
-    CalendarEvent.find().then(calendarEvents => {
+    console.log(req.params.room);
+    CalendarEvent.find({ 'room': req.params.room }).then(calendarEvents => {
         if (calendarEvents) {
             res.status(200).json({ message: "Events fetched successfully", calendarEvents: calendarEvents });
         } else {
@@ -35,7 +38,7 @@ exports.getCalendarEvents = (req, res, next) => {
     })
         .catch(error => {
             res.status(500).json(
-                { message: "getCalendarEvents failed!" }
+                { message: "Could not fetch events!" }
             )
         });
 };

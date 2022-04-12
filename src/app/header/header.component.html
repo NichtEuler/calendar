@@ -1,14 +1,13 @@
 <mat-toolbar color="primary" class="toolbar">
     <span><a routerLink="/">{{headerTitle}}</a></span>
-
-    <form [formGroup]="formGroup">
+    <form>
         <mat-form-field class="searchbarformfield">
             <mat-label>Search Room</mat-label>
-            <input type="text" matInput formControlName="roomname" [matAutocomplete]="auto">
+            <input type="text" matInput [formControl]="roomname" [matAutocomplete]="auto">
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
-                (optionSelected)='autoCompleteSelected($event.option.value)'>
-                <mat-option *ngFor="let item of filteredOptions " [value]="item">
-                    {{item}}
+                (optionSelected)='autoCompleteSelected($event.option.value)' [displayWith]="displayFn">
+                <mat-option *ngFor="let room of filteredOptions | async" [value]="room">
+                    {{room.name}}
                 </mat-option>
             </mat-autocomplete>
         </mat-form-field>

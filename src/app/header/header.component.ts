@@ -3,8 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { map } from 'rxjs';
+import { map, Observable, startWith } from 'rxjs';
 import { EventModalComponent } from '../events/event-modal/event-modal.component';
+import { Room } from '../rooms/room.model';
 
 @Component({
   selector: 'app-header',
@@ -13,50 +14,55 @@ import { EventModalComponent } from '../events/event-modal/event-modal.component
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public dialog: MatDialog, private http: HttpClient, private fb: FormBuilder, private router: Router) { }
-  myControl = new FormControl();
-  filteredOptions;
-  formGroup: FormGroup;
+  constructor(public dialog: MatDialog, private http: HttpClient, private router: Router) { }
+  roomname = new FormControl();
+  filteredOptions: Observable<Room[]>;
   headerTitle = "MyCalendar";
-  options = ["Loading...", "Loading...", "Loading..."];
+  options: Room[] = [];
 
   ngOnInit(): void {
-    this.initForm();
     this.getRooms();
   }
 
   initForm() {
-    this.formGroup = this.fb.group({
-      'roomname': ['']
-    })
-    this.formGroup.get('roomname').valueChanges.subscribe(response => {
-      console.log('data is ', response);
-      this.filterData(response);
-    })
+    this.filteredOptions = this.roomname.valueChanges.pipe(
+      startWith(''),
+      map(value => (typeof value === 'string' ? value : value.name)),
+      map(name => (name ? this._filter(name) : this.options.slice()))
+    );
   }
-  filterData(enteredData) {
-    this.filteredOptions = this.options.filter(item => {
-      return item.toLowerCase().indexOf(enteredData.toLowerCase()) > -1
-    })
+
+  _filter(name: string): Room[] {
+    const filterValue = name.toLowerCase();
+    return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
   }
+
 
 
   getRooms() {
     this.getData().subscribe(response => {
-      this.options = response;
-      this.filteredOptions = response;
+      this.options = response.rooms;
+      this.initForm();
     })
+
   }
 
   //normalerweise vom service holen
   getData() {
     return this.http.get<{ message: string, rooms: any }>('http://localhost:3000/api/rooms')
       .pipe(
-        map(roomData =>
-          roomData.rooms.map(item => item['name'])
-        )
-
-      );
+        map(roomData => {
+          return {
+            rooms: roomData.rooms.map(room => {
+              return {
+                id: room._id,
+                name: room.name,
+                location: room.location
+              };
+            }),
+          };
+        }
+        ));
   }
 
   onCreateEventClick() {
@@ -71,7 +77,14 @@ export class HeaderComponent implements OnInit {
     alert("Not Implemented yet");
   }
 
-  autoCompleteSelected(room: string) {
-    this.headerTitle = room;
+  autoCompleteSelected(room: Room) {
+    console.log(room.id);
+
+    this.headerTitle = room.name;
+    this.router.navigate([room.id]);
+  }
+
+  displayFn(room: Room): string {
+    return room && room.name ? room.name : '';
   }
 }

@@ -5,13 +5,9 @@ import { Router } from "@angular/router";
 import { EventApi } from "@fullcalendar/angular";
 import { map, Subject } from "rxjs";
 import { environment } from "src/environments/environment";
-import { CalendarEvent as CalendarEvent } from "./calendarEvent.model";
+import { CalendarEvent } from "./calendarEvent.model";
 
 const BACKEND_URL = environment.apiUrl + "/events";
-
-export interface Room {
-    name: string
-}
 
 @Injectable({ providedIn: "root" })
 export class CalendarEventService {
@@ -24,8 +20,8 @@ export class CalendarEventService {
     constructor(private http: HttpClient, private router: Router, private _snackBar: MatSnackBar) { }
 
 
-    getEvents() {
-        this.http.get<{ message: string, calendarEvents: any }>(BACKEND_URL)
+    getEvents(room: string) {
+        this.http.get<{ message: string, calendarEvents: any }>(BACKEND_URL + "/" + room)
             .pipe(map(calendarEventData => {
                 return {
                     events: calendarEventData.calendarEvents.map(calEvent => {

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { CalendarApi, CalendarOptions, DateSelectArg, EventApi, EventChangeArg, EventClickArg, EventDropArg, EventInput, FullCalendarComponent } from '@fullcalendar/angular';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { CalendarOptions, DateSelectArg, EventApi, EventClickArg, EventDropArg, FullCalendarComponent } from '@fullcalendar/angular';
 import deLocale from '@fullcalendar/core/locales/de';
 import { EventResizeDoneArg } from '@fullcalendar/interaction';
 import { Subscription } from 'rxjs';
@@ -23,11 +23,20 @@ export class CalendarComponent implements OnInit, OnDestroy {
   private calendarEventAdded: Subscription;
   currentEvents: EventApi[] = [];
 
-  constructor(public calenderEventService: CalendarEventService, public dialog: MatDialog) {
-    calenderEventService.getEvents();
+  constructor(public calenderEventService: CalendarEventService,
+    public dialog: MatDialog,
+    public route: ActivatedRoute) {
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      if (paramMap.has("room")) {
+        console.log(paramMap.get("room"));
+        this.calenderEventService.getEvents(paramMap.get("room"));
+      }
+    });
   }
   ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
+    this.calendarEventAdded.unsubscribe();
+    this.calendarEventUpdated.unsubscribe();
+    this.calendarEventsUpdated.unsubscribe();
   }
 
   ngOnInit(): void {

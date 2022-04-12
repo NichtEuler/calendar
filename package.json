@@ -2,9 +2,9 @@
   "name": "calendar",
   "version": "0.0.0",
   "scripts": {
+    "start backend": "nodemon backend/server.js",
     "start frontend": "ng serve",
     "start frontend debug": "ng serve -o",
-    "start backend": "nodemon backend/server.js",
     "ng": "ng",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
