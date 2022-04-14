@@ -13,6 +13,8 @@ router.delete("/:id", checkAuth, calendarEventController.deleteCalendarEvent);
 
 router.get("/:roomId", calendarEventController.getCalendarEvents);
 
+router.get("/event/:id", calendarEventController.getCalendarEvent);
+
 router.put("/:id", checkAuth, calendarEventController.updateOne);
 
 module.exports = router;

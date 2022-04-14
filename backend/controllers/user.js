@@ -8,6 +8,7 @@ exports.createUser = (req, res, next) => {
         .then(hash => {
             const user = new User({
                 email: req.body.email,
+                username: req.body.username,
                 password: hash
             });
             user
@@ -44,7 +45,7 @@ exports.userLogin = (req, res, next) => {
                 });
             }
             const token = jwt.sign(
-                { email: fetchedUser.email, userId: fetchedUser._id },
+                { email: fetchedUser.email, username: fetchedUser.username, userId: fetchedUser._id },
                 process.env.JWT_KEY,
                 { expiresIn: "1h" }
             );
@@ -56,6 +57,27 @@ exports.userLogin = (req, res, next) => {
             });
         })
         .catch(err => {
+            return res.status(401).json({
+                message: err.message
+            });
+        });
+};
+
+exports.userName = (req, res, next) => {
+    let username;
+    console.log("req.params.creatorId" + req.params.creatorId);
+    User.findById({ _id: req.params.creatorId })
+        .then(user => {
+            console.log("test");
+            if (!user) {
+                throw new Error('User not found!');
+            }
+            username = user.username;
+            console.log(username);
+            return res.status(200).json({
+                username: username
+            })
+        }).catch(err => {
             return res.status(401).json({
                 message: err.message
             });

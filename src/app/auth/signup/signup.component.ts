@@ -19,8 +19,8 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.authStatusSub =  this.authService.getAuthStatusListener().subscribe(
-      authStatus =>{
+    this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
+      authStatus => {
         this.isLoading = false;
       }
     );
@@ -31,6 +31,6 @@ export class SignupComponent implements OnInit, OnDestroy {
       return;
     }
     this.isLoading = true;
-    this.authService.createUser(form.value.email, form.value.password);
+    this.authService.createUser(form.value.email, form.value.username, form.value.password);
   }
 }

@@ -2,7 +2,7 @@ const CalendarEvent = require("../models/calendarEvent");
 
 
 exports.createCalendarEvent = (req, res, next) => {
-    console.log(req.body);
+    console.log(req.userData.userId);
     const calendarEvent = new CalendarEvent({
         title: req.body.title,
         start: req.body.start,
@@ -46,8 +46,10 @@ exports.getCalendarEvents = (req, res, next) => {
 };
 
 exports.getCalendarEvent = (req, res, next) => {
+    console.log("getcalendarevent: " + req.params.id);
     CalendarEvent.findById(req.params.id).then(calendarEvent => {
-        if (calendarEvent) {
+        if (req.params.id) {
+            console.log(calendarEvent)
             res.status(200).json(calendarEvent);
         } else {
             res.status(404).json({ message: "Event not found!" });
