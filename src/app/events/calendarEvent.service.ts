@@ -4,7 +4,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
 import { EventApi } from "@fullcalendar/angular";
 import { userInfo } from "os";
-import { map, Subject } from "rxjs";
+import { lastValueFrom, map, Subject } from "rxjs";
 import { environment } from "src/environments/environment";
 import { CalendarEvent } from "./calendarEvent.model";
 
@@ -43,16 +43,16 @@ export class CalendarEventService {
             });
     }
 
-    async getEvent(id: string) {
-        const getEventQuery = await this.http.get<{ _id: string, title: string, content: string, imagePath: string, creator: string }>
-            (BACKEND_URL + "/event/" + id).toPromise();
-        return getEventQuery.creator;
+    getEvent(id: string) {
+        return this.http.get<{ _id: string, title: string, content: string, imagePath: string, creator: string }>
+            (BACKEND_URL + "/event/" + id).pipe(map(response => response.creator));
     }
 
-    async getUsername(id: string): Promise<string> {
-        const creatorId = await this.getEvent(id);
-        const getUserNameQuery = await this.http.get<{ username: string }>(environment.apiUrl + "/user/" + creatorId).toPromise();
-        return getUserNameQuery.username;
+    async getUsername(id: string) {
+        const creatorId$ = this.getEvent(id);
+        const creatorId = await lastValueFrom(creatorId$);
+        return this.http.get<{ username: string }>(environment.apiUrl + "/user/" + creatorId)
+            .pipe(map(response => response.username));
     }
 
     handleEvent(calendarEvent: EventApi) {

@@ -3,6 +3,7 @@ import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CalendarEventService } from '../calendarEvent.service';
 import { EventApi } from '@fullcalendar/angular';
+import { lastValueFrom } from 'rxjs';
 
 export interface CalendarEvent {
   event: EventApi,
@@ -70,7 +71,8 @@ export class EventModalComponent implements OnInit {
       //endRecur: new FormControl(null)
     });
     this.onAllDayCheckboxChange();
-    this.username = await this.calendarEventService.getUsername(this.eventId)
+    const username$ = await this.calendarEventService.getUsername(this.eventId);
+    this.username = await lastValueFrom(username$);
   }
 
   onNoClick(): void {
