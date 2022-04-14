@@ -25,15 +25,14 @@ exports.createUser = (req, res, next) => {
                 });
         });
 };
+//https://stackoverflow.com/questions/31309759/what-is-secret-key-for-jwt-based-authentication-and-how-to-generate-it
 
 exports.userLogin = (req, res, next) => {
     let fetchedUser;
     User.findOne({ email: req.body.email })
         .then(user => {
             if (!user) {
-                return res.status(401).json({
-                    message: 'Email Address is not Registered'
-                });
+                throw new Error('User not found!');
             }
             fetchedUser = user;
             return bcrypt.compare(req.body.password, user.password);
@@ -50,7 +49,6 @@ exports.userLogin = (req, res, next) => {
                 { expiresIn: "1h" }
             );
             res.status(200).json({
-                message: "You are now logged in!",
                 token: token,
                 expiresIn: 3600,
                 userId: fetchedUser._id
@@ -58,7 +56,7 @@ exports.userLogin = (req, res, next) => {
         })
         .catch(err => {
             return res.status(401).json({
-                message: 'Invalid Authentication credentials'
+                message: err.message
             });
         });
 };
