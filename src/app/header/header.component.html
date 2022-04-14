@@ -1,5 +1,5 @@
 <mat-toolbar color="primary" class="toolbar">
-    <span><a routerLink="/">{{headerTitle}}</a></span>
+    <span><a routerLink="/" (click)="headerClick()">{{headerTitle}}</a></span>
     <form>
         <mat-form-field class="searchbarformfield">
             <mat-label>Search Room</mat-label>

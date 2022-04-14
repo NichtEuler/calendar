@@ -91,13 +91,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   autoCompleteSelected(room: Room) {
-    console.log(room.id);
-
     this.headerTitle = room.name;
     this.router.navigate([room.id]);
   }
 
   displayFn(room: Room): string {
     return room && room.name ? room.name : '';
+  }
+
+  headerClick() {
+    this.headerTitle = "MyCalendar"
   }
 }
