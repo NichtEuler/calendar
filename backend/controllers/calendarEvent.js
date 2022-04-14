@@ -9,7 +9,7 @@ exports.createCalendarEvent = (req, res, next) => {
         end: req.body.end,
         allDay: req.body.allDay,
         roomId: req.params.roomId,
-        creator: req.body.userId
+        creator: req.userData.userId
     });
 
     calendarEvent.save().then(createdCalendarEvent => {
@@ -61,7 +61,7 @@ exports.getCalendarEvent = (req, res, next) => {
 };
 
 exports.deleteCalendarEvent = (req, res, next) => {
-    CalendarEvent.deleteOne({ _id: req.params.id, creator: req.params.userId }).then(result => {
+    CalendarEvent.deleteOne({ _id: req.params.id }).then(result => {
         console.log(result);
         if (result.deletedCount > 0) {
             res.status(200).json({ message: "Event sucessfully deleted!" });
@@ -83,7 +83,7 @@ exports.updateOne = (req, res, next) => {
         start: req.body.start,
         end: req.body.end,
         allDay: req.body.allDay,
-        creator: req.body.creator
+        creator: req.userData.userId
     });
     CalendarEvent.updateOne({ _id: req.params.id, creator: req.userData.userId }, calendarEvent).then(result => {
         if (result.matchedCount > 0) {

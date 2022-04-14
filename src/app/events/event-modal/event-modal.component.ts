@@ -26,6 +26,7 @@ export class EventModalComponent implements OnInit {
   allDay: boolean;
   roomId: string;
   userId: string;
+  eventId: string;
 
 
   constructor(
@@ -89,7 +90,7 @@ export class EventModalComponent implements OnInit {
         allDay: this.allDay,
         roomId: this.roomId
       }
-      this.calendarEventService.updateCalendarEvent(calEvent, this.userId);
+      this.calendarEventService.updateCalendarEvent(calEvent);
 
     }
     else {
@@ -98,8 +99,7 @@ export class EventModalComponent implements OnInit {
         start: this.startDate,
         end: this.endDate,
         allDay: this.allDay,
-        roomId: this.roomId,
-        userId: this.userId
+        roomId: this.roomId
       };
       this.calendarEventService.createCalendarEvent(calEvent);
     }
@@ -107,7 +107,7 @@ export class EventModalComponent implements OnInit {
   }
 
   onDeleteEvent() {
-    this.calendarEventService.deleteCalendarEvent(this.eventApi.event, this.userId);
+    this.calendarEventService.deleteCalendarEvent(this.eventApi.event);
     this.dialogRef.close();
   }
 

@@ -153,13 +153,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   handleEventDrop(eventDropinfo: EventDropArg) {
-    this.calenderEventService.updateCalendarEvent(eventDropinfo.event,
-      this.userId);
+    this.calenderEventService.updateCalendarEvent(eventDropinfo.event);
   }
 
   handleEventResize(eventResizeInfo: EventResizeDoneArg) {
-    this.calenderEventService.updateCalendarEvent(eventResizeInfo.event,
-      this.userId);
+    this.calenderEventService.updateCalendarEvent(eventResizeInfo.event);
   }
 
 

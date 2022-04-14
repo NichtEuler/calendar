@@ -20,6 +20,7 @@ import { EventModalComponent } from './events/event-modal/event-modal.component'
 
 import { ErrorInterceptor } from './message-interceptor';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { AuthInterceptor } from './auth/auth-interceptor';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -48,7 +49,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   ],
   providers: [
     MatSnackBarModule,
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
 })

@@ -45,14 +45,14 @@ export class CalendarEventService {
 
     getEvent(id: string, room: string) {
         return this.http.get<{ _id: string, title: string, content: string, imagePath: string, creator: string }>
-            (BACKEND_URL + "/" + room + "/" + id);
+            (BACKEND_URL + "/" + id);
     }
 
     handleEvent(calendarEvent: EventApi) {
         console.log(calendarEvent.id)
     }
 
-    updateCalendarEvent(calendarEvent, userId) {
+    updateCalendarEvent(calendarEvent) {
         // const test = this.calendarComponent.calendarComponent.getApi();
         //console.log(test);
         //hier snackbar oder ähnliches einfügen event gespeichert
@@ -62,7 +62,6 @@ export class CalendarEventService {
             title: calendarEvent.title,
             start: calendarEvent.start,
             end: calendarEvent.end,
-            creator: userId,
             allDay: calendarEvent.allDay
         }
 
@@ -76,7 +75,6 @@ export class CalendarEventService {
 
     createCalendarEvent(calendarEvent) {
         let calendarEventData: CalendarEvent;
-        console.log(calendarEvent.userId);
 
         calendarEventData = {
             id: null,
@@ -84,13 +82,10 @@ export class CalendarEventService {
             start: calendarEvent.start,
             end: calendarEvent.end,
             allDay: calendarEvent.allDay,
-            userId: calendarEvent.userId,
             roomId: calendarEvent.roomId
         }
         this.http.post<{ message: string; calendarEvent: CalendarEvent }>(BACKEND_URL + "/" + calendarEvent.roomId, calendarEventData)
             .subscribe(responseData => {
-                //this.router.navigate(["/"]);
-
                 calendarEvent.id = responseData.calendarEvent.id
                 this.calendarEventAdded.next({ calendarEvent: calendarEvent });
                 console.log(responseData.calendarEvent);
@@ -100,8 +95,8 @@ export class CalendarEventService {
 
     }
 
-    deleteCalendarEvent(calendarEvent: EventApi, userId) {
-        this.http.delete<{ message: string }>(BACKEND_URL + "/" + userId + "/" + calendarEvent.id)
+    deleteCalendarEvent(calendarEvent: EventApi) {
+        this.http.delete<{ message: string }>(BACKEND_URL + "/" + calendarEvent.id)
             .subscribe(responseData => {
                 console.log(responseData)
                 this.calendarEventUpdated.next({ calendarEvent: calendarEvent, isDeleted: true })
