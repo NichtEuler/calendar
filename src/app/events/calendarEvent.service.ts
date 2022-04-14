@@ -43,13 +43,14 @@ export class CalendarEventService {
             });
     }
 
-    getEvent(id: string) {
+
+    getEventCreator(id: string) {
         return this.http.get<{ _id: string, title: string, content: string, imagePath: string, creator: string }>
             (BACKEND_URL + "/event/" + id).pipe(map(response => response.creator));
     }
 
     async getUsername(id: string) {
-        const creatorId$ = this.getEvent(id);
+        const creatorId$ = this.getEventCreator(id);
         const creatorId = await lastValueFrom(creatorId$);
         return this.http.get<{ username: string }>(environment.apiUrl + "/user/" + creatorId)
             .pipe(map(response => response.username));

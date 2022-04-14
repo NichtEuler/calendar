@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { CalendarOptions, DateSelectArg, EventApi, EventClickArg, EventDropArg, FullCalendarComponent } from '@fullcalendar/angular';
 import deLocale from '@fullcalendar/core/locales/de';
 import { EventDragStartArg, EventResizeDoneArg } from '@fullcalendar/interaction';
-import { Subscription } from 'rxjs';
+import { lastValueFrom, Subscription } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { CalendarEventService } from '../events/calendarEvent.service';
 import { EventModalComponent } from '../events/event-modal/event-modal.component';
@@ -31,7 +32,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
   constructor(public calenderEventService: CalendarEventService,
     public dialog: MatDialog,
     public route: ActivatedRoute,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private snackBar: MatSnackBar) {
   }
   ngOnDestroy(): void {
     this.calendarEventAdded.unsubscribe();
@@ -134,14 +136,18 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   handleEventClick(clickInfo: EventClickArg) {
-    console.log(clickInfo.event.id)
-    this.dialog.open(EventModalComponent, {
-      data: {
-        event: clickInfo.event,
-        roomId: this.roomId,
-        userId: this.userId
-      }
-    });
+    if (this.userIsAuthenticated) {
+      this.dialog.open(EventModalComponent, {
+        data: {
+          event: clickInfo.event,
+          roomId: this.roomId,
+          userId: this.userId
+        }
+      });
+    } else {
+      this.displaySnackbar();
+    }
+
   }
   selectAllow(selectAllow: DateSelectArg) {
     return this.userIsAuthenticated;
@@ -157,13 +163,33 @@ export class CalendarComponent implements OnInit, OnDestroy {
     return timeString;
   }
 
-  handleEventDrop(eventDropinfo: EventDropArg) {
-    this.calenderEventService.updateCalendarEvent(eventDropinfo.event);
+  async handleEventDrop(eventDropinfo: EventDropArg) {
+    if (await this.isCreator(eventDropinfo.event.id)) {
+      this.calenderEventService.updateCalendarEvent(eventDropinfo.event);
+    }
+    else {
+      eventDropinfo.revert();
+      this.displaySnackbar();
+    }
   }
 
-  handleEventResize(eventResizeInfo: EventResizeDoneArg) {
-    this.calenderEventService.updateCalendarEvent(eventResizeInfo.event);
+  async handleEventResize(eventResizeInfo: EventResizeDoneArg) {
+    if (await this.isCreator(eventResizeInfo.event.id)) {
+      this.calenderEventService.updateCalendarEvent(eventResizeInfo.event);
+    } else {
+      eventResizeInfo.revert();
+      this.displaySnackbar();
+    }
   }
 
+  async isCreator(eventId: string) {
+    const eventCreator$ = this.calenderEventService.getEventCreator(eventId);
+    let eventCreator = await lastValueFrom(eventCreator$);
+    return (this.userId === eventCreator);
+  }
 
+  displaySnackbar() {
+    //eventuell snackbar mit nachricht dass dieses event nicht von einem selbst ist
+    this.snackBar.open("You are not fucking authorized!", 'Close', { duration: 5000, panelClass: ['error-snackbar'] });
+  }
 }
