@@ -6,5 +6,5 @@ export interface CalendarEvent {
     end: Date;
     allDay: boolean;
     roomId: string;
-    //creator: string;
+    userId: string;
 }

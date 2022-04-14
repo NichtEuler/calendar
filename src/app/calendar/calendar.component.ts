@@ -5,6 +5,7 @@ import { CalendarOptions, DateSelectArg, EventApi, EventClickArg, EventDropArg, 
 import deLocale from '@fullcalendar/core/locales/de';
 import { EventResizeDoneArg } from '@fullcalendar/interaction';
 import { Subscription } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
 import { CalendarEventService } from '../events/calendarEvent.service';
 import { EventModalComponent } from '../events/event-modal/event-modal.component';
 
@@ -21,21 +22,32 @@ export class CalendarComponent implements OnInit, OnDestroy {
   private calendarEventsUpdated: Subscription;
   private calendarEventUpdated: Subscription;
   private calendarEventAdded: Subscription;
+  private authStatusListenerSub: Subscription;
   private roomId: string;
+  private userId;
+  userIsAuthenticated: boolean;
   currentEvents: EventApi[] = [];
 
   constructor(public calenderEventService: CalendarEventService,
     public dialog: MatDialog,
-    public route: ActivatedRoute) {
+    public route: ActivatedRoute,
+    private authService: AuthService) {
   }
   ngOnDestroy(): void {
     this.calendarEventAdded.unsubscribe();
     this.calendarEventUpdated.unsubscribe();
     this.calendarEventsUpdated.unsubscribe();
+    this.authStatusListenerSub.unsubscribe();
   }
 
   ngOnInit(): void {
-
+    this.userIsAuthenticated = this.authService.getIsAuthed();
+    this.userId = this.authService.getUserId();
+    this.authStatusListenerSub = this.authService.getAuthStatusListener()
+      .subscribe(isAuthenticated => {
+        this.userIsAuthenticated = isAuthenticated;
+        this.userId = this.authService.getUserId();
+      });
 
     this.calendarEventAdded = this.calenderEventService.getCalendarAddedListener()
       .subscribe((calendarEventData: { calendarEvent: EventApi }) => {
@@ -65,6 +77,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
         }
       });
   }
+
   //https://stackoverflow.com/questions/34947154/angular-2-viewchild-annotation-returns-undefined
   //otherwise the viewchild returns as undefined
   ngAfterViewInit() {
@@ -112,7 +125,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(EventModalComponent, {
       data: {
         event: selectInfo,
-        roomId : this.roomId
+        roomId: this.roomId,
+        userId: this.userId
       }
     });
   }
@@ -122,7 +136,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.dialog.open(EventModalComponent, {
       data: {
         event: clickInfo.event,
-        roomId : this.roomId
+        roomId: this.roomId,
+        userId: this.userId
       }
     });
   }
@@ -138,11 +153,13 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   handleEventDrop(eventDropinfo: EventDropArg) {
-    this.calenderEventService.updateCalendarEvent(eventDropinfo.event);
+    this.calenderEventService.updateCalendarEvent(eventDropinfo.event,
+      this.userId);
   }
 
   handleEventResize(eventResizeInfo: EventResizeDoneArg) {
-    this.calenderEventService.updateCalendarEvent(eventResizeInfo.event);
+    this.calenderEventService.updateCalendarEvent(eventResizeInfo.event,
+      this.userId);
   }
 
 

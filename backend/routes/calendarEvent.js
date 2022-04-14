@@ -8,7 +8,7 @@ router.post("/:roomId", calendarEventController.createCalendarEvent);
 
 //muss vor /:id sein sonst hält ers für ne ID
 
-router.delete("/:id", calendarEventController.deleteCalendarEvent);
+router.delete("/:userId/:id", calendarEventController.deleteCalendarEvent);
 
 router.get("/:roomId", calendarEventController.getCalendarEvents);
 

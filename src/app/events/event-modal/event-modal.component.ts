@@ -6,7 +6,8 @@ import { EventApi } from '@fullcalendar/angular';
 
 export interface CalendarEvent {
   event: EventApi,
-  roomId: string
+  roomId: string,
+  userId: string
 }
 
 @Component({
@@ -24,6 +25,7 @@ export class EventModalComponent implements OnInit {
   isRecurring: boolean;
   allDay: boolean;
   roomId: string;
+  userId: string;
 
 
   constructor(
@@ -45,6 +47,7 @@ export class EventModalComponent implements OnInit {
     else {
       this.allDay = false;
     }
+    this.userId = eventApi.userId;
     this.isRecurring = false;
     this.roomId = eventApi.roomId;
   }
@@ -86,7 +89,7 @@ export class EventModalComponent implements OnInit {
         allDay: this.allDay,
         roomId: this.roomId
       }
-      this.calendarEventService.updateCalendarEvent(calEvent);
+      this.calendarEventService.updateCalendarEvent(calEvent, this.userId);
 
     }
     else {
@@ -95,7 +98,8 @@ export class EventModalComponent implements OnInit {
         start: this.startDate,
         end: this.endDate,
         allDay: this.allDay,
-        roomId: this.roomId
+        roomId: this.roomId,
+        userId: this.userId
       };
       this.calendarEventService.createCalendarEvent(calEvent);
     }
@@ -103,7 +107,7 @@ export class EventModalComponent implements OnInit {
   }
 
   onDeleteEvent() {
-    this.calendarEventService.deleteCalendarEvent(this.eventApi.event);
+    this.calendarEventService.deleteCalendarEvent(this.eventApi.event, this.userId);
     this.dialogRef.close();
   }
 

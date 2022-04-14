@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
 import { EventApi } from "@fullcalendar/angular";
+import { userInfo } from "os";
 import { map, Subject } from "rxjs";
 import { environment } from "src/environments/environment";
 import { CalendarEvent } from "./calendarEvent.model";
@@ -51,7 +52,7 @@ export class CalendarEventService {
         console.log(calendarEvent.id)
     }
 
-    updateCalendarEvent(calendarEvent) {
+    updateCalendarEvent(calendarEvent, userId) {
         // const test = this.calendarComponent.calendarComponent.getApi();
         //console.log(test);
         //hier snackbar oder ähnliches einfügen event gespeichert
@@ -61,6 +62,7 @@ export class CalendarEventService {
             title: calendarEvent.title,
             start: calendarEvent.start,
             end: calendarEvent.end,
+            creator: userId,
             allDay: calendarEvent.allDay
         }
 
@@ -74,17 +76,21 @@ export class CalendarEventService {
 
     createCalendarEvent(calendarEvent) {
         let calendarEventData: CalendarEvent;
+        console.log(calendarEvent.userId);
+
         calendarEventData = {
             id: null,
             title: calendarEvent.title,
             start: calendarEvent.start,
             end: calendarEvent.end,
             allDay: calendarEvent.allDay,
+            userId: calendarEvent.userId,
             roomId: calendarEvent.roomId
         }
         this.http.post<{ message: string; calendarEvent: CalendarEvent }>(BACKEND_URL + "/" + calendarEvent.roomId, calendarEventData)
             .subscribe(responseData => {
                 //this.router.navigate(["/"]);
+
                 calendarEvent.id = responseData.calendarEvent.id
                 this.calendarEventAdded.next({ calendarEvent: calendarEvent });
                 console.log(responseData.calendarEvent);
@@ -94,10 +100,10 @@ export class CalendarEventService {
 
     }
 
-    deleteCalendarEvent(calendarEvent: EventApi) {
-        this.http.delete<{ message: string }>(BACKEND_URL + "/" + calendarEvent.id)
+    deleteCalendarEvent(calendarEvent: EventApi, userId) {
+        this.http.delete<{ message: string }>(BACKEND_URL + "/" + userId + "/" + calendarEvent.id)
             .subscribe(responseData => {
-                console.log(responseData.message)
+                console.log(responseData)
                 this.calendarEventUpdated.next({ calendarEvent: calendarEvent, isDeleted: true })
 
             });
