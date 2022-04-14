@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { CalendarOptions, DateSelectArg, EventApi, EventClickArg, EventDropArg, FullCalendarComponent } from '@fullcalendar/angular';
 import deLocale from '@fullcalendar/core/locales/de';
-import { EventResizeDoneArg } from '@fullcalendar/interaction';
+import { EventDragStartArg, EventResizeDoneArg } from '@fullcalendar/interaction';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { CalendarEventService } from '../events/calendarEvent.service';
@@ -46,6 +46,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     this.authStatusListenerSub = this.authService.getAuthStatusListener()
       .subscribe(isAuthenticated => {
         this.userIsAuthenticated = isAuthenticated;
+        this.calendarComponent.options.selectable = this.userIsAuthenticated;
         this.userId = this.authService.getUserId();
       });
 
@@ -109,6 +110,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     eventClick: this.handleEventClick.bind(this),
     eventDrop: this.handleEventDrop.bind(this),
     eventResize: this.handleEventResize.bind(this),
+    selectAllow: this.selectAllow.bind(this),
     locale: deLocale,
     firstDay: 1,
     height: screen.height - screen.height / 4,
@@ -140,6 +142,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
         userId: this.userId
       }
     });
+  }
+  selectAllow(selectAllow: DateSelectArg) {
+    return this.userIsAuthenticated;
   }
 
   extractTimeString(date: Date) {

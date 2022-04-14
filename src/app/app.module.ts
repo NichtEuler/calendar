@@ -21,6 +21,7 @@ import { EventModalComponent } from './events/event-modal/event-modal.component'
 import { ErrorInterceptor } from './message-interceptor';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthInterceptor } from './auth/auth-interceptor';
+import { MainLandingComponent } from './mainLanding/mainLanding.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -29,14 +30,15 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
 ]);
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     HeaderComponent,
     CalendarComponent,
     EventCreateComponent,
     EventListComponent,
-    EventModalComponent
-  ],
+    EventModalComponent,
+      MainLandingComponent
+   ],
   imports: [
     AngularMaterialModule,
     MatSnackBarModule,

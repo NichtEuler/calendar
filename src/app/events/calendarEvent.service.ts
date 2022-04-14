@@ -82,7 +82,6 @@ export class CalendarEventService {
 
     createCalendarEvent(calendarEvent) {
         let calendarEventData: CalendarEvent;
-
         calendarEventData = {
             id: null,
             title: calendarEvent.title,
@@ -97,9 +96,6 @@ export class CalendarEventService {
                 this.calendarEventAdded.next({ calendarEvent: calendarEvent });
                 console.log(responseData.calendarEvent);
             });
-        //hier kann man datenbank updaten
-        //hier snackbar oder ähnliches einfügen event gespeichert
-
     }
 
     deleteCalendarEvent(calendarEvent: EventApi) {

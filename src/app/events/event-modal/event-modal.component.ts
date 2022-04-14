@@ -29,7 +29,7 @@ export class EventModalComponent implements OnInit {
   userId: string;
   creatorId: string;
   eventId: string;
-  username: string = "usernameee";
+  username: string;
 
 
   constructor(
@@ -54,9 +54,6 @@ export class EventModalComponent implements OnInit {
     this.userId = eventApi.userId;
     this.isRecurring = false;
     this.roomId = eventApi.roomId;
-    console.log(this.eventId);
-
-
   }
 
   async ngOnInit() {
@@ -71,8 +68,13 @@ export class EventModalComponent implements OnInit {
       //endRecur: new FormControl(null)
     });
     this.onAllDayCheckboxChange();
-    const username$ = await this.calendarEventService.getUsername(this.eventId);
-    this.username = await lastValueFrom(username$);
+    if (this.eventId) {
+      const username$ = await this.calendarEventService.getUsername(this.eventId);
+      this.username = await lastValueFrom(username$);
+    }
+    else {
+      this.username = localStorage.getItem("username");
+    }
   }
 
   onNoClick(): void {
