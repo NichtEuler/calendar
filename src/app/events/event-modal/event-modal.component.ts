@@ -26,7 +26,9 @@ export class EventModalComponent implements OnInit {
   allDay: boolean;
   roomId: string;
   userId: string;
+  creatorId: string;
   eventId: string;
+  username: string = "usernameee";
 
 
   constructor(
@@ -35,7 +37,7 @@ export class EventModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public eventApi: CalendarEvent) {
     this.startDate = eventApi.event.start;
     this.startTime = this.extractTimeString(this.startDate);
-
+    this.eventId = eventApi.event.id;
     this.endDate = eventApi.event.end;
     if (!this.endDate) {
       this.endDate = eventApi.event.start;
@@ -51,9 +53,12 @@ export class EventModalComponent implements OnInit {
     this.userId = eventApi.userId;
     this.isRecurring = false;
     this.roomId = eventApi.roomId;
+    console.log(this.eventId);
+
+
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.form = new FormGroup({
       title: new FormControl(null, { validators: [Validators.required, Validators.minLength(3)] }),
       startDate: new FormControl(null, { validators: [Validators.required] }),
@@ -65,6 +70,7 @@ export class EventModalComponent implements OnInit {
       //endRecur: new FormControl(null)
     });
     this.onAllDayCheckboxChange();
+    this.username = await this.calendarEventService.getUsername(this.eventId)
   }
 
   onNoClick(): void {

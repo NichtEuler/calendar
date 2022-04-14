@@ -43,9 +43,16 @@ export class CalendarEventService {
             });
     }
 
-    getEvent(id: string, room: string) {
-        return this.http.get<{ _id: string, title: string, content: string, imagePath: string, creator: string }>
-            (BACKEND_URL + "/" + id);
+    async getEvent(id: string) {
+        const getEventQuery = await this.http.get<{ _id: string, title: string, content: string, imagePath: string, creator: string }>
+            (BACKEND_URL + "/event/" + id).toPromise();
+        return getEventQuery.creator;
+    }
+
+    async getUsername(id: string): Promise<string> {
+        const creatorId = await this.getEvent(id);
+        const getUserNameQuery = await this.http.get<{ username: string }>(environment.apiUrl + "/user/" + creatorId).toPromise();
+        return getUserNameQuery.username;
     }
 
     handleEvent(calendarEvent: EventApi) {
