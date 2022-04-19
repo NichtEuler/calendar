@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { map, Observable, startWith } from 'rxjs';
 import { Room } from '../rooms/room.model';
-import { RoomService } from '../rooms/room.service';
+import { RoomService } from '../header/headertitle.service';
 
 @Component({
   selector: 'app-searchbar',
@@ -65,12 +65,10 @@ export class SearchbarComponent implements OnInit {
   }
   autoCompleteSelected(room: Room) {
     this.router.navigate([room.id]);
-    this.roomService.updateRoomname(room.name);
+    this.roomService.updateHeaderTitle(room.name);
   }
 
   displayFn(room: Room): string {
     return room && room.name ? room.name : '';
   }
-
-
 }

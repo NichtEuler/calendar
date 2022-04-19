@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
-import { RoomService } from '../rooms/room.service';
+import { RoomService } from './headertitle.service';
 
 @Component({
   selector: 'app-header',
@@ -11,10 +12,12 @@ import { RoomService } from '../rooms/room.service';
 export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(private authService: AuthService, private roomService: RoomService) { }
+
   userIsAuthenticated = false;
   private authListenerSubscription: Subscription;
   private roomnameUpdatedListener: Subscription;
   headerTitle = "MyCalendar";
+  public route: ActivatedRoute;
 
   ngOnInit(): void {
     this.userIsAuthenticated = this.authService.getIsAuthed();
@@ -23,11 +26,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe(isAuthenticated => {
         this.userIsAuthenticated = isAuthenticated;
       });
-    this.roomnameUpdatedListener = this.roomService.getRoomnameUpdatedListener()
+    this.roomnameUpdatedListener = this.roomService.getHeaderTitleUpdatedListener()
       .subscribe(roomname => {
         this.headerTitle = roomname;
       });
-
   }
   ngOnDestroy(): void {
     this.authListenerSubscription.unsubscribe();
