@@ -10,12 +10,10 @@ a {
     color: white;
 }
 
-.spacer {
-    flex: 1 1 auto;
+.homebutton {
+    flex: 0 1 0 auto;
 }
 
-.searchbarformfield {
-    padding: 1.5rem 0 0 1.5rem;
-    scale: 80%;
-    width: 250%;
+.spacer {
+    flex: 1 1 auto;
 }

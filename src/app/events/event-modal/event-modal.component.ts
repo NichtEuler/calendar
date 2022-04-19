@@ -64,7 +64,7 @@ export class EventModalComponent implements OnInit {
       startTime: new FormControl({ value: "", disabled: this.eventApi.event.allDay }, { validators: [Validators.required] }),
       endTime: new FormControl({ value: "", disabled: this.eventApi.event.allDay }, { validators: [Validators.required] }),
       allDay: new FormControl(null, { validators: [Validators.required] }),
-      recurringEvent: new FormControl(null, { validators: [Validators.required] }),
+      recurringEvent: new FormControl(null),
       //endRecur: new FormControl(null)
     });
     this.onAllDayCheckboxChange();
@@ -82,6 +82,8 @@ export class EventModalComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.form.invalid);
+
     if (this.form.invalid) {
       console.log(this.form.getError)
       return;

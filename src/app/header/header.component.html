@@ -1,24 +1,13 @@
 <mat-toolbar color="primary" class="toolbar">
-    <span><a routerLink="/" (click)="headerClick()">{{headerTitle}}</a></span>
-    <form>
-        <mat-form-field class="searchbarformfield">
-            <mat-label>Search Room</mat-label>
-            <input type="text" matInput [formControl]="roomname" [matAutocomplete]="auto">
-            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
-                (optionSelected)='autoCompleteSelected($event.option.value)' [displayWith]="displayFn">
-                <mat-option *ngFor="let room of filteredOptions | async" [value]="room">
-                    {{room.name}}
-                </mat-option>
-            </mat-autocomplete>
-        </mat-form-field>
-    </form>
+    <a mat-button class="homebutton" [routerLink]=" ['./'] " (click)="headerClick()" routerLinkActive="mat-accent"
+        [routerLinkActiveOptions]="{exact: true}">
+        <mat-icon>home</mat-icon>
+    </a>
+    <span><a>{{headerTitle}}</a></span>
 
-    <span class="spacer"></span>
+    <span class=" spacer"></span>
 
     <ul>
-        <li *ngIf="userIsAuthenticated">
-            <a mat-button routerLinkActive="mat-accent" (click)="onCreateEventClick()">Create Event</a>
-        </li>
         <li *ngIf="!userIsAuthenticated">
             <a mat-button routerLink="/auth/login" routerLinkActive="mat-accent">Login</a>
         </li>
@@ -29,4 +18,5 @@
             <button mat-button (click)="onLogout()">Logout</button>
         </li>
     </ul>
+
 </mat-toolbar>

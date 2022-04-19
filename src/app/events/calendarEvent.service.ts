@@ -18,7 +18,7 @@ export class CalendarEventService {
     private calendarEventAdded = new Subject<{ calendarEvent: EventApi }>();
 
 
-    constructor(private http: HttpClient, private router: Router, private _snackBar: MatSnackBar) { }
+    constructor(private http: HttpClient) { }
 
 
     getEvents(roomId: string) {

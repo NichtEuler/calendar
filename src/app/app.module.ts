@@ -20,6 +20,7 @@ import { ErrorInterceptor } from './message-interceptor';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { MainLandingComponent } from './mainLanding/mainLanding.component';
+import { SearchbarComponent } from './searchbar/searchbar.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -28,12 +29,13 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
 ]);
 
 @NgModule({
-  declarations: [	
+  declarations: [		
     AppComponent,
     HeaderComponent,
     CalendarComponent,
     EventModalComponent,
-      MainLandingComponent
+      MainLandingComponent,
+      SearchbarComponent
    ],
   imports: [
     AngularMaterialModule,

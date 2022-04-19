@@ -1,4 +1,8 @@
 .mainpage {
-    display: flex;
-    justify-content: center;
+    text-align: center;
+    color: #3f51b5;
+}
+
+.searchbar-wrapper {
+    text-align: center;
 }
