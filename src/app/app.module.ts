@@ -14,8 +14,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { CalendarComponent } from './calendar/calendar.component';
-import { EventCreateComponent } from './events/event-create/event-create.component';
-import { EventListComponent } from './events/event-list/event-list.component';
 import { EventModalComponent } from './events/event-modal/event-modal.component';
 
 import { ErrorInterceptor } from './message-interceptor';
@@ -34,8 +32,6 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     AppComponent,
     HeaderComponent,
     CalendarComponent,
-    EventCreateComponent,
-    EventListComponent,
     EventModalComponent,
       MainLandingComponent
    ],
