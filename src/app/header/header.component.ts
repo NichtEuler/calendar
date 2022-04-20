@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
-import { RoomService } from './headertitle.service';
+import { HeaderTitleService } from './headertitle.service';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +11,7 @@ import { RoomService } from './headertitle.service';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-  constructor(private authService: AuthService, private roomService: RoomService) { }
+  constructor(private authService: AuthService, private roomService: HeaderTitleService) { }
 
   userIsAuthenticated = false;
   private authListenerSubscription: Subscription;

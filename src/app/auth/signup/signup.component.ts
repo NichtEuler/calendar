@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { HeaderTitleService } from 'src/app/header/headertitle.service';
 
 import { AuthService } from '../auth.service';
 
@@ -13,7 +14,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   isLoading = false;
   private authStatusSub: Subscription;
 
-  constructor(public authService: AuthService) { }
+  constructor(private authService: AuthService, private headerTitleService: HeaderTitleService) { }
   ngOnDestroy(): void {
     this.authStatusSub.unsubscribe();
   }
@@ -24,6 +25,7 @@ export class SignupComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       }
     );
+    this.headerTitleService.updateHeaderTitle("Sign Up")
   }
 
   onSignup(form: NgForm) {

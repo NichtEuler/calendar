@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HeaderTitleService } from '../header/headertitle.service';
 
 @Component({
   selector: 'app-mainLanding',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainLandingComponent implements OnInit {
 
-  constructor() { }
+  constructor(private headerTitleService: HeaderTitleService) { }
 
   ngOnInit() {
+    this.headerTitleService.updateHeaderTitle("MyCalendar")
   }
 
 }

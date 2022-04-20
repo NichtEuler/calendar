@@ -10,10 +10,6 @@ a {
     color: white;
 }
 
-.homebutton {
-    flex: 0 1 0 auto;
-}
-
 .spacer {
     flex: 1 1 auto;
 }

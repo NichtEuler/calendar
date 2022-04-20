@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class RoomService {
+export class HeaderTitleService {
 
   constructor() { }
   private headerTitleUpdated = new Subject<string>();
