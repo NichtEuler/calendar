@@ -14,6 +14,7 @@ export class AuthService {
   private isAuthenticated = false;
   private token: string;
   private authStatusListener = new Subject<boolean>();
+  private userNameListener = new Subject<string>();
   private tokenTimer: NodeJS.Timer;
   private userId: string;
   private username: string;
@@ -29,12 +30,20 @@ export class AuthService {
     return this.isAuthenticated;
   }
 
+  getUserName() {
+    return this.username;
+  }
+
   getUserId() {
     return this.userId;
   }
 
   getAuthStatusListener() {
     return this.authStatusListener.asObservable();
+  }
+
+  getuserNameListener() {
+    return this.userNameListener.asObservable();
   }
 
   createUser(email: string, username: string, password: string) {
@@ -60,10 +69,11 @@ export class AuthService {
           const expiresInDuration = response.expiresIn;
           this.setAuthtimer(expiresInDuration);
           this.userId = response.userId;
-          console.log(this.userId);
 
           this.username = response.username;
+          this.userNameListener.next(this.username);
           console.log(this.username);
+
 
           this.isAuthenticated = true;
           this.authStatusListener.next(true);

@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { HeaderTitleService } from './headertitle.service';
@@ -15,9 +14,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   userIsAuthenticated = false;
   private authListenerSubscription: Subscription;
-  private roomnameUpdatedListener: Subscription;
+  private userNameSubscription: Subscription;
+  private headerTitleUpdateListener: Subscription;
+  userName: string;
   headerTitle = "MyCalendar";
-  public route: ActivatedRoute;
 
   ngOnInit(): void {
     this.userIsAuthenticated = this.authService.getIsAuthed();
@@ -26,11 +26,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe(isAuthenticated => {
         this.userIsAuthenticated = isAuthenticated;
       });
-    this.roomnameUpdatedListener = this.roomService.getHeaderTitleUpdatedListener()
+    this.headerTitleUpdateListener = this.roomService.getHeaderTitleUpdatedListener()
       .subscribe(roomname => {
         this.headerTitle = roomname;
       });
+
+    this.userNameSubscription = this.authService.getuserNameListener()
+      .subscribe(username => this.userName = username);
+
   }
+
+
   ngOnDestroy(): void {
     this.authListenerSubscription.unsubscribe();
   }
@@ -41,5 +47,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   headerClick() {
     this.headerTitle = "MyCalendar"
+  }
+  onManageAccount() {
+    alert("Not implemented")
   }
 }

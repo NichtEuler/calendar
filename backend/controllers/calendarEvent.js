@@ -92,7 +92,7 @@ exports.updateOne = (req, res, next) => {
             res.status(200).json({ message: "Event sucessfully edited!" });
         }
         else {
-            res.status(401).json({ message: "Not Authorized!" });
+            res.status(401).json({ message: "You are not Authorized!" });
         }
     })
         .catch(error => {

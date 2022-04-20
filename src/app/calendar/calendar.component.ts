@@ -145,7 +145,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
         }
       });
     } else {
-      this.displaySnackbar();
+      this.displayUnauthorizedSnackbar();
     }
 
   }
@@ -169,7 +169,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     }
     else {
       eventDropinfo.revert();
-      this.displaySnackbar();
+      this.displayUnauthorizedSnackbar();
     }
   }
 
@@ -178,7 +178,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
       this.calenderEventService.updateCalendarEvent(eventResizeInfo.event);
     } else {
       eventResizeInfo.revert();
-      this.displaySnackbar();
+      this.displayUnauthorizedSnackbar();
     }
   }
 
@@ -188,8 +188,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
     return (this.userId === eventCreator);
   }
 
-  displaySnackbar() {
+  displayUnauthorizedSnackbar() {
     //eventuell snackbar mit nachricht dass dieses event nicht von einem selbst ist
-    this.snackBar.open("You are not fucking authorized!", 'Close', { duration: 5000, panelClass: ['error-snackbar'] });
+    this.snackBar.open("You are not authorized!", 'Close', { duration: 5000, panelClass: ['error-snackbar'] });
   }
 }
