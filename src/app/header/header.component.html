@@ -15,10 +15,19 @@
             <a mat-button routerLink="/auth/signup" routerLinkActive="mat-accent">Sign Up</a>
         </li>
         <li *ngIf="userIsAuthenticated">
-            <button mat-button [matMenuTriggerFor]="menu">{{userName}} <mat-icon>account_circle</mat-icon></button>
+            <button mat-button [matMenuTriggerFor]="menu">
+                <span>{{userName}} </span>
+                <mat-icon>account_circle </mat-icon>
+            </button>
             <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="onLogout()">Logout</button>
-                <button mat-menu-item (click)="onManageAccount()">Manage Account</button>
+                <button mat-menu-item (click)="onManageAccount()">
+                    <mat-icon>build</mat-icon>
+                    <span>Manage Account</span>
+                </button>
+                <button mat-menu-item (click)="onLogout()">
+                    <mat-icon>input</mat-icon>
+                    <span>Logout</span>
+                </button>
             </mat-menu>
         </li>
     </ul>

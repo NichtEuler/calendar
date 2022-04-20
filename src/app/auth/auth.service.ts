@@ -50,7 +50,7 @@ export class AuthService {
     const authData: AuthData = { email: email, username: username, password: password };
     this.httpClient.post(BACKEND_URL + "signup", authData)
       .subscribe(() => {
-        this.router.navigate(["/"]);
+        this.router.navigate(["/auth/login"]);
       },
         error => {
           this.authStatusListener.next(false);
@@ -112,7 +112,7 @@ export class AuthService {
     clearTimeout(this.tokenTimer);
     this.clearAuthData();
     this.userId = null;
-    this.router.navigate(["/"]);
+    this.router.navigate(["/auth/login"]);
   }
 
   private saveAuthData(token: string, expirationDate: Date, userId: string, username: string) {

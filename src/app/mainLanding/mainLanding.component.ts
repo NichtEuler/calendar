@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 import { HeaderTitleService } from '../header/headertitle.service';
 
 @Component({
@@ -8,10 +10,13 @@ import { HeaderTitleService } from '../header/headertitle.service';
 })
 export class MainLandingComponent implements OnInit {
 
-  constructor(private headerTitleService: HeaderTitleService) { }
+  constructor(private headerTitleService: HeaderTitleService, private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
-    this.headerTitleService.updateHeaderTitle("MyCalendar")
+    this.headerTitleService.updateHeaderTitle("MyCalendar");
+    if (!this.authService.getIsAuthed()) {
+      this.router.navigate(["/auth/login"]);
+    }
   }
 
 }

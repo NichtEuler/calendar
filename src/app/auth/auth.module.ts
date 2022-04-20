@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 
 import { AngularMaterialModule } from "../angular-material.module";
+import { EditComponent } from "./edit/edit.component";
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { AuthRoutingModule } from "./auth-routing.module";
@@ -11,7 +12,8 @@ import { AuthRoutingModule } from "./auth-routing.module";
 @NgModule({
     declarations: [
         LoginComponent,
-        SignupComponent
+        SignupComponent,
+        EditComponent
     ],
     imports: [
         AngularMaterialModule,

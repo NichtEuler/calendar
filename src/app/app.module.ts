@@ -29,14 +29,14 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
 ]);
 
 @NgModule({
-  declarations: [		
+  declarations: [
     AppComponent,
     HeaderComponent,
     CalendarComponent,
     EventModalComponent,
-      MainLandingComponent,
-      SearchbarComponent
-   ],
+    MainLandingComponent,
+    SearchbarComponent,
+  ],
   imports: [
     AngularMaterialModule,
     MatSnackBarModule,

@@ -18,8 +18,8 @@
         <div>
             <mat-form-field>
                 <input matInput name="password" ngModel #passwordInput="ngModel" type="password" placeholder="Password"
-                    required>
-                <mat-error *ngIf="passwordInput.invalid">Please enter a valid password.</mat-error>
+                    required minlength="8">
+                <mat-error *ngIf="passwordInput.invalid">Must be at least 8 charachters long.</mat-error>
             </mat-form-field>
         </div>
         <button *ngIf="!isLoading" color="primary" mat-raised-button type="submit">Sign Up</button>

@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { HeaderTitleService } from './headertitle.service';
@@ -10,7 +11,7 @@ import { HeaderTitleService } from './headertitle.service';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-  constructor(private authService: AuthService, private roomService: HeaderTitleService) { }
+  constructor(private authService: AuthService, private roomService: HeaderTitleService, private router: Router) { }
 
   userIsAuthenticated = false;
   private authListenerSubscription: Subscription;
@@ -48,7 +49,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   headerClick() {
     this.headerTitle = "MyCalendar"
   }
+
   onManageAccount() {
-    alert("Not implemented")
+    this.router.navigate(["/auth/edit/" + localStorage.getItem("userId")]);
   }
 }

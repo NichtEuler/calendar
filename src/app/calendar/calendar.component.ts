@@ -115,7 +115,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     selectAllow: this.selectAllow.bind(this),
     locale: deLocale,
     firstDay: 1,
-    height: screen.height - screen.height / 4,
+    height: "auto",
     businessHours: {
       // days of week. an array of zero-based day of week integers (0=Sunday)
       daysOfWeek: [1, 2, 3, 4, 5, 6], // Monday - Friday
