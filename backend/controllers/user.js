@@ -31,7 +31,7 @@ exports.createUser = (req, res, next) => {
 
 exports.editUser = (req, res, next) => {
     let fetchedUser;
-    User.findOne({ email: req.body.email })
+    User.findById({ _id: req.body.userId })
         .then(user => {
             if (!user) {
                 throw new Error('User not found!');
