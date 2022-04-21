@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private userNameSubscription: Subscription;
   private headerTitleUpdateListener: Subscription;
   userName: string;
-  headerTitle = "MyCalendar";
+  headerTitle = "";
 
   ngOnInit(): void {
     this.userIsAuthenticated = this.authService.getIsAuthed();

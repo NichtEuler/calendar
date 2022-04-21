@@ -1,14 +1,16 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { CalendarOptions, DateSelectArg, EventApi, EventClickArg, EventDropArg, FullCalendarComponent } from '@fullcalendar/angular';
 import deLocale from '@fullcalendar/core/locales/de';
-import { EventDragStartArg, EventResizeDoneArg } from '@fullcalendar/interaction';
+import { EventResizeDoneArg } from '@fullcalendar/interaction';
 import { lastValueFrom, Subscription } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { CalendarEventService } from '../events/calendarEvent.service';
 import { EventModalComponent } from '../events/event-modal/event-modal.component';
+import { HeaderTitleService } from '../header/headertitle.service';
+import { RoomService } from '../rooms/room.service';
 
 @Component({
   selector: 'app-fullcalendar',
@@ -33,8 +35,12 @@ export class CalendarComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     public route: ActivatedRoute,
     private authService: AuthService,
-    private snackBar: MatSnackBar) {
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private roomService: RoomService,
+    private headerTitleService: HeaderTitleService) {
   }
+
   ngOnDestroy(): void {
     this.calendarEventAdded.unsubscribe();
     this.calendarEventUpdated.unsubscribe();
@@ -84,13 +90,20 @@ export class CalendarComponent implements OnInit, OnDestroy {
   //https://stackoverflow.com/questions/34947154/angular-2-viewchild-annotation-returns-undefined
   //otherwise the viewchild returns as undefined
   ngAfterViewInit() {
-    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+    let caughtRoom;
+    this.route.paramMap.subscribe(async (paramMap: ParamMap) => {
       this.calendarComponent.getApi().removeAllEvents()
       if (paramMap.has("roomId")) {
         this.roomId = paramMap.get("roomId");
+        const caughtRoom$ = await this.roomService.getRoom(this.roomId);
+        caughtRoom = await lastValueFrom(caughtRoom$)
         this.calenderEventService.getEvents(this.roomId);
+        this.headerTitleService.updateHeaderTitle(caughtRoom.name);
       }
     });
+
+
+
   }
 
   calendarOptions: CalendarOptions = {
