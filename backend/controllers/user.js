@@ -45,29 +45,20 @@ exports.editUser = (req, res, next) => {
                     message: 'Invalid Authentication credentials'
                 });
             }
-            let editedUser;
-            console.log(req.body.newpassword);
-            if (req.body.newpassword !== undefined) {
-                console.log("nicht hier rein");
-                let hash = bcrypt.hashSync(req.body.newpassword, 10);
+            let password;
+            if (req.body.newpassword) {
+                password = bcrypt.hashSync(req.body.newpassword, 10);
 
-                editedUser = new User({
-                    _id: req.body.userId,
-                    email: req.body.email,
-                    username: req.body.username,
-                    password: hash
-                });
             } else {
-                editedUser = new User({
-                    _id: req.body.userId,
-                    email: req.body.email,
-                    username: req.body.username,
-                    password: fetchedUser.password
-
-                });
+                password = fetchedUser.password;
             }
-            console.log("test");
 
+            const editedUser = new User({
+                _id: req.body.userId,
+                email: req.body.email,
+                username: req.body.username,
+                password: password
+            });
             User.updateOne({ _id: req.body.userId }, editedUser).then(result => {
                 console.log("editedUser: " + editedUser);
                 if (result.matchedCount > 0) {
