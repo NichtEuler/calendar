@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const user = require("../models/user");
 
 const User = require("../models/user");
 
@@ -27,6 +28,68 @@ exports.createUser = (req, res, next) => {
                 });
         });
 };
+
+exports.editUser = (req, res, next) => {
+    let fetchedUser;
+    User.findOne({ email: req.body.email })
+        .then(user => {
+            if (!user) {
+                throw new Error('User not found!');
+            }
+            fetchedUser = user;
+            return bcrypt.compare(req.body.password, user.password);
+        })
+        .then(result => {
+            if (!result) {
+                return res.status(401).json({
+                    message: 'Invalid Authentication credentials'
+                });
+            }
+            let editedUser;
+            console.log(req.body.newpassword);
+            if (req.body.newpassword !== undefined) {
+                console.log("nicht hier rein");
+                let hash = bcrypt.hashSync(req.body.newpassword, 10);
+
+                editedUser = new User({
+                    _id: req.body.userId,
+                    email: req.body.email,
+                    username: req.body.username,
+                    password: hash
+                });
+            } else {
+                editedUser = new User({
+                    _id: req.body.userId,
+                    email: req.body.email,
+                    username: req.body.username,
+                    password: fetchedUser.password
+
+                });
+            }
+            console.log("test");
+
+            User.updateOne({ _id: req.body.userId }, editedUser).then(result => {
+                console.log("editedUser: " + editedUser);
+                if (result.matchedCount > 0) {
+                    res.status(200).json({ message: "User sucessfully edited!" });
+                }
+                else {
+                    res.status(401).json({ message: "You are not Authorized!" });
+                }
+            }).catch(error => {
+                res.status(500).json(
+                    { message: "Editing user failed!" }
+                )
+            });
+        })
+        .catch(err => {
+            return res.status(401).json({
+                message: err.message
+            });
+        });
+};
+
+
 //https://stackoverflow.com/questions/31309759/what-is-secret-key-for-jwt-based-authentication-and-how-to-generate-it
 
 exports.userLogin = (req, res, next) => {

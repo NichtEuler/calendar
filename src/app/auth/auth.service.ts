@@ -57,6 +57,17 @@ export class AuthService {
         });
   }
 
+  editUser(email: string, username: string, password: string,  userId: string, newpassword?: string) {
+    const authData: AuthData = { email: email, username: username, password: password, userId: userId, newpassword: newpassword };
+    this.httpClient.post(BACKEND_URL + "editUser", authData)
+      .subscribe(() => {
+        this.router.navigate(["/"]);
+      },
+        error => {
+          this.authStatusListener.next(false);
+        });
+  }
+
   login(email: string, password: string) {
     const authData: AuthData = { email: email, username: null, password: password };
     this.httpClient.post<{ token: string, expiresIn: number, username: string, userId: string }>(BACKEND_URL + "login", authData)
@@ -132,6 +143,8 @@ export class AuthService {
 
   private getAuthData() {
     const token = localStorage.getItem("token");
+    console.log(token);
+
     const expirationDate = localStorage.getItem("date");
     const userId = localStorage.getItem("userId");
     if (!token || !expirationDate) {

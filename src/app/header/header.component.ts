@@ -50,7 +50,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.headerTitle = "MyCalendar"
   }
 
-  onManageAccount() {
+  onEditAccount() {
     this.router.navigate(["/auth/edit/" + localStorage.getItem("userId")]);
   }
 }
