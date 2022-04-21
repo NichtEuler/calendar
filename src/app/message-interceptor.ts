@@ -17,10 +17,11 @@ export class ErrorInterceptor implements HttpInterceptor {
                     }
             }),
             catchError(error => {
-                console.log(error.message);
-
+                if (!error.error.message) {
+                    error.error.message = "An unknown error occured!"
+                }
                 this.snackBar.open(error.error.message, 'Close', { duration: 5000, panelClass: ['error-snackbar'] });
-                return throwError(error);
+                return throwError(() => error);
             })
         );
     }

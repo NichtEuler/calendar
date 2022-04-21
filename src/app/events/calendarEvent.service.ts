@@ -56,13 +56,10 @@ export class CalendarEventService {
             .pipe(map(response => response.username));
     }
 
-    handleEvent(calendarEvent: EventApi) {
-        console.log(calendarEvent.id)
-    }
+
 
     updateCalendarEvent(calendarEvent) {
         // const test = this.calendarComponent.calendarComponent.getApi();
-        //console.log(test);
         //hier snackbar oder ähnliches einfügen event gespeichert
         let calendarEventData: any;
         calendarEventData = {
@@ -95,14 +92,13 @@ export class CalendarEventService {
             .subscribe(responseData => {
                 calendarEvent.id = responseData.calendarEvent.id
                 this.calendarEventAdded.next({ calendarEvent: calendarEvent });
-                console.log(responseData.calendarEvent);
+                (responseData.calendarEvent);
             });
     }
 
     deleteCalendarEvent(calendarEvent: EventApi) {
         this.http.delete<{ message: string }>(BACKEND_URL + "/" + calendarEvent.id)
             .subscribe(responseData => {
-                console.log(responseData)
                 this.calendarEventUpdated.next({ calendarEvent: calendarEvent, isDeleted: true })
 
             });

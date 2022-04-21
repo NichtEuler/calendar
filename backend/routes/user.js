@@ -10,6 +10,6 @@ router.post("/editUser", userController.editUser)
 
 router.post("/login", userController.userLogin);
 
-router.get("/:creatorId", userController.userName)
+router.get("/:creatorId", userController.findUserName);
 
 module.exports = router;

@@ -5,7 +5,6 @@ const user = require("../models/user");
 const User = require("../models/user");
 
 exports.createUser = (req, res, next) => {
-    console.log(req.body.password);
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
             const user = new User({
@@ -60,7 +59,6 @@ exports.editUser = (req, res, next) => {
                 password: password
             });
             User.updateOne({ _id: req.body.userId }, editedUser).then(result => {
-                console.log("editedUser: " + editedUser);
                 if (result.matchedCount > 0) {
                     res.status(200).json({ message: "User sucessfully edited!" });
                 }
@@ -85,7 +83,7 @@ exports.editUser = (req, res, next) => {
 
 exports.userLogin = (req, res, next) => {
     let fetchedUser;
-    console.log(req.body.password);
+    (req.body.password);
     User.findOne({ email: req.body.email })
         .then(user => {
             if (!user) {
@@ -100,7 +98,6 @@ exports.userLogin = (req, res, next) => {
                     message: 'Invalid Authentication credentials'
                 });
             }
-            console.log(fetchedUser);
             const token = jwt.sign(
                 { email: fetchedUser.email, username: fetchedUser.username, userId: fetchedUser._id },
                 process.env.JWT_KEY,
@@ -121,17 +118,15 @@ exports.userLogin = (req, res, next) => {
         });
 };
 
-exports.userName = (req, res, next) => {
+exports.findUserName = (req, res, next) => {
     let username;
-    console.log("req.params.creatorId" + req.params.creatorId);
     User.findById({ _id: req.params.creatorId })
         .then(user => {
-            console.log("test");
             if (!user) {
                 throw new Error('User not found!');
             }
             username = user.username;
-            console.log(username);
+            (username);
             return res.status(200).json({
                 username: username
             })

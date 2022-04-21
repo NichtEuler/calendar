@@ -2,7 +2,6 @@ const CalendarEvent = require("../models/calendarEvent");
 
 
 exports.createCalendarEvent = (req, res, next) => {
-    console.log(req.userData.userId);
     const calendarEvent = new CalendarEvent({
         title: req.body.title,
         start: req.body.start,
@@ -21,7 +20,6 @@ exports.createCalendarEvent = (req, res, next) => {
             }
         });
     }).catch(error => {
-        console.log(error);
         res.status(500).json({
             message: "Event creation failed!"
         })
@@ -46,10 +44,8 @@ exports.getCalendarEvents = (req, res, next) => {
 };
 
 exports.getCalendarEvent = (req, res, next) => {
-    console.log("getcalendarevent: " + req.params.id);
     CalendarEvent.findById(req.params.id).then(calendarEvent => {
         if (req.params.id) {
-            console.log(calendarEvent)
             res.status(200).json(calendarEvent);
         } else {
             res.status(404).json({ message: "Event not found!" });
@@ -64,7 +60,6 @@ exports.getCalendarEvent = (req, res, next) => {
 
 exports.deleteCalendarEvent = (req, res, next) => {
     CalendarEvent.deleteOne({ _id: req.params.id }).then(result => {
-        console.log(result);
         if (result.deletedCount > 0) {
             res.status(200).json({ message: "Event sucessfully deleted!" });
         }

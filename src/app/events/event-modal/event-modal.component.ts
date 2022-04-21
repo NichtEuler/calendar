@@ -82,18 +82,13 @@ export class EventModalComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.form.invalid);
-
     if (this.form.invalid) {
-      console.log(this.form.getError)
       return;
     }
-    console.log("hier wird event gespeichert: " + this.eventApi.event.id)
+
     this.setTime();
     if (this.eventApi.event.id) {
       //verändere bestehendes event
-      console.log(this.endDate);
-
       const calEvent = {
         id: this.eventApi.event.id,
         title: this.form.get("title").value,

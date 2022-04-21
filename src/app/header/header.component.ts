@@ -47,7 +47,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   headerClick() {
-    this.headerTitle = "MyCalendar"
+    this.headerTitle = "Search room";
   }
 
   onEditAccount() {

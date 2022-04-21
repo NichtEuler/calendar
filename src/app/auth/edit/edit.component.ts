@@ -21,7 +21,6 @@ export class EditComponent implements OnInit {
     if (form.invalid) {
       return;
     }
-    console.log(form.value.newPassword);
 
     this.authService.editUser(form.value.email, form.value.username, form.value.password, this.authService.getUserId(), form.value.newPassword);
     this.isLoading = true;
