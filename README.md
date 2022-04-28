@@ -10,30 +10,39 @@
     - [ ] Klassen Frontend als UML
     - [ ] Flussdiagramm UML
 - [ ] Frontend (bis 03.06.)
-    - [ ] Headertoolbar
+    - [x] Headertoolbar
         - [x] Suchleiste für Räume mit Autocomplete
-        - [ ] Abfrage Räume aus Datenbank
-    - [ ] Kalender
+        - [x] Abfrage Räume aus Datenbank
+    - [x] Kalender
         - [x] Events hinzufügen (Modales Fenster)
         - [x] Events ändern (Modales Fenster)
-        - [ ] Modales Fenster zur Eventbearbeitung
+        - [x] Modales Fenster zur Eventbearbeitung
             - [x] Datepicker
             - [x] Timepicker
             - [x] State-Management
             - [ ] Validators
-        - [ ] Kalender für Raum ändern
-    - [ ] Login
-        - [ ] Loginscreen
-        - [ ] Statemanagement
-    - [ ] Routing
-- [ ] Middleware (bis 06.05.)
+        - [x] Kalender für Raum ändern
+    - [x] Signup
+        - [x] einmalige E-Mail eingeben
+        - [x] einmaliger Username eingeben
+        - [x] Passwort
+    - [x] Login
+        - [x] Loginscreen
+        - [x] Statemanagement
+    - [x] Accountmanagement
+        - [x] Passwort änderbar
+        - [x] Username änderbar
+        - [x] E-Mail änderbar
+        - [x] Änderungen nur mit Passwortbestätigung
+    - [x] Routing
+- [x] Middleware (bis 06.05.)
     - [x] CORS Header setzen
-    - [ ] Kommunikation mit Backend
+    - [x] Kommunikation mit Backend
     - [x] Modelle erstellen
-    - [ ] Controller erstellen
-    - [ ] Routes erstellen
+    - [x] Controller erstellen
+    - [x] Routes erstellen
 - [ ] Backend (bis 15.04.)
     - [x] MongoDB initialisieren
     - [x] Atlas clusters anlegen
     - [ ] Lokale Datenbank anlegen (optional)
-    - [ ] Testdaten einfügen
+    - [x] Testdaten einfügen
