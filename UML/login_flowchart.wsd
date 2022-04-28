@@ -1,0 +1,24 @@
+@startuml
+actor Bob 
+' The only difference between actor
+'and participant is the drawing
+participant AuthService
+participant userController
+participant backend
+
+Bob->AuthService: login(email, password)
+activate AuthService
+AuthService -> userController: HTTP.POST(email, password)
+activate userController
+userController -> backend: findUser(email)
+activate backend
+backend -> userController: return(user)
+deactivate backend
+userController -> userController: comparePassword\n(user.password, password)
+userController -> AuthService: response(token, tokenDuration)
+
+deactivate userController
+AuthService -> AuthService: setAuthToken(token, tokenDuration)
+AuthService -> Bob: message("Logged in!")
+deactivate AuthService
+@enduml

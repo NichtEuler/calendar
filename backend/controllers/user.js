@@ -83,7 +83,6 @@ exports.editUser = (req, res, next) => {
 
 exports.userLogin = (req, res, next) => {
     let fetchedUser;
-    (req.body.password);
     User.findOne({ email: req.body.email })
         .then(user => {
             if (!user) {

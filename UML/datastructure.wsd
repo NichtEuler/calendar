@@ -1,7 +1,7 @@
 @startuml
 
-Event "1  " *-- User 
-Event "1" *-- Room
+Event "1  " *-- User
+Event "1  " *-- Room 
 
 interface User{
     -id: String
@@ -19,14 +19,14 @@ interface Room{
 interface Event{
     -id: String
     -title: String
-    -daysOfWeek: number
+    ' -daysOfWeek: number
     -startTime: Date
     -endTime: Date
-    -isRecur: boolean
-    -startRecur: Date
-    -endRecur: Date
+    ' -isRecur: boolean
+    ' -startRecur: Date
+    ' -endRecur: Date
     -allDay: boolean
-    -user: User
-    -room: Room
+    -creator: User
+    -roomId: Room
 }
 @enduml
