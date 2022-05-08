@@ -1,0 +1,20 @@
+@startuml
+'erfolgreiches ändern von Event
+actor Bob 
+' The only difference between actor
+'and participant is the drawing
+participant calendarEventService
+participant calendarEventCotroller
+participant Backend
+
+'evtl mehr Zeug in createEvent übergeben?
+Bob->calendarEventService: editEvent(title, date, time, roomID)
+activate calendarEventService
+calendarEventService -> calendarEventCotroller: HTTP.PUT(calendarEvent)
+activate calendarEventCotroller
+calendarEventCotroller -> Backend: updateOne(calendarEvent)
+calendarEventCotroller -> calendarEventService: response("Event sucessfully edited!")
+deactivate calendarEventCotroller
+calendarEventService -> Bob: message("Event sucessfully edited!")
+deactivate calendarEventService
+@enduml

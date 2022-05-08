@@ -1,0 +1,21 @@
+@startuml
+'erfolgreiches erzeugen von Event
+actor Bob 
+' The only difference between actor
+'and participant is the drawing
+participant calendarEventService
+participant calendarEventCotroller
+participant Backend
+
+'evtl mehr Zeug in createEvent übergeben?
+Bob->calendarEventService: createEvent(title, date, time, roomID)
+activate calendarEventService
+calendarEventService -> calendarEventCotroller: HTTP.POST(calendarEvent)
+activate calendarEventCotroller
+calendarEventCotroller -> Backend: createCalendarEvent(calendarEvent)
+'neues calendarEvent erzeugen?
+calendarEventCotroller -> calendarEventService: response("Event sucessfully added!")
+deactivate calendarEventCotroller
+calendarEventService -> Bob: message("Event sucessfully added!")
+deactivate calendarEventService
+@enduml

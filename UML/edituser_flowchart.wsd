@@ -2,19 +2,30 @@
 
 start
 
+'evtl submit data weg und das diagramm so nennen?
 :Submit data;
-'repeat
     
-if(Pasword valid) then (yes)
-    if(Submits valid) then (yes)
-        :set new Email;
+if(Pasword valid?) then (yes)
+    if(Submitted data valid?) then (yes)
+        if(Email new?) then (yes)
+            :set new Email;
+        else (no)
+        endif
+        if(Username new?) then (yes)
+            :set new Username;
+        else (no)
+        endif
+        if(New Password entered?) then (yes)
+            :set new Password;
+        else (no)
+        endif
     else (no)
-        #pink:Error Message Email;
-        detach
+        #pink:Error Message data;
+        'detach 'detach oder nicht?
     endif
 else (no)
-    #pink:Error Message pw;
-        detach
+    #pink:Error Message password;
+    'detach
     
 endif
 
