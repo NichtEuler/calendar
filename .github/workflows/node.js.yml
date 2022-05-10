@@ -27,4 +27,4 @@ jobs:
         cache: 'npm'
     - run: npm install
     - run: npm install -g @angular/cli@latest
-    - run: ng serve
+    - run: ng build
