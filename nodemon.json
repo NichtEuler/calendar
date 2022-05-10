@@ -1,6 +1,7 @@
 {
     "env": {
         "MONGO_ATLAS_PW": "QMjnzKYXb856f7B",
-        "JWT_KEY": "fjlkaafsjdjfskjfasdsaflkjafdsdsaf"
+        "JWT_KEY": "fjlkaafsjdjfskjfasdsaflkjafdsdsaf",
+        "USER": "calendarAdmin"
     }
 }
