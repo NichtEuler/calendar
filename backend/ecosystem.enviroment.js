@@ -2,7 +2,7 @@ module.exports = {
     apps: [
         {
             name: "express",
-            script: "./app.js",
+            script: "./server.js",
             watch: true,
             env_production: {
                 "MONGO_ATLAS_PW": "QMjnzKYXb856f7B",
