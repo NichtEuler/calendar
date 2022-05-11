@@ -47,4 +47,4 @@ jobs:
         npm run build -- --prod
     - name: start express
       run: |
-        pm2 restart express --production_env
+        pm2 restart express
