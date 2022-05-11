@@ -7,7 +7,8 @@ module.exports = {
             env_production: {
                 "MONGO_ATLAS_PW": "QMjnzKYXb856f7B",
                 "JWT_KEY": "fjlkaafsjdjfskjfasdsaflkjafdsdsaf",
-                "USER": "calendarAdmin"
+                "USER": "calendarAdmin",
+                "NODE_ENV": "production"
             }
         }
     ]
