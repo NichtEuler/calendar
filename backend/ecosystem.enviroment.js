@@ -1,0 +1,14 @@
+module.exports = {
+    apps: [
+        {
+            name: "express",
+            script: "./app.js",
+            watch: true,
+            env_production: {
+                "MONGO_ATLAS_PW": "QMjnzKYXb856f7B",
+                "JWT_KEY": "fjlkaafsjdjfskjfasdsaflkjafdsdsaf",
+                "USER": "calendarAdmin"
+            }
+        }
+    ]
+}
