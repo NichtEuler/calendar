@@ -4,7 +4,7 @@ module.exports = {
             name: "express",
             script: "./server.js",
             watch: true,
-            env_production: {
+            env: {
                 "MONGO_ATLAS_PW": "QMjnzKYXb856f7B",
                 "JWT_KEY": "fjlkaafsjdjfskjfasdsaflkjafdsdsaf",
                 "USER": "calendarAdmin",
