@@ -9,7 +9,8 @@ module.exports = {
             "JWT_KEY": "fjlkaafsjdjfskjfasdsaflkjafdsdsaf",
             "USER": "calendarAdmin",
             "NODE_ENV": "production",
-            "PORT": "3000"
+            "PORT": "3000",
+            "MONGO_URL": "127.0.0.1"
         }
     }]
 }
