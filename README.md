@@ -1,3 +1,4 @@
+[![Node.js CI](https://github.com/NichtEuler/calendar/actions/workflows/node.js.yml/badge.svg?branch=autodeploy)](https://github.com/NichtEuler/calendar/actions/workflows/node.js.yml)
 ### TODO-Liste
 
 - [x] Einarbeitung in MEAN-Stack (bis 23.03.)
