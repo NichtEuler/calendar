@@ -10,7 +10,7 @@ const roomRoutes = require("./routes/room")
 
 
 const app = express();
-const url = "mongodb+srv://max:" + process.env.MONGO_ATLAS_PW + "@cluster0.eyuvr.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const url = "mongodb://" + process.env.USER + ":" + process.env.MONGO_ATLAS_PW + "@" + process.env.MONGO_URL + ":27017/calendarDatabase?retryWrites=true&w=majority";
 
 mongoose.connect(url)
     .then(() => {
