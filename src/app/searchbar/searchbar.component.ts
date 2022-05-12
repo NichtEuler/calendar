@@ -49,7 +49,7 @@ export class SearchbarComponent implements OnInit {
 
   //normalerweise vom service holen
   getData() {
-    return this.http.get<{ message: string, rooms: any }>(environment.apiUrl + "/api/rooms")
+    return this.http.get<{ message: string, rooms: any }>(environment.apiUrl + "/rooms")
       .pipe(
         map(roomData => {
           return {
