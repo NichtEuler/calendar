@@ -45,8 +45,6 @@ jobs:
     - name: Build angular
       run: |
         npm run build --prod
-    - name: copy angular files to nginx
-      run: cp ./dist/calendar/* /var/www/html/
     - name: start express
       run: |
         pm2 restart express
