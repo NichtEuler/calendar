@@ -8,7 +8,8 @@ module.exports = {
             "MONGO_ATLAS_PW": "QMjnzKYXb856f7B",
             "JWT_KEY": "fjlkaafsjdjfskjfasdsaflkjafdsdsaf",
             "USER": "calendarAdmin",
-            "NODE_ENV": "production"
+            "NODE_ENV": "production",
+            "PORT": "3000"
         }
     }]
 }

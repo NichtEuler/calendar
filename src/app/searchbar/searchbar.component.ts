@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { map, Observable, startWith } from 'rxjs';
 import { Room } from '../rooms/room.model';
 import { HeaderTitleService } from '../header/headertitle.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-searchbar',
@@ -48,7 +49,7 @@ export class SearchbarComponent implements OnInit {
 
   //normalerweise vom service holen
   getData() {
-    return this.http.get<{ message: string, rooms: any }>('http://localhost/api/rooms')
+    return this.http.get<{ message: string, rooms: any }>(environment.apiUrl + "/api/rooms")
       .pipe(
         map(roomData => {
           return {
