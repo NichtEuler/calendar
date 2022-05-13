@@ -17,15 +17,19 @@
         </div>
         <div>
             <mat-form-field>
-                <input matInput name="password" ngModel #passwordInput="ngModel" type="password" placeholder="Password"
-                    required minlength="8">
+                <input matInput name="password" ngModel #passwordInput="ngModel" [type]="hideMain ? 'password' : 'text'"
+                    placeholder="Password" required minlength="8">
+                <mat-icon matSuffix (click)="hideMain = !hideMain">{{hideMain ? 'visibility_off' : 'visibility'}}
+                </mat-icon>
                 <mat-error *ngIf="passwordInput.invalid">Must be at least 8 charachters long.</mat-error>
             </mat-form-field>
         </div>
         <div>
             <mat-form-field>
-                <input matInput name="passwordrepeat" ngModel #passwordRepeat="ngModel" type="password"
-                    placeholder="Password" required minlength="8">
+                <input matInput name="passwordrepeat" ngModel #passwordRepeat="ngModel"
+                    [type]="hideRep ? 'password' : 'text'" placeholder="Repeat password" required minlength="8">
+                <mat-icon matSuffix (click)="hideRep = !hideRep">{{hideRep ? 'visibility_off' : 'visibility'}}
+                </mat-icon>
                 <mat-error *ngIf="passwordInput!==passwordRepeat">Passwords don't match.</mat-error>
             </mat-form-field>
         </div>

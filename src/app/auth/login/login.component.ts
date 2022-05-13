@@ -11,6 +11,7 @@ import { AuthService } from '../auth.service';
 export class LoginComponent implements OnInit, OnDestroy {
 
   isLoading = false;
+  hide = true;
   private authStatusSub: Subscription;
 
   constructor(public authService: AuthService, private headerTitleService: HeaderTitleService) { }
