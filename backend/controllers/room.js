@@ -3,6 +3,7 @@ const Room = require("../models/room");
 exports.getRooms = (req, res, next) => {
     Room.find().then(rooms => {
         if (rooms) {
+            console.log("Room" + rooms);
             res.status(200).json({ message: "Rooms fetched successfully", rooms: rooms });
         } else {
             res.status(404).json({ message: "No Rooms found!" });

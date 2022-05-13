@@ -14,6 +14,7 @@ const url = "mongodb" + process.env.MONGO_SRV + "://" + process.env.USER + ":" +
 
 mongoose.connect(url)
     .then(() => {
+        console.log(url)
         console.log("Connected");
     })
     .catch(err => {

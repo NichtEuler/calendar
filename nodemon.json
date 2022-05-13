@@ -1,9 +1,10 @@
 {
     "env": {
         "MONGO_ATLAS_PW": "QMjnzKYXb856f7B",
+        "PORT": "3000",
         "JWT_KEY": "fjlkaafsjdjfskjfasdsaflkjafdsdsaf",
         "USER": "max",
-        "MONGO_DB_NAME": "myFirstDataBase",
+        "MONGO_DB_NAME": "myFirstDatabase",
         "MONGO_URL": "cluster0.eyuvr.mongodb.net",
         "MONGO_PORT": "",
         "MONGO_SRV": "+srv"
