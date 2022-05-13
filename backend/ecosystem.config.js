@@ -10,7 +10,10 @@ module.exports = {
             "USER": "calendarAdmin",
             "NODE_ENV": "production",
             "PORT": "3000",
-            "MONGO_URL": "127.0.0.1"
+            "MONGO_URL": "127.0.0.1",
+            "MONGO_DB_NAME": "calendarDatabase",
+            "MONGO_PORT": ":27017",
+            "MONGO_SRV": ""
         }
     }]
 }

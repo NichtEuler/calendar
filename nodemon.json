@@ -2,6 +2,10 @@
     "env": {
         "MONGO_ATLAS_PW": "QMjnzKYXb856f7B",
         "JWT_KEY": "fjlkaafsjdjfskjfasdsaflkjafdsdsaf",
-        "USER": "calendarAdmin"
+        "USER": "max",
+        "MONGO_DB_NAME": "myFirstDataBase",
+        "MONGO_URL": "cluster0.eyuvr.mongodb.net",
+        "MONGO_PORT": "",
+        "MONGO_SRV": "+srv"
     }
 }
