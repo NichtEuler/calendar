@@ -69,7 +69,7 @@ exports.getCalendarEvent = (req, res, next) => {
 //1 NUR DATE VON HEUTE 2-4 Events oder leere Events wenn keine vorhanden
 exports.getNextEvents = (req, res, next) => {
     CalendarEvent.find({ 'roomId': req.params.roomId }).then(calendarEvents => {
-        let nextEvents = new Array(4);
+        let nextEvents = new Array(3);
 
         let emptyEvent = new CalendarEvent({
             title: "empty Event",
