@@ -15,6 +15,8 @@ router.get("/:roomId", calendarEventController.getCalendarEvents);
 
 router.get("/event/:id", calendarEventController.getCalendarEvent);
 
+router.get("/nextEvents/:roomId", calendarEventController.getNextEvents);
+
 router.put("/:id", checkAuth, calendarEventController.updateOne);
 
 module.exports = router;

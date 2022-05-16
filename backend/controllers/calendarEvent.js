@@ -58,6 +58,86 @@ exports.getCalendarEvent = (req, res, next) => {
         });
 };
 
+///////////////////////////////////////////////////////
+//holt die nächsten 3 Events eines Raumes
+//Problem: alldayevent nicht kollisionsfrei mit 
+//normalen events an gleichem tag 
+//-> dann verkackt er schwellenevent weil einmaligkeit 
+//angenommen wurde 16.05.22
+
+//Daten:
+//1 NUR DATE VON HEUTE 2-4 Events oder leere Events wenn keine vorhanden
+exports.getNextEvents = (req, res, next) => {
+    CalendarEvent.find({ 'roomId': req.params.roomId }).then(calendarEvents => {
+        let nextEvents = new Array(4);
+
+        let emptyEvent = new CalendarEvent({
+            title: "empty Event",
+            start: null,
+            end: null,
+            allDay: null,
+            roomId: null,
+            creator: null
+        });
+
+        //4 events; erster zeit jetzt, dann events
+        let today = new Date(Date.now());
+        nextEvents[0] = today;
+        //mit dummys füllen
+        nextEvents[1] = emptyEvent;
+        nextEvents[2] = emptyEvent;
+        nextEvents[3] = emptyEvent;
+        //Date aussehen: "start": "2022-05-20T08:00:00.000Z",
+
+        //am besten alles sortieren und dann erste 3 nach today ausgeben
+        //array sortieren
+        calendarEvents.sort((a, b) => a.start - b.start);
+        
+
+        //schauen ob ein Event gerade läuft (schwellenevent) und an erste stelle setzen
+        let schwellenevent = false;
+        calendarEvents.forEach(ev => {
+            if((ev.start-today < 0) && (ev.end-today > 0)){
+                schwellenevent = true;
+                nextEvents[1] = ev;
+            }
+        });
+
+        //HIER NOCH DIE STARTSTELLE AUSLESEN WO ERSTES MAL start-today > 0
+        let count = 0;
+        for (let index = 0; index < calendarEvents.length; ++index) {
+            const ev = calendarEvents[index];
+            if(ev.start-today > 0){
+                count = index;
+                break;
+            }
+        }
+
+        //Events zuordnen jenachdem ob grad eins läuft (schwellenevent)
+        let position = 0;
+        if (schwellenevent){
+            position = 2;
+        }else{
+            position = 1;
+        } 
+        //nextEvents füllen (out of Bounds verhindert)
+        while((count < calendarEvents.length) && (position <= 3)){
+            nextEvents[position++] = calendarEvents[count++];
+        }
+
+        if (nextEvents[1]!=emptyEvent) {
+            res.status(200).json({ message: "Next 3 Events fetched successfully", nextEvents: nextEvents });
+        } else {
+            res.status(404).json({ message: "Next 3 Events not found!" });
+        }
+    })
+        .catch(error => {
+            res.status(500).json(
+                { message: "Could not fetch next 3 events!" }
+            )
+        });
+};
+
 exports.deleteCalendarEvent = (req, res, next) => {
     CalendarEvent.deleteOne({ _id: req.params.id }).then(result => {
         if (result.deletedCount > 0) {
