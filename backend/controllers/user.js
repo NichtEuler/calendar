@@ -51,13 +51,16 @@ exports.editUser = (req, res, next) => {
             } else {
                 password = fetchedUser.password;
             }
-
-            const editedUser = new User({
+            let editedUser = new User({
                 _id: req.body.userId,
                 email: req.body.email,
-                username: req.body.username,
                 password: password
             });
+            if (req.body.username) {
+                editedUser.username = req.body.username;
+
+            }
+
             User.updateOne({ _id: req.body.userId }, editedUser).then(result => {
                 if (result.matchedCount > 0) {
                     res.status(200).json({ message: "User sucessfully edited!" });
