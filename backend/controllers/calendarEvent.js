@@ -80,13 +80,12 @@ exports.getNextEvents = (req, res, next) => {
             creator: null
         });
 
-        //4 events; erster zeit jetzt, dann events
+        //nächste 3 events in nextEvents, today (Date type) seperat verschicken
         let today = new Date(Date.now());
-        nextEvents[0] = today;
         //mit dummys füllen
+        nextEvents[0] = emptyEvent;
         nextEvents[1] = emptyEvent;
         nextEvents[2] = emptyEvent;
-        nextEvents[3] = emptyEvent;
         //Date aussehen: "start": "2022-05-20T08:00:00.000Z",
 
         //am besten alles sortieren und dann erste 3 nach today ausgeben
@@ -99,7 +98,7 @@ exports.getNextEvents = (req, res, next) => {
         calendarEvents.forEach(ev => {
             if((ev.start-today < 0) && (ev.end-today > 0)){
                 schwellenevent = true;
-                nextEvents[1] = ev;
+                nextEvents[0] = ev;
             }
         });
 
@@ -116,17 +115,17 @@ exports.getNextEvents = (req, res, next) => {
         //Events zuordnen jenachdem ob grad eins läuft (schwellenevent)
         let position = 0;
         if (schwellenevent){
-            position = 2;
-        }else{
             position = 1;
+        }else{
+            position = 0;
         } 
         //nextEvents füllen (out of Bounds verhindert)
-        while((count < calendarEvents.length) && (position <= 3)){
+        while((count < calendarEvents.length) && (position <= 2)){
             nextEvents[position++] = calendarEvents[count++];
         }
-
-        if (nextEvents[1]!=emptyEvent) {
-            res.status(200).json({ message: "Next 3 Events fetched successfully", nextEvents: nextEvents });
+        //fehlerabfrage hier entfernen?
+        if (nextEvents[0]!=emptyEvent) {
+            res.status(200).json({ message: "Next 3 Events fetched successfully", today: today, nextEvents: nextEvents });
         } else {
             res.status(404).json({ message: "Next 3 Events not found!" });
         }
