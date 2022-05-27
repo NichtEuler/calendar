@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { HeaderTitleService } from 'src/app/header/headertitle.service';
 
 import { AuthService } from '../auth.service';
-import { checkPasswords, MyErrorStateMatcher } from '../MyErrorstateMatcher';
+import { checkPasswords, MyErrorStateMatcher } from '../MyErrorStateMatcher';
 
 @Component({
   selector: 'app-signup',
@@ -16,7 +16,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   hideMain = true;
   hideRep = true;
   signupForm: FormGroup;
-  matcher = new MyErrorStateMatcher();
+  matcher = new MyErrorStateMatcher("notSame");
   private authStatusSub: Subscription;
 
   constructor(private authService: AuthService, private headerTitleService: HeaderTitleService, private formBuilder: FormBuilder) {

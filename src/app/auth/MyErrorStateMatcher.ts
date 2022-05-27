@@ -7,13 +7,18 @@ export function checkPasswords(group: FormGroup) { // here we have the 'password
     return pass === confirmPass ? null : { notSame: true }
 }
 export class MyErrorStateMatcher implements ErrorStateMatcher {
+    errorString: string;
+
+    constructor(errorString) {
+        this.errorString = errorString;
+    }
     isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
         const invalidParent = !!(
             control
             && control.parent
             && control.parent.invalid
             && control.parent.dirty
-            && control.parent.hasError('notSame'));
+            && control.parent.hasError(this.errorString));
         return (invalidParent);
     }
 }

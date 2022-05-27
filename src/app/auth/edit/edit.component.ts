@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { HeaderTitleService } from 'src/app/header/headertitle.service';
 import { AuthService } from '../auth.service';
-import { checkPasswords, MyErrorStateMatcher } from '../MyErrorstateMatcher';
+import { checkPasswords, MyErrorStateMatcher } from '../MyErrorStateMatcher';
 
 @Component({
   selector: 'app-edit',
@@ -17,7 +17,7 @@ export class EditComponent implements OnInit {
   hideOld = true;
   hideMain = true;
   hideRep = true;
-  matcher = new MyErrorStateMatcher();
+  matcher = new MyErrorStateMatcher("notSame");
 
   constructor(private authService: AuthService, private headerTitleService: HeaderTitleService, private formBuilder: FormBuilder) {
     this.editUserForm = this.formBuilder.group({
