@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
-//import mongoose from "mongoose";
+const uniqueValidator = require("mongoose-unique-validator");
+
 
 const roomSchema = new mongoose.Schema({
-    name: { type: String, required: true },
+    name: { type: String, required: true, unique: true },
     location: { type: String, required: true }
 });
 
