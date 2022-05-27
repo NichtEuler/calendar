@@ -5,7 +5,11 @@
     <div>
         <mat-form-field>
             <input matInput type="text" placeholder="Title" [ngModel]="eventApi.event.title" formControlName="title">
-            <mat-error *ngIf="form.get('title').invalid ">Please enter a title!
+            <mat-error *ngIf="!form['controls'].title.value">Please enter a title!
+            </mat-error>
+            <mat-error *ngIf="form['controls'].title.hasError('minlength')">Must be at least 3 characters!
+            </mat-error>
+            <mat-error *ngIf="form['controls'].title.hasError('maxlength')">Maximum of 12 characters!
             </mat-error>
         </mat-form-field>
     </div>
@@ -54,8 +58,12 @@
     </div>
     <div>
         <mat-form-field>
-            <input matInput type="time" placeholder="End Time" [(ngModel)]="endTime" formControlName="endTime">
-            <mat-error *ngIf="form.get('endTime').invalid ">Please enter a end time!
+            <input matInput type="time" placeholder="End Time" [(ngModel)]="endTime" formControlName="endTime"
+                customValidator>
+            <mat-error *ngIf="form.get('endTime').invalid ">Please enter an end time!
+            </mat-error>
+            <mat-error *ngIf="form['controls'].endTime.hasError('timedifference')">adsadsadsasd enter a
+                end time!
             </mat-error>
         </mat-form-field>
     </div>

@@ -58,7 +58,7 @@ export class EventModalComponent implements OnInit {
 
   async ngOnInit() {
     this.form = new FormGroup({
-      title: new FormControl(null, { validators: [Validators.required, Validators.minLength(3)] }),
+      title: new FormControl(null, { validators: [Validators.required, Validators.minLength(3), Validators.maxLength(15)] }),
       startDate: new FormControl(null, { validators: [Validators.required] }),
       endDate: new FormControl(null, { validators: [Validators.required] }),
       startTime: new FormControl({ value: "", disabled: this.eventApi.event.allDay }, { validators: [Validators.required] }),
