@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { HeaderTitleService } from 'src/app/header/headertitle.service';
 
 import { AuthService } from '../auth.service';
+import { checkPasswords, MyErrorStateMatcher } from '../MyErrorstateMatcher';
 
 @Component({
   selector: 'app-signup',
@@ -14,9 +15,19 @@ export class SignupComponent implements OnInit, OnDestroy {
   isLoading = false;
   hideMain = true;
   hideRep = true;
+  signupForm: FormGroup;
+  matcher = new MyErrorStateMatcher();
   private authStatusSub: Subscription;
 
-  constructor(private authService: AuthService, private headerTitleService: HeaderTitleService) { }
+  constructor(private authService: AuthService, private headerTitleService: HeaderTitleService, private formBuilder: FormBuilder) {
+    this.signupForm = this.formBuilder.group({
+      username: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(12), Validators.pattern("^[a-zA-Z0-9_]*$")]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      confirmPassword: ['']
+    }, { validator: checkPasswords });
+  }
+
   ngOnDestroy(): void {
     this.authStatusSub.unsubscribe();
   }
@@ -30,11 +41,12 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.headerTitleService.updateHeaderTitle("Sign Up")
   }
 
-  onSignup(form: NgForm) {
+  onSignup(form: FormGroup) {
     if (form.invalid) {
       return;
     }
     this.isLoading = true;
     this.authService.createUser(form.value.email, form.value.username, form.value.password);
   }
+
 }

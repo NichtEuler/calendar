@@ -1,36 +1,43 @@
 <mat-card>
     <mat-spinner *ngIf="isLoading"></mat-spinner>
-    <form (submit)="onSignup(signupForm)" #signupForm="ngForm" *ngIf="!isLoading">
+    <form (submit)="onSignup(signupForm)" [formGroup]="signupForm">
         <div>
             <mat-form-field>
-                <input matInput name="email" type="email" ngModel placeholder="Email-Addres" #emailInput="ngModel"
-                    required email>
-                <mat-error *ngIf="emailInput.invalid">Please enter a valid Email.</mat-error>
+                <input matInput placeholder="Email-Address" formControlName="email">
+                <mat-error *ngIf="signupForm['controls'].email.hasError('email')">Please enter a valid Email.
+                </mat-error>
             </mat-form-field>
         </div>
         <div>
             <mat-form-field>
-                <input matInput name="username" type="input" ngModel placeholder="Username" #userNameInput="ngModel"
-                    required minlength="5">
-                <mat-error *ngIf="userNameInput.invalid">Must be 5 characters</mat-error>
+                <input matInput type="input" placeholder="Username" formControlName="username">
+                <mat-error *ngIf="signupForm['controls'].username.hasError('minlength')">Must be at least 5 characters
+                </mat-error>
+                <mat-error *ngIf="signupForm['controls'].username.hasError('maxlength')">Must shorter than 12 characters
+                </mat-error>
+                <mat-error *ngIf="signupForm['controls'].username.hasError('pattern')">Username must be alphanumeric
+                </mat-error>
             </mat-form-field>
         </div>
         <div>
             <mat-form-field>
-                <input matInput name="password" ngModel #passwordInput="ngModel" [type]="hideMain ? 'password' : 'text'"
-                    placeholder="Password" required minlength="8">
+                <input matInput name="password" formControlName="password" [type]="hideMain ? 'password' : 'text'"
+                    placeholder="Password">
                 <mat-icon matSuffix (click)="hideMain = !hideMain">{{hideMain ? 'visibility_off' : 'visibility'}}
                 </mat-icon>
-                <mat-error *ngIf="passwordInput.invalid">Must be at least 8 charachters long.</mat-error>
+                <mat-error *ngIf="signupForm['controls'].password.hasError('minlength')">Must be at least 8 characters
+                </mat-error>
             </mat-form-field>
         </div>
         <div>
             <mat-form-field>
-                <input matInput name="passwordrepeat" ngModel #passwordRepeat="ngModel"
-                    [type]="hideRep ? 'password' : 'text'" placeholder="Repeat password" required minlength="8">
+                <input matInput formControlName="confirmPassword" [type]="hideRep ? 'password' : 'text'"
+                    placeholder="Confirm password" [errorStateMatcher]="matcher">
                 <mat-icon matSuffix (click)="hideRep = !hideRep">{{hideRep ? 'visibility_off' : 'visibility'}}
                 </mat-icon>
-                <mat-error *ngIf="passwordInput!==passwordRepeat">Passwords don't match.</mat-error>
+                <mat-error *ngIf="signupForm.hasError('notSame')">
+                    Passwords do not match
+                </mat-error>
             </mat-form-field>
         </div>
         <button *ngIf="!isLoading" color="primary" mat-raised-button type="submit">Sign Up</button>
