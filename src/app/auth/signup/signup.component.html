@@ -11,6 +11,8 @@
         <div>
             <mat-form-field>
                 <input matInput type="input" placeholder="Username" formControlName="username">
+                <mat-error *ngIf="signupForm['controls'].username.hasError('required')">Username is required
+                </mat-error>
                 <mat-error *ngIf="signupForm['controls'].username.hasError('minlength')">Must be at least 5 characters
                 </mat-error>
                 <mat-error *ngIf="signupForm['controls'].username.hasError('maxlength')">Must shorter than 12 characters

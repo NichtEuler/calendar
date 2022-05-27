@@ -57,8 +57,8 @@ export class AuthService {
         });
   }
 
-  editUser(email: string, username: string, password: string, userId: string, newpassword?: string) {
-    const authData: AuthData = { email: email, username: username, password: password, userId: userId, newpassword: newpassword };
+  editUser(email: string, username: string, oldPassword: string, userId: string, newpassword?: string) {
+    const authData: AuthData = { email: email, username: username, password: oldPassword, userId: userId, newpassword: newpassword };
     this.httpClient.post(BACKEND_URL + "editUser", authData)
       .subscribe(() => {
         this.logout();
