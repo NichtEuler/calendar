@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const { rootCertificates } = require("tls");
-
 
 //wenn event recurring dann dürfen nur startzeit und endzeit und nicht start und enddateum angegeben werden
 const calendarEventSchema = new mongoose.Schema({
