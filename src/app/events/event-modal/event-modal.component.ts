@@ -69,8 +69,8 @@ export class EventModalComponent implements OnInit {
       recurringEvent: new FormControl(null),
       //endRecur: new FormControl(null)
     });
-    // will not work if added directly (maybe because its async)
-    this.form.addValidators(this.isTimeValid())
+
+
     this.onAllDayCheckboxChange();
     if (this.eventId) {
       const username$ = await this.calendarEventService.getUsername(this.eventId);
@@ -79,6 +79,10 @@ export class EventModalComponent implements OnInit {
     else {
       this.username = localStorage.getItem("username");
     }
+  }
+  ngAfterViewInit() {
+    // will not work if added directly (maybe because its async)
+    this.form.addValidators(this.isTimeValid());
   }
 
   onNoClick(): void {
@@ -153,9 +157,21 @@ export class EventModalComponent implements OnInit {
       this.endDate.setHours(Number(splitEnd[0]), Number(splitEnd[1]))
     }
   }
+
   isTimeValid() {
     return (control: AbstractControl): ValidationErrors | null => {
-      return this.form.controls.startTime.value > this.form.controls.endTime.value ? { negative: true } : null;
+      let isAllowed
+      if (this.endDate?.toDateString() <= this.startDate.toDateString()) {
+        console.log("same Date");
+
+        isAllowed = this.form.controls.endTime.value > this.form.controls.startTime.value
+      }
+      else {
+        isAllowed = true;
+      }
+      console.log(isAllowed ? null : { negative: true });
+
+      return isAllowed ? null : { negative: true };
     };
   }
 
