@@ -69,9 +69,6 @@ exports.getCalendarEvent = (req, res, next) => {
 //1 NUR DATE VON HEUTE 2-4 Events oder leere Events wenn keine vorhanden
 exports.getNextEvents = (req, res, next) => {
     CalendarEvent.find({ 'roomId': req.params.roomId }).then(calendarEvents => {
-
-        console.log(calendarEvents);
-
         let emptyEvent = new CalendarEvent({
             title: "empty Event",
             start: null,
@@ -81,10 +78,15 @@ exports.getNextEvents = (req, res, next) => {
             creator: null
         });
 
+
+
+        let length = req.query.length === undefined ? 3 : req.query.length; //if length param not given use 3 elements
+        length = length <= 3 ? 3 : req.query.length // if lenght smaler than 3 return 3 elements
+
         //nächste 3 events in nextEvents, today (Date type) seperat verschicken
         let today = new Date(Date.now());
         //mit dummys füllen
-        let nextEvents = Array.from({ length: 3 }, () => (emptyEvent));
+        let nextEvents = Array.from({ length: length }, () => (emptyEvent));
         // let nextEvents = new Array(3);
         // nextEvents[0] = emptyEvent;
         // nextEvents[1] = emptyEvent;
@@ -132,7 +134,7 @@ exports.getNextEvents = (req, res, next) => {
 
         // fehlerabfrage hier entfernen?
         if (nextEvents[0] != emptyEvent) {
-            res.status(200).json({ message: "Next 3 Events fetched successfully", today: today, nextEvents: nextEvents });
+            res.status(200).json({ message: "Next 3 Events fetched successfullyyyy", today: today, nextEvents: nextEvents });
         } else {
             res.status(404).json({ message: "Next 3 Events not found!" });
         }
