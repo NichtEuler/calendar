@@ -5,6 +5,7 @@ import { CalendarEventService } from '../calendarEvent.service';
 import { EventApi } from '@fullcalendar/angular';
 import { lastValueFrom } from 'rxjs';
 import { MyErrorStateMatcher } from 'src/app/auth/MyErrorStateMatcher';
+import { sign } from 'crypto';
 
 export interface CalendarEvent {
   event: EventApi,
@@ -169,8 +170,8 @@ export class EventModalComponent implements OnInit {
       else {
         isAllowed = true;
       }
-      console.log(isAllowed ? null : { negative: true });
 
+      isAllowed = isAllowed || this.form.controls.allDay.value;
       return isAllowed ? null : { negative: true };
     };
   }
