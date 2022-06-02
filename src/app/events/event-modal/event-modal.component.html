@@ -11,6 +11,8 @@
             </mat-error>
             <mat-error *ngIf="form['controls'].title.hasError('maxlength')">Maximum of 12 characters!
             </mat-error>
+            <mat-error *ngIf="form['controls'].title.hasError('pattern')">Can only be alphanumeric!
+            </mat-error>
         </mat-form-field>
     </div>
     <div>

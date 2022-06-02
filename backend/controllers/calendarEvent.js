@@ -10,8 +10,13 @@ exports.createCalendarEvent = (req, res, next) => {
         roomId: req.params.roomId,
         creator: req.userData.userId
     });
+    console.log(calendarEvent);
+
+    //allday event kollision mit normalen events vermeiden ud umgekehrt
+    //CalendarEvent.find({ 'roomId': req.params.roomId }).
 
     calendarEvent.save().then(createdCalendarEvent => {
+
         res.status(201).json({
             message: "Event sucessfully added!",
             calendarEvent: {
@@ -147,7 +152,7 @@ exports.getNextEvents = (req, res, next) => {
 };
 
 exports.deleteCalendarEvent = (req, res, next) => {
-    CalendarEvent.deleteOne({ _id: req.params.id }).then(result => {
+    CalendarEvent.deleteOne({ _id: req.params.id, creator: req.userData.userId }).then(result => {
         if (result.deletedCount > 0) {
             res.status(200).json({ message: "Event sucessfully deleted!" });
         }
