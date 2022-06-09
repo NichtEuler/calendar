@@ -66,7 +66,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     this.calendarEventsUpdated = this.calenderEventService.getCalendarEventsUpdateListener()
       .subscribe((calendarEventData: { calendarEvents: EventApi[] }) => {
-        console.log("calendarEventsUpdated " + calendarEventData.calendarEvents[2].start);
+        console.log("calendarEventsUpdated " + calendarEventData.calendarEvents[1]);
 
         this.calendarComponent.getApi().addEventSource(calendarEventData.calendarEvents);
       });
@@ -77,14 +77,15 @@ export class CalendarComponent implements OnInit, OnDestroy {
           this.calendarComponent.getApi().getEventById(calendarEventData.calendarEvent.id).remove();
         }
         else {
-          let calEvent = this.calendarComponent.getApi().getEventById(calendarEventData.calendarEvent.id);
-          calEvent.setProp("title", calendarEventData.calendarEvent.title);
-          if (calendarEventData.calendarEvent.allDay) {
-            calEvent.setDates(calendarEventData.calendarEvent.start, null, { allDay: calendarEventData.calendarEvent.allDay });
-          }
-          else {
-            calEvent.setDates(calendarEventData.calendarEvent.start, calendarEventData.calendarEvent.end);
-          }
+          // let calEvent = this.calendarComponent.getApi().getEventById(calendarEventData.calendarEvent.id);
+          // calEvent.setProp("title", calendarEventData.calendarEvent.title);
+          // if (calendarEventData.calendarEvent.allDay) {
+          //   calEvent.setDates(calendarEventData.calendarEvent.start, null, { allDay: calendarEventData.calendarEvent.allDay });
+          // }
+          // else {
+          //   calEvent.setDates(calendarEventData.calendarEvent.start, calendarEventData.calendarEvent.end);
+          // }
+          this.calendarComponent.getApi().addEventSource(calendarEventData.calendarEvent);
 
         }
       });

@@ -33,9 +33,13 @@ export class CalendarEventService {
                             end: calEvent.end,
                             roomId: calEvent.roomId,
                             allDay: calEvent.allDay,
-                            daysOfWeek: calEvent.daysOfWeek,
-                            startRecur: calEvent.startRecur,
-                            groupId: calEvent.groupId
+                            groupId: calEvent.groupId,
+                            extendedProps: {
+                                daysOfWeek: calEvent.daysOfWeek,
+                                startRecur: calEvent.startRecur,
+                                startTime: calEvent.start
+                            }
+
                         };
                     }),
                 };
@@ -73,9 +77,12 @@ export class CalendarEventService {
             start: calendarEvent.start,
             end: calendarEvent.end,
             allDay: calendarEvent.allDay,
-            isRecur: calendarEvent.isRecur,
-            startRecur: calendarEvent.startRecur,
-            daysOfWeek: calendarEvent.daysOfWeek
+            groupId: calendarEvent.groupId,
+            extendedProps: {
+                daysOfWeek: calendarEvent.daysOfWeek,
+                startRecur: calendarEvent.startRecur,
+                startTime: calendarEvent.start
+            }
         }
 
         this.http.put<{ message: string }>(BACKEND_URL + "/" + calendarEvent.id, calendarEventData)
@@ -94,16 +101,26 @@ export class CalendarEventService {
             end: calendarEvent.end,
             allDay: calendarEvent.allDay,
             roomId: calendarEvent.roomId,
-            isRecur: calendarEvent.isRecur,
             daysOfWeek: calendarEvent.daysOfWeek,
             startRecur: calendarEvent.startRecur,
             groupId: calendarEvent.groupId
         }
         this.http.post<{ message: string; calendarEvent: CalendarEvent }>(BACKEND_URL + "/" + calendarEvent.roomId, calendarEventData)
             .subscribe(responseData => {
-                calendarEvent.id = responseData.calendarEvent.id
-                this.calendarEventAdded.next({ calendarEvent: calendarEvent });
-                (responseData.calendarEvent);
+                let newEvent: any = {
+                    id: responseData.calendarEvent.id,
+                    title: responseData.calendarEvent.title,
+                    start: responseData.calendarEvent.start,
+                    end: responseData.calendarEvent.end,
+                    allDay: responseData.calendarEvent.allDay,
+                    groupId: responseData.calendarEvent.groupId,
+                    extendedProps: {
+                        daysOfWeek: responseData.calendarEvent.daysOfWeek,
+                        startRecur: responseData.calendarEvent.startRecur,
+                        startTime: responseData.calendarEvent.start
+                    }
+                }
+                this.calendarEventAdded.next({ calendarEvent: newEvent });
             });
     }
 

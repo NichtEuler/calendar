@@ -56,7 +56,9 @@ export class EventModalComponent implements OnInit {
       this.allDay = false;
     }
     this.userId = eventApi.userId;
-    this.isRecur = false;
+    
+    this.isRecur = eventApi.event.extendedProps?.startRecur ? true: false;
+    
     this.groupId = null;
     this.roomId = eventApi.roomId;
   }
@@ -100,9 +102,10 @@ export class EventModalComponent implements OnInit {
 
     this.setTime();
     let daysOfWeek = [this.startDate.getDay()];
-
+    let recurStart = null;
     if (this.isRecur) {
       this.groupId = uuid();
+      recurStart = this.startDate;
     }
 
     if (this.eventApi.event.id) {
@@ -116,7 +119,7 @@ export class EventModalComponent implements OnInit {
         roomId: this.roomId,
         isRecur: this.isRecur,
         daysOfWeek: daysOfWeek,
-        startRecur: this.startDate,
+        startRecur: recurStart,
         groupId: this.groupId
       }
       this.calendarEventService.updateCalendarEvent(calEvent);
@@ -131,7 +134,7 @@ export class EventModalComponent implements OnInit {
         roomId: this.roomId,
         isRecur: this.isRecur,
         daysOfWeek: daysOfWeek,
-        startRecur: this.startDate,
+        startRecur: recurStart,
         groupId: this.groupId
       };
       this.calendarEventService.createCalendarEvent(calEvent);
