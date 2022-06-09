@@ -133,7 +133,7 @@ exports.getNextEvents = (req, res, next) => {
             position = 0;
         }
         //nextEvents füllen (out of Bounds verhindert)
-        while ((count < calendarEvents.length) && (position <= 2)) {
+        while ((count < calendarEvents.length) && (position < nextEvents.length)) {
             if(foundstart){
                 nextEvents[position++] = calendarEvents[count++];
             }else{
