@@ -115,10 +115,12 @@ exports.getNextEvents = (req, res, next) => {
 
         //HIER NOCH DIE STARTSTELLE AUSLESEN WO ERSTES MAL start-today > 0
         let count = 0;
+        let foundstart = false; //schauen ob passende events gefunden wurden -> sonst leere events geben
         for (let index = 0; index < calendarEvents.length; ++index) {
             const ev = calendarEvents[index];
             if (ev.start - today > 0) {
                 count = index;
+                foundstart = true;
                 break;
             }
         }
@@ -132,13 +134,18 @@ exports.getNextEvents = (req, res, next) => {
         }
         //nextEvents füllen (out of Bounds verhindert)
         while ((count < calendarEvents.length) && (position <= 2)) {
-            nextEvents[position++] = calendarEvents[count++];
+            if(foundstart){
+                nextEvents[position++] = calendarEvents[count++];
+            }else{
+                //wenn kein startpunkt gefunden wurde werden empty events eingefüllt - funktioniert mit schwellenevent in combo
+                nextEvents[position++] = emptyEvent;
+            }
         }
         // TODO: wenn keine events an diesem tag auch keine ausgeben
+        
 
-
-        // fehlerabfrage hier entfernen?
-        if (nextEvents[0] != emptyEvent) {
+        // fehlerabfrage hier fixen/löschen/irgendwas?
+        if (true) {
             res.status(200).json({ message: "Next 3 Events fetched successfullyyyy", today: today, nextEvents: nextEvents });
         } else {
             res.status(404).json({ message: "Next 3 Events not found!" });
