@@ -32,13 +32,18 @@ export class CalendarEventService {
                             start: calEvent.start,
                             end: calEvent.end,
                             roomId: calEvent.roomId,
-                            allDay: calEvent.allDay
+                            allDay: calEvent.allDay,
+                            daysOfWeek: calEvent.daysOfWeek,
+                            startRecur: calEvent.startRecur,
+                            groupId: calEvent.groupId
                         };
                     }),
                 };
             }))
             .subscribe(transformedCalendarEvents => {
+
                 this.calEvents = transformedCalendarEvents.events;
+                console.log(this.calEvents);
                 this.calendarEventsUpdated.next({ calendarEvents: [...this.calEvents] });
             });
     }
@@ -67,12 +72,14 @@ export class CalendarEventService {
             title: calendarEvent.title,
             start: calendarEvent.start,
             end: calendarEvent.end,
-            allDay: calendarEvent.allDay
+            allDay: calendarEvent.allDay,
+            isRecur: calendarEvent.isRecur,
+            startRecur: calendarEvent.startRecur,
+            daysOfWeek: calendarEvent.daysOfWeek
         }
 
         this.http.put<{ message: string }>(BACKEND_URL + "/" + calendarEvent.id, calendarEventData)
             .subscribe(response => {
-                //panelClass: ['mat-toolbar', 'mat-primary'] 'mat-primary' to 'mat-accent' or 'mat-warn'
                 this.calendarEventUpdated.next({ calendarEvent: calendarEventData, isDeleted: false });
             });
 
@@ -86,7 +93,11 @@ export class CalendarEventService {
             start: calendarEvent.start,
             end: calendarEvent.end,
             allDay: calendarEvent.allDay,
-            roomId: calendarEvent.roomId
+            roomId: calendarEvent.roomId,
+            isRecur: calendarEvent.isRecur,
+            daysOfWeek: calendarEvent.daysOfWeek,
+            startRecur: calendarEvent.startRecur,
+            groupId: calendarEvent.groupId
         }
         this.http.post<{ message: string; calendarEvent: CalendarEvent }>(BACKEND_URL + "/" + calendarEvent.roomId, calendarEventData)
             .subscribe(responseData => {

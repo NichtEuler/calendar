@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CalendarEventService } from '../calendarEvent.service';
 import { EventApi } from '@fullcalendar/angular';
 import { lastValueFrom } from 'rxjs';
 import { MyErrorStateMatcher } from 'src/app/auth/MyErrorStateMatcher';
-import { sign } from 'crypto';
+import { v4 as uuid } from "uuid";
 
 export interface CalendarEvent {
   event: EventApi,
@@ -25,13 +25,14 @@ export class EventModalComponent implements OnInit {
   endDate: Date;
   startTimeString: string;
   endTimeString: string;
-  isRecurring: boolean;
   allDay: boolean;
   roomId: string;
   userId: string;
   creatorId: string;
   eventId: string;
   username: string;
+  isRecur: boolean;
+  groupId: string;
   matcher = new MyErrorStateMatcher("negative");
 
 
@@ -55,7 +56,8 @@ export class EventModalComponent implements OnInit {
       this.allDay = false;
     }
     this.userId = eventApi.userId;
-    this.isRecurring = false;
+    this.isRecur = false;
+    this.groupId = null;
     this.roomId = eventApi.roomId;
   }
 
@@ -67,7 +69,7 @@ export class EventModalComponent implements OnInit {
       startTime: new FormControl({ value: "", disabled: this.eventApi.event.allDay }, { validators: [Validators.required] }),
       endTime: new FormControl({ value: "", disabled: this.eventApi.event.allDay }, { validators: [Validators.required] }),
       allDay: new FormControl(null, { validators: [Validators.required] }),
-      recurringEvent: new FormControl(null),
+      isRecur: new FormControl(null, { validators: [Validators.required] })
       //endRecur: new FormControl(null)
     });
 
@@ -81,6 +83,7 @@ export class EventModalComponent implements OnInit {
       this.username = localStorage.getItem("username");
     }
   }
+
   ngAfterViewInit() {
     // will not work if added directly (maybe because its async)
     this.form.addValidators(this.isTimeValid());
@@ -96,6 +99,12 @@ export class EventModalComponent implements OnInit {
     }
 
     this.setTime();
+    let daysOfWeek = [this.startDate.getDay()];
+
+    if (this.isRecur) {
+      this.groupId = uuid();
+    }
+
     if (this.eventApi.event.id) {
       //verändere bestehendes event
       const calEvent = {
@@ -104,7 +113,11 @@ export class EventModalComponent implements OnInit {
         start: this.startDate,
         end: this.endDate,
         allDay: this.allDay,
-        roomId: this.roomId
+        roomId: this.roomId,
+        isRecur: this.isRecur,
+        daysOfWeek: daysOfWeek,
+        startRecur: this.startDate,
+        groupId: this.groupId
       }
       this.calendarEventService.updateCalendarEvent(calEvent);
 
@@ -115,7 +128,11 @@ export class EventModalComponent implements OnInit {
         start: this.startDate,
         end: this.endDate,
         allDay: this.allDay,
-        roomId: this.roomId
+        roomId: this.roomId,
+        isRecur: this.isRecur,
+        daysOfWeek: daysOfWeek,
+        startRecur: this.startDate,
+        groupId: this.groupId
       };
       this.calendarEventService.createCalendarEvent(calEvent);
     }
@@ -175,8 +192,4 @@ export class EventModalComponent implements OnInit {
       return isAllowed ? null : { negative: true };
     };
   }
-
 }
-
-
-

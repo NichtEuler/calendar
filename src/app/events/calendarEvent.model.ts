@@ -6,4 +6,8 @@ export interface CalendarEvent {
     end: Date;
     allDay: boolean;
     roomId: string;
+    isRecur: boolean,
+    startRecur: Date;
+    daysOfWeek: [Number],
+    groupId: string
 }

@@ -8,7 +8,13 @@ exports.createCalendarEvent = (req, res, next) => {
         end: req.body.end,
         allDay: req.body.allDay,
         roomId: req.params.roomId,
-        creator: req.userData.userId
+        isRecur: req.body.isRecur,
+        daysOfWeek: req.body.daysOfWeek,
+        groupId: req.body.groupId,
+        startRecur: req.body.startRecur,
+        endRecur: req.body.endRecur,
+        creator: req.userData.userId,
+        groupId: req.body.groupId
     });
 
     calendarEvent.save().then(createdCalendarEvent => {
@@ -168,7 +174,10 @@ exports.updateOne = (req, res, next) => {
         start: req.body.start,
         end: req.body.end,
         allDay: req.body.allDay,
-        creator: req.userData.userId
+        creator: req.userData.userId,
+        isRecur: req.body.isRecur,
+        daysOfWeek: req.body.daysOfWeek,
+        groupId: req.body.groupId
     });
     CalendarEvent.updateOne({ _id: req.params.id, creator: req.userData.userId }, calendarEvent).then(result => {
         if (result.matchedCount > 0) {
