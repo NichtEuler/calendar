@@ -77,7 +77,7 @@ export class CalendarEventService {
             allDay: calendarEvent.allDay,
             groupId: calendarEvent.groupId,
             isRecur: calendarEvent.isRecur,
-            daysOfWeek: calendarEvent.extendedProps.daysOfWeek,
+            daysOfWeek: calendarEvent.daysOfWeek,
             startRecur: calendarEvent.extendedProps.start,
         }
 
