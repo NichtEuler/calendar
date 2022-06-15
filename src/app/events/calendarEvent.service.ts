@@ -36,7 +36,9 @@ export class CalendarEventService {
                             groupId: calEvent.groupId,
                             isRecur: calEvent.isRecur,
                             daysOfWeek: calEvent.daysOfWeek,
-                            startRecur: calEvent.start
+                            startTime: calEvent.startTime,
+                            endTime: calEvent.endTime,
+                            startRecur: calEvent.startRecur
 
 
                         };
@@ -79,7 +81,8 @@ export class CalendarEventService {
             isRecur: calendarEvent.isRecur,
             daysOfWeek: calendarEvent.daysOfWeek,
             startRecur: calendarEvent.startRecur,
-            
+            startTime: calendarEvent.startTime,
+            endTime: calendarEvent.endTime
         }
 
         this.http.put<{ message: string }>(BACKEND_URL + "/" + calendarEvent.id, calendarEventData)

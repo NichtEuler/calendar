@@ -30,6 +30,10 @@ export class EventModalComponent implements OnInit {
   roomId: string;
   userId: string;
   creatorId: string;
+  daysOfWeek: [Number];
+  startRecur: Date;
+  startTime: string;
+  endTime: string;
   eventId: string;
   username: string;
   isRecur: boolean;
@@ -41,6 +45,7 @@ export class EventModalComponent implements OnInit {
     public calendarEventService: CalendarEventService,
     public dialogRef: MatDialogRef<EventModalComponent>,
     @Inject(MAT_DIALOG_DATA) public eventApi: CalendarEvent) {
+
     this.startDate = eventApi.event.start;
     this.startTimeString = this.extractTimeString(this.startDate);
     this.eventId = eventApi.event.id;
@@ -60,7 +65,9 @@ export class EventModalComponent implements OnInit {
 
     this.userId = eventApi.userId;
 
-    this.isRecur = eventApi.event.extendedProps?.startTime ? true : false;
+    console.log(eventApi.event.groupId);
+
+    this.isRecur = eventApi.event.groupId !== "null" ? true : false;
 
     this.groupId = null;
     this.roomId = eventApi.roomId;
@@ -106,12 +113,19 @@ export class EventModalComponent implements OnInit {
     this.setTime();
     console.log(this.startDate);
 
-    let daysOfWeek = [this.startDate.getDay()];
-
-    let timeStart = null;
     if (this.isRecur) {
+      this.daysOfWeek = [this.startDate.getDay()];
       this.groupId = uuid();
-      timeStart = this.startDate;
+      this.startRecur = this.startDate;
+      this.startTime = this.startTimeString;
+      this.endTime = this.endTimeString;
+    }
+    else {
+      this.daysOfWeek = null;
+      this.groupId = null;
+      this.startRecur = null;
+      this.startTime = null
+      this.endTime = null;
     }
 
 
@@ -125,10 +139,10 @@ export class EventModalComponent implements OnInit {
         allDay: this.allDay,
         roomId: this.roomId,
         isRecur: this.isRecur,
-        daysOfWeek: daysOfWeek,
-        startRecur: this.startDate,
-        startTime: this.startTimeString,
-        endTime: this.endTimeString,
+        daysOfWeek: this.daysOfWeek,
+        startRecur: this.startRecur,
+        startTime: this.startTime,
+        endTime: this.endTime,
         groupId: this.groupId
       }
       this.calendarEventService.updateCalendarEvent(calEvent);
@@ -143,8 +157,8 @@ export class EventModalComponent implements OnInit {
         allDay: this.allDay,
         roomId: this.roomId,
         isRecur: this.isRecur,
-        daysOfWeek: daysOfWeek,
-        startRecur: this.startDate,
+        daysOfWeek: this.daysOfWeek,
+        startRecur: this.startRecur,
         startTime: this.startTimeString,
         endTime: this.endTimeString,
         groupId: this.groupId

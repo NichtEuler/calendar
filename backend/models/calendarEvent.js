@@ -8,7 +8,7 @@ const calendarEventSchema = new mongoose.Schema({
     roomId: { type: String, required: true },
     allDay: { type: Boolean, required: false },
     creator: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    isRecur: { type: Boolean, required: true }, startTime
+    isRecur: { type: Boolean, required: true },
     startRecur: {
         type: Date, required: function () { return this.isRecur === true; }
     },

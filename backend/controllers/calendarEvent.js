@@ -11,7 +11,7 @@ exports.createCalendarEvent = (req, res, next) => {
         roomId: req.params.roomId,
         isRecur: req.body.isRecur,
         daysOfWeek: req.body.daysOfWeek,
-        startTime        startRecur: req.body.startRecur,
+        startRecur: req.body.startRecur,
         startTime: req.body.startTime,
         endTime: req.body.endTime,
         groupId: req.body.groupId,
@@ -178,7 +178,10 @@ exports.updateOne = (req, res, next) => {
         allDay: req.body.allDay,
         creator: req.userData.userId,
         isRecur: req.body.isRecur,
+        startRecur: req.body.startRecur,
         daysOfWeek: req.body.daysOfWeek,
+        startTime: req.body.startTime,
+        endTime: req.body.endTime,
         groupId: req.body.groupId
     });
     CalendarEvent.updateOne({ _id: req.params.id, creator: req.userData.userId }, calendarEvent).then(result => {
