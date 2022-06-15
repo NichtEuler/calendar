@@ -127,6 +127,8 @@ export class EventModalComponent implements OnInit {
         isRecur: this.isRecur,
         daysOfWeek: daysOfWeek,
         startRecur: this.startDate,
+        startTime: this.startTimeString,
+        endTime: this.endTimeString,
         groupId: this.groupId
       }
       this.calendarEventService.updateCalendarEvent(calEvent);
@@ -143,6 +145,8 @@ export class EventModalComponent implements OnInit {
         isRecur: this.isRecur,
         daysOfWeek: daysOfWeek,
         startRecur: this.startDate,
+        startTime: this.startTimeString,
+        endTime: this.endTimeString,
         groupId: this.groupId
       };
       this.calendarEventService.createCalendarEvent(calEvent);

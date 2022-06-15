@@ -11,7 +11,9 @@ exports.createCalendarEvent = (req, res, next) => {
         roomId: req.params.roomId,
         isRecur: req.body.isRecur,
         daysOfWeek: req.body.daysOfWeek,
-        startRecur: req.body.startRecur,
+        startTime        startRecur: req.body.startRecur,
+        startTime: req.body.startTime,
+        endTime: req.body.endTime,
         groupId: req.body.groupId,
         creator: req.userData.userId
     });
