@@ -60,8 +60,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
     this.calendarEventAdded = this.calenderEventService.getCalendarAddedListener()
       .subscribe((calendarEventData: { calendarEvent: EventApi }) => {
-
         this.calendarComponent.getApi().addEvent(calendarEventData.calendarEvent);
+        console.log("CalendarComponentn: ");
+        console.log(calendarEventData.calendarEvent);
+
+
       });
 
     this.calendarEventsUpdated = this.calenderEventService.getCalendarEventsUpdateListener()
@@ -153,6 +156,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   handleEventClick(clickInfo: EventClickArg) {
+    console.log(clickInfo);
+
     if (this.userIsAuthenticated) {
       this.dialog.open(EventModalComponent, {
         data: {

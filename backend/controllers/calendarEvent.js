@@ -2,6 +2,7 @@ const CalendarEvent = require("../models/calendarEvent");
 
 
 exports.createCalendarEvent = (req, res, next) => {
+    console.log(req.body.extendedProps);
     const calendarEvent = new CalendarEvent({
         title: req.body.title,
         start: req.body.start,
@@ -9,13 +10,14 @@ exports.createCalendarEvent = (req, res, next) => {
         allDay: req.body.allDay,
         roomId: req.params.roomId,
         isRecur: req.body.isRecur,
-        daysOfWeek: req.body.daysOfWeek,
+        extendedProps: {
+            daysOfWeek: req.body.extendedProps.daysOfWeek,
+            startTime: req.body.extendedProps.startTime
+        },
         groupId: req.body.groupId,
-        startRecur: req.body.startRecur,
-        endRecur: req.body.endRecur,
-        creator: req.userData.userId,
-        groupId: req.body.groupId
+        creator: req.userData.userId
     });
+    console.log(calendarEvent);
 
     calendarEvent.save().then(createdCalendarEvent => {
         res.status(201).json({

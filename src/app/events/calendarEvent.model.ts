@@ -4,9 +4,12 @@ export interface CalendarEvent {
     title: string;
     start: Date;
     end: Date;
+    isRecur: boolean;
     allDay: boolean;
     roomId: string;
-    startRecur: Date;
-    daysOfWeek: [Number],
-    groupId: string
+    extendedProps: {
+        startTime: Date;
+        daysOfWeek: [Number];
+    };
+    groupId: string;
 }

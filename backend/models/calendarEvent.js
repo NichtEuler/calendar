@@ -8,12 +8,14 @@ const calendarEventSchema = new mongoose.Schema({
     roomId: { type: String, required: true },
     allDay: { type: Boolean, required: false },
     creator: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    startRecur: {
-        type: Date, required: function () { return this.isRecur === true; }
-    },
-    endRecur: { type: Boolean, required: false },
-    daysOfWeek: {
-        type: [Number], required: function () { return this.isRecur === true; }
+    isRecur: { type: Boolean, required: true },
+    extendedProps: {
+        startTime: {
+            type: Date, required: function () { return this.isRecur === true; }
+        },
+        daysOfWeek: {
+            type: [Number], required: function () { return this.isRecur === true; }
+        }
     },
     groupId: {
         type: String, required: function () { return this.isRecur === true; }

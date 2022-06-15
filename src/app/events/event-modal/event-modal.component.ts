@@ -40,6 +40,10 @@ export class EventModalComponent implements OnInit {
     public calendarEventService: CalendarEventService,
     public dialogRef: MatDialogRef<EventModalComponent>,
     @Inject(MAT_DIALOG_DATA) public eventApi: CalendarEvent) {
+    console.log("eventapi");
+
+    console.log(eventApi.event);
+
     this.startDate = eventApi.event.start;
     this.startTimeString = this.extractTimeString(this.startDate);
     this.eventId = eventApi.event.id;
@@ -56,9 +60,9 @@ export class EventModalComponent implements OnInit {
       this.allDay = false;
     }
     this.userId = eventApi.userId;
-    
-    this.isRecur = eventApi.event.extendedProps?.startRecur ? true: false;
-    
+
+    this.isRecur = eventApi.event.extendedProps?.startTime ? true : false;
+
     this.groupId = null;
     this.roomId = eventApi.roomId;
   }
@@ -102,10 +106,12 @@ export class EventModalComponent implements OnInit {
 
     this.setTime();
     let daysOfWeek = [this.startDate.getDay()];
-    let recurStart = null;
+    console.log(daysOfWeek);
+
+    let timeStart = null;
     if (this.isRecur) {
       this.groupId = uuid();
-      recurStart = this.startDate;
+      timeStart = this.startDate;
     }
 
     if (this.eventApi.event.id) {
@@ -118,8 +124,10 @@ export class EventModalComponent implements OnInit {
         allDay: this.allDay,
         roomId: this.roomId,
         isRecur: this.isRecur,
-        daysOfWeek: daysOfWeek,
-        startRecur: recurStart,
+        extendedProps: {
+          daysOfWeek: daysOfWeek,
+          startTime: timeStart
+        },
         groupId: this.groupId
       }
       this.calendarEventService.updateCalendarEvent(calEvent);
@@ -127,14 +135,17 @@ export class EventModalComponent implements OnInit {
     }
     else {
       const calEvent = {
+        id: null,
         title: this.form.get("title").value,
         start: this.startDate,
         end: this.endDate,
         allDay: this.allDay,
         roomId: this.roomId,
         isRecur: this.isRecur,
-        daysOfWeek: daysOfWeek,
-        startRecur: recurStart,
+        extendedProps: {
+          daysOfWeek: daysOfWeek,
+          startTime: timeStart
+        },
         groupId: this.groupId
       };
       this.calendarEventService.createCalendarEvent(calEvent);
