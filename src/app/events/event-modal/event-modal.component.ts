@@ -208,7 +208,13 @@ export class EventModalComponent implements OnInit {
   isTimeValid() {
     return (control: AbstractControl): ValidationErrors | null => {
       let isAllowed
-      if (this.endDate?.toDateString() <= this.startDate.toDateString()) {
+      if (this.endDate <= this.startDate) {
+        console.log(this.startDate.toDateString());
+        console.log(this.endDate?.toDateString());
+        console.log(this.endDate?.toDateString() <= this.startDate.toDateString());
+
+
+
         isAllowed = this.form.controls.endTime.value > this.form.controls.startTime.value
       }
       else {
