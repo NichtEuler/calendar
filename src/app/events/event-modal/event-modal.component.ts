@@ -6,6 +6,7 @@ import { EventApi } from '@fullcalendar/angular';
 import { lastValueFrom } from 'rxjs';
 import { MyErrorStateMatcher } from 'src/app/auth/MyErrorStateMatcher';
 import { v4 as uuid } from "uuid";
+import { start } from 'repl';
 
 export interface CalendarEvent {
   event: EventApi,
@@ -40,10 +41,6 @@ export class EventModalComponent implements OnInit {
     public calendarEventService: CalendarEventService,
     public dialogRef: MatDialogRef<EventModalComponent>,
     @Inject(MAT_DIALOG_DATA) public eventApi: CalendarEvent) {
-    console.log("eventapi");
-
-    console.log(eventApi.event);
-
     this.startDate = eventApi.event.start;
     this.startTimeString = this.extractTimeString(this.startDate);
     this.eventId = eventApi.event.id;
@@ -59,6 +56,8 @@ export class EventModalComponent implements OnInit {
     else {
       this.allDay = false;
     }
+    console.log(eventApi.event.start);
+
     this.userId = eventApi.userId;
 
     this.isRecur = eventApi.event.extendedProps?.startTime ? true : false;
@@ -105,14 +104,16 @@ export class EventModalComponent implements OnInit {
     }
 
     this.setTime();
+    console.log(this.startDate);
+
     let daysOfWeek = [this.startDate.getDay()];
-    console.log(daysOfWeek);
 
     let timeStart = null;
     if (this.isRecur) {
       this.groupId = uuid();
       timeStart = this.startDate;
     }
+
 
     if (this.eventApi.event.id) {
       //verändere bestehendes event
@@ -124,10 +125,8 @@ export class EventModalComponent implements OnInit {
         allDay: this.allDay,
         roomId: this.roomId,
         isRecur: this.isRecur,
-        extendedProps: {
-          daysOfWeek: daysOfWeek,
-          startTime: timeStart
-        },
+        daysOfWeek: daysOfWeek,
+        startRecur: this.startDate,
         groupId: this.groupId
       }
       this.calendarEventService.updateCalendarEvent(calEvent);
@@ -142,10 +141,8 @@ export class EventModalComponent implements OnInit {
         allDay: this.allDay,
         roomId: this.roomId,
         isRecur: this.isRecur,
-        extendedProps: {
-          daysOfWeek: daysOfWeek,
-          startTime: timeStart
-        },
+        daysOfWeek: daysOfWeek,
+        startRecur: this.startDate,
         groupId: this.groupId
       };
       this.calendarEventService.createCalendarEvent(calEvent);
@@ -194,8 +191,6 @@ export class EventModalComponent implements OnInit {
     return (control: AbstractControl): ValidationErrors | null => {
       let isAllowed
       if (this.endDate?.toDateString() <= this.startDate.toDateString()) {
-        console.log("same Date");
-
         isAllowed = this.form.controls.endTime.value > this.form.controls.startTime.value
       }
       else {

@@ -9,13 +9,11 @@ const calendarEventSchema = new mongoose.Schema({
     allDay: { type: Boolean, required: false },
     creator: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     isRecur: { type: Boolean, required: true },
-    extendedProps: {
-        startTime: {
-            type: Date, required: function () { return this.isRecur === true; }
-        },
-        daysOfWeek: {
-            type: [Number], required: function () { return this.isRecur === true; }
-        }
+    startRecur: {
+        type: Date, required: function () { return this.isRecur === true; }
+    },
+    daysOfWeek: {
+        type: [Number], required: function () { return this.isRecur === true; }
     },
     groupId: {
         type: String, required: function () { return this.isRecur === true; }

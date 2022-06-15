@@ -7,9 +7,7 @@ export interface CalendarEvent {
     isRecur: boolean;
     allDay: boolean;
     roomId: string;
-    extendedProps: {
-        startTime: Date;
-        daysOfWeek: [Number];
-    };
+    startRecur: Date;
+    daysOfWeek: [Number];
     groupId: string;
 }

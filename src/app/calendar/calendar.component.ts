@@ -156,8 +156,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   handleEventClick(clickInfo: EventClickArg) {
-    console.log(clickInfo);
-
     if (this.userIsAuthenticated) {
       this.dialog.open(EventModalComponent, {
         data: {

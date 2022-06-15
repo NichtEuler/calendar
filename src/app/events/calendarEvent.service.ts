@@ -35,10 +35,9 @@ export class CalendarEventService {
                             allDay: calEvent.allDay,
                             groupId: calEvent.groupId,
                             isRecur: calEvent.isRecur,
-                            extendedProps: {
-                                daysOfWeek: calEvent.daysOfWeek,
-                                startTime: calEvent.start
-                            }
+                            daysOfWeek: calEvent.daysOfWeek,
+                            startRecur: calEvent.start
+
 
                         };
                     }),
@@ -47,7 +46,6 @@ export class CalendarEventService {
             .subscribe(transformedCalendarEvents => {
 
                 this.calEvents = transformedCalendarEvents.events;
-                console.log(this.calEvents);
                 this.calendarEventsUpdated.next({ calendarEvents: [...this.calEvents] });
             });
     }
@@ -79,10 +77,8 @@ export class CalendarEventService {
             allDay: calendarEvent.allDay,
             groupId: calendarEvent.groupId,
             isRecur: calendarEvent.isRecur,
-            extendedProps: {
-                daysOfWeek: calendarEvent.extendedProps.daysOfWeek,
-                startTime: calendarEvent.extendedProps.start
-            }
+            daysOfWeek: calendarEvent.extendedProps.daysOfWeek,
+            startRecur: calendarEvent.extendedProps.start,
         }
 
         this.http.put<{ message: string }>(BACKEND_URL + "/" + calendarEvent.id, calendarEventData)
@@ -108,8 +104,6 @@ export class CalendarEventService {
         //         startTime: calendarEvent.extendedProps.startTime
         //     }
         // }
-        console.log(calendarEvent);
-
 
         this.http.post<{ message: string; calendarEvent: CalendarEvent }>(BACKEND_URL + "/" + calendarEvent.roomId, calendarEvent)
             .subscribe(responseData => {

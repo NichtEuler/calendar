@@ -20,7 +20,7 @@ interface Event{
     -id: String
     -title: String
     ' -daysOfWeek: number
-    -startTime: Date
+    -startRecur: Date
     -endTime: Date
     ' -isRecur: boolean
     ' -startRecur: Date
