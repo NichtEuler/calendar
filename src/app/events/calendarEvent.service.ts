@@ -71,6 +71,10 @@ export class CalendarEventService {
         // const test = this.calendarComponent.calendarComponent.getApi();
         //hier snackbar oder ähnliches einfügen event gespeichert
         let calendarEventData: any;
+        console.log("hier schauen");
+
+        console.log(calendarEvent);
+
         calendarEventData = {
             id: calendarEvent.id,
             title: calendarEvent.title,
@@ -85,6 +89,8 @@ export class CalendarEventService {
             endTime: calendarEvent.endTime,
             groupId: calendarEvent.groupId
         }
+        console.log(calendarEventData);
+
 
         this.http.put<{ message: string }>(BACKEND_URL + "/" + calendarEvent.id, calendarEventData)
             .subscribe(response => {

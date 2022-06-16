@@ -184,12 +184,34 @@ export class CalendarComponent implements OnInit, OnDestroy {
     return timeString;
   }
 
-  async handleEventDrop(eventDropinfo: EventDropArg) {
-    if (await this.isCreator(eventDropinfo.event.id)) {
-      this.calenderEventService.updateCalendarEvent(eventDropinfo.event);
+  async handleEventDrop(eventDropInfo: EventDropArg) {
+    console.log(eventDropInfo.event);
+    let movedEvent = eventDropInfo.event;
+    let calendarEventData = {
+      id: movedEvent.id,
+      title: movedEvent.title,
+      start: movedEvent.start,
+      end: movedEvent.end,
+      allDay: movedEvent.allDay,
+      roomId: movedEvent.extendedProps.roomId,
+      isRecur: movedEvent.extendedProps.isRecur,
+      daysOfWeek: null,
+      startRecur: null,
+      startTime: null,
+      endTime: null,
+      groupId: movedEvent.groupId
+    }
+    if (await this.isCreator(movedEvent.id)) {
+      if (movedEvent.extendedProps.isRecur) {
+        calendarEventData.daysOfWeek = [movedEvent.start.getDay()];
+        calendarEventData.startRecur = movedEvent.start;
+        calendarEventData.startTime = this.extractTimeString(movedEvent.start);
+        calendarEventData.endTime = this.extractTimeString(movedEvent.end);
+      }
+      this.calenderEventService.updateCalendarEvent(calendarEventData);
     }
     else {
-      eventDropinfo.revert();
+      eventDropInfo.revert();
       this.displayUnauthorizedSnackbar();
     }
   }
