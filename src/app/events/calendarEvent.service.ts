@@ -32,12 +32,21 @@ export class CalendarEventService {
                             start: calEvent.start,
                             end: calEvent.end,
                             roomId: calEvent.roomId,
-                            allDay: calEvent.allDay
+                            allDay: calEvent.allDay,
+                            groupId: calEvent.groupId,
+                            isRecur: calEvent.isRecur,
+                            daysOfWeek: calEvent.daysOfWeek,
+                            startTime: calEvent.startTime,
+                            endTime: calEvent.endTime,
+                            startRecur: calEvent.startRecur
+
+
                         };
                     }),
                 };
             }))
             .subscribe(transformedCalendarEvents => {
+
                 this.calEvents = transformedCalendarEvents.events;
                 this.calendarEventsUpdated.next({ calendarEvents: [...this.calEvents] });
             });
@@ -62,37 +71,58 @@ export class CalendarEventService {
         // const test = this.calendarComponent.calendarComponent.getApi();
         //hier snackbar oder ähnliches einfügen event gespeichert
         let calendarEventData: any;
+        console.log("hier schauen");
+
+        console.log(calendarEvent);
+
         calendarEventData = {
             id: calendarEvent.id,
             title: calendarEvent.title,
             start: calendarEvent.start,
             end: calendarEvent.end,
-            allDay: calendarEvent.allDay
+            allDay: calendarEvent.allDay,
+            roomId: calendarEvent.roomId,
+            isRecur: calendarEvent.isRecur,
+            daysOfWeek: calendarEvent.daysOfWeek,
+            startRecur: calendarEvent.startRecur,
+            startTime: calendarEvent.startTime,
+            endTime: calendarEvent.endTime,
+            groupId: calendarEvent.groupId
         }
+        console.log(calendarEventData);
+
 
         this.http.put<{ message: string }>(BACKEND_URL + "/" + calendarEvent.id, calendarEventData)
             .subscribe(response => {
-                //panelClass: ['mat-toolbar', 'mat-primary'] 'mat-primary' to 'mat-accent' or 'mat-warn'
                 this.calendarEventUpdated.next({ calendarEvent: calendarEventData, isDeleted: false });
             });
 
     }
 
     createCalendarEvent(calendarEvent) {
-        let calendarEventData: CalendarEvent;
-        calendarEventData = {
-            id: null,
-            title: calendarEvent.title,
-            start: calendarEvent.start,
-            end: calendarEvent.end,
-            allDay: calendarEvent.allDay,
-            roomId: calendarEvent.roomId
-        }
-        this.http.post<{ message: string; calendarEvent: CalendarEvent }>(BACKEND_URL + "/" + calendarEvent.roomId, calendarEventData)
+        // let calendarEventData: CalendarEvent;
+        // calendarEventData = {
+        //     id: null,
+        //     title: calendarEvent.title,
+        //     start: calendarEvent.start,
+        //     end: calendarEvent.end,
+        //     allDay: calendarEvent.allDay,
+        //     roomId: calendarEvent.roomId,
+        //     groupId: calendarEvent.groupId,
+        //     isRecur: calendarEvent.isRecur,
+        //     extendedProps: {
+        //         daysOfWeek: calendarEvent.extendedProps.daysOfWeek,
+        //         startTime: calendarEvent.extendedProps.startTime
+        //     }
+        // }
+
+        this.http.post<{ message: string; calendarEvent: CalendarEvent }>(BACKEND_URL + "/" + calendarEvent.roomId, calendarEvent)
             .subscribe(responseData => {
                 calendarEvent.id = responseData.calendarEvent.id
+                // console.log("calendarEventService: ");
+                // console.log(calendarEventData);
+
                 this.calendarEventAdded.next({ calendarEvent: calendarEvent });
-                (responseData.calendarEvent);
             });
     }
 

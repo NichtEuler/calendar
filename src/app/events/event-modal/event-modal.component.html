@@ -31,11 +31,20 @@
             </mat-error>
         </mat-form-field>
     </div>
-    <section class="cb">
-        <mat-checkbox formControlName="allDay" [(ngModel)]="allDay" (change)="onAllDayCheckboxChange()">All
-            day event
-        </mat-checkbox>
-    </section>
+    <div>
+        <section>
+            <mat-checkbox formControlName="isRecur" [(ngModel)]="isRecur">Repeat weekly
+            </mat-checkbox>
+        </section>
+    </div>
+    <div>
+        <section>
+            <mat-checkbox formControlName="allDay" [(ngModel)]="allDay" (change)="onAllDayCheckboxChange()">All
+                day event
+            </mat-checkbox>
+        </section>
+    </div>
+
     <div>
         <mat-form-field>
             <input matInput type="time" placeholder="Start Time" [(ngModel)]="startTimeString"
@@ -59,21 +68,11 @@
     <div>
         <span><a>Created by: {{username}}</a></span>
     </div>
-    <!-- <section class="cb">
-        <mat-checkbox formControlName="recurringEvent" [(ngModel)]="isRecurring">Recurring Event
-        </mat-checkbox>
-    </section> -->
-    <!-- <div>
-        <mat-form-field appearance="fill">
-            <mat-label>End date</mat-label>
-            <input matInput [matDatepicker]="endDatePicker" [(ngModel)]="data.endRecur" formControlName="endRecur" [disabled]="!data.isRecurring">
-            <mat-datepicker-toggle matSuffix [for]="endDatePicker" ></mat-datepicker-toggle>
-            <mat-datepicker #endDatePicker></mat-datepicker>
-        </mat-form-field>
-    </div> -->
+
     <div>
         <button color="primary" mat-raised-button type="submit">Save Event</button>
         <button color="warn" mat-raised-button type="button" *ngIf="eventApi.event.id" style="float: right;"
             (click)="onDeleteEvent()">Delete</button>
     </div>
+
 </form>

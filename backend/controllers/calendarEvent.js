@@ -2,18 +2,22 @@ const CalendarEvent = require("../models/calendarEvent");
 
 
 exports.createCalendarEvent = (req, res, next) => {
+    console.log(req.body.extendedProps);
     const calendarEvent = new CalendarEvent({
         title: req.body.title,
         start: req.body.start,
         end: req.body.end,
         allDay: req.body.allDay,
         roomId: req.params.roomId,
+        isRecur: req.body.isRecur,
+        daysOfWeek: req.body.daysOfWeek,
+        startRecur: req.body.startRecur,
+        startTime: req.body.startTime,
+        endTime: req.body.endTime,
+        groupId: req.body.groupId,
         creator: req.userData.userId
     });
     console.log(calendarEvent);
-
-    //allday event kollision mit normalen events vermeiden ud umgekehrt
-    //CalendarEvent.find({ 'roomId': req.params.roomId }).
 
     calendarEvent.save().then(createdCalendarEvent => {
 
@@ -180,7 +184,13 @@ exports.updateOne = (req, res, next) => {
         start: req.body.start,
         end: req.body.end,
         allDay: req.body.allDay,
-        creator: req.userData.userId
+        creator: req.userData.userId,
+        isRecur: req.body.isRecur,
+        startRecur: req.body.startRecur,
+        daysOfWeek: req.body.daysOfWeek,
+        startTime: req.body.startTime,
+        endTime: req.body.endTime,
+        groupId: req.body.groupId
     });
     CalendarEvent.updateOne({ _id: req.params.id, creator: req.userData.userId }, calendarEvent).then(result => {
         if (result.matchedCount > 0) {
