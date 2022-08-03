@@ -85,6 +85,12 @@ export class EventModalComponent implements OnInit {
       //endRecur: new FormControl(null)
     });
 
+    //Checkboxen default nicht angewählt (wenn event noch nicht besteht, sonst wie in event)
+    if (this.eventApi.event.id == null) {
+      this.allDay = false;
+      this.isRecur = false;
+    }
+
 
     this.onAllDayCheckboxChange();
     if (this.eventId) {
