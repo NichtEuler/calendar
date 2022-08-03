@@ -1,4 +1,25 @@
 [![Node.js CI](https://github.com/NichtEuler/calendar/actions/workflows/node.js.yml/badge.svg?branch=autodeploy)](https://github.com/NichtEuler/calendar/actions/workflows/node.js.yml)
+
+# Prerequisites
+Eine funktionsfähige [Node.js](https://nodejs.org/en/) Installation.
+```
+git clone https://github.com/NichtEuler/calendar.git
+npm install
+```
+
+## Starten des Front- und Backends
+
+```
+//Frontend
+ng serve
+
+//Backend
+nodemon backend/server.js
+```
+
+oder die in VSCode zur Verfügung stehenden NPM-Scripts verwenden.
+
+
 ### TODO-Liste
 
 - [x] Einarbeitung in MEAN-Stack (bis 23.03.)
@@ -6,11 +27,11 @@
     - [x] Einarbeitung Express (Middleware)
     - [x] Einarbeitung Angular + Material (Frontend)
     - [x] Einarbeitung NodeJs (Middleware)
-- [ ] Allgemein
+- [x] Allgemein
     - [x] Datenstruktur Backend als UML
-    - [ ] Klassen Frontend als UML
-    - [ ] Flussdiagramm UML
-- [ ] Frontend (bis 03.06.)
+    - [x] Klassen Frontend als UML
+    - [x] Flussdiagramm UML
+- [x] Frontend (bis 03.06.)
     - [x] Headertoolbar
         - [x] Suchleiste für Räume mit Autocomplete
         - [x] Abfrage Räume aus Datenbank
@@ -21,20 +42,11 @@
             - [x] Datepicker
             - [x] Timepicker
             - [x] State-Management
-            - [ ] Validators
+            - [x] Validators
         - [x] Kalender für Raum ändern
-    - [x] Signup
-        - [x] einmalige E-Mail eingeben
-        - [x] einmaliger Username eingeben
-        - [x] Passwort
     - [x] Login
         - [x] Loginscreen
         - [x] Statemanagement
-    - [x] Accountmanagement
-        - [x] Passwort änderbar
-        - [x] Username änderbar
-        - [x] E-Mail änderbar
-        - [x] Änderungen nur mit Passwortbestätigung
     - [x] Routing
 - [x] Middleware (bis 06.05.)
     - [x] CORS Header setzen
@@ -42,8 +54,8 @@
     - [x] Modelle erstellen
     - [x] Controller erstellen
     - [x] Routes erstellen
-- [ ] Backend (bis 15.04.)
+- [x] Backend (bis 15.04.)
     - [x] MongoDB initialisieren
     - [x] Atlas clusters anlegen
-    - [ ] Lokale Datenbank anlegen (optional)
+    - [x] Lokale Datenbank anlegen (optional)
     - [x] Testdaten einfügen
