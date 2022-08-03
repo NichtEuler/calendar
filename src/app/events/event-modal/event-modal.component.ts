@@ -57,6 +57,7 @@ export class EventModalComponent implements OnInit {
 
     if (eventApi.event.allDay) {
       this.allDay = eventApi.event.allDay;
+      this.endDate = this.startDate;
     }
     else {
       this.allDay = false;
@@ -87,7 +88,6 @@ export class EventModalComponent implements OnInit {
 
     //Checkboxen default nicht angewählt (wenn event noch nicht besteht, sonst wie in event)
     if (this.eventApi.event.id == null) {
-      this.allDay = false;
       this.isRecur = false;
     }
 
