@@ -125,12 +125,17 @@ export class EventModalComponent implements OnInit {
       this.startRecur = this.startDate;
       this.startTime = this.startTimeString;
       this.endTime = this.endTimeString;
+      //wenn isRecur und allday angewählt darf keine start- und endttime vorhanden sein
+      if (this.allDay) {
+        this.startTime = null;
+        this.endTime = null;
+      }
     }
     else {
       this.daysOfWeek = null;
       this.groupId = null;
       this.startRecur = null;
-      this.startTime = null
+      this.startTime = null;
       this.endTime = null;
     }
 

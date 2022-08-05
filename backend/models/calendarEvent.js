@@ -13,10 +13,10 @@ const calendarEventSchema = new mongoose.Schema({
         type: Date, required: function () { return this.isRecur === true; }
     },
     startTime: {
-        type: String, required: function () { return this.isRecur === true; }
+        type: String, required: function () { return this.isRecur === true && this.allday === false; }
     },
     endTime: {
-        type: String, required: function () { return this.isRecur === true; }
+        type: String, required: function () { return this.isRecur === true && this.allday === false; }
     },
     daysOfWeek: {
         type: [Number], required: function () { return this.isRecur === true; }
