@@ -76,7 +76,7 @@ export class EventModalComponent implements OnInit {
 
   async ngOnInit() {
     this.form = new FormGroup({
-      title: new FormControl(null, { validators: [Validators.required, Validators.minLength(3), Validators.maxLength(15), Validators.pattern("^[a-zA-Z0-9_]*$")] }),
+      title: new FormControl(null, { validators: [Validators.required, Validators.minLength(3), Validators.maxLength(15), Validators.pattern("^[a-zA-Z0-9_ ]*$")] }),
       startDate: new FormControl(null, { validators: [Validators.required] }),
       endDate: new FormControl(null, { validators: [Validators.required] }),
       startTime: new FormControl({ value: "", disabled: this.eventApi.event.allDay }, { validators: [Validators.required] }),
@@ -133,6 +133,11 @@ export class EventModalComponent implements OnInit {
       this.startTime = null
       this.endTime = null;
     }
+    
+    if (this.allDay) {
+      this.startTime = null
+      this.endTime = null
+    }
 
 
     if (this.eventApi.event.id) {
@@ -155,6 +160,7 @@ export class EventModalComponent implements OnInit {
 
     }
     else {
+
       const calEvent = {
         id: null,
         title: this.form.get("title").value,

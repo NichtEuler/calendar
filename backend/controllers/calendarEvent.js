@@ -138,15 +138,15 @@ exports.getNextEvents = (req, res, next) => {
         }
         //nextEvents füllen (out of Bounds verhindert)
         while ((count < calendarEvents.length) && (position < nextEvents.length)) {
-            if(foundstart){
+            if (foundstart) {
                 nextEvents[position++] = calendarEvents[count++];
-            }else{
+            } else {
                 //wenn kein startpunkt gefunden wurde werden empty events eingefüllt - funktioniert mit schwellenevent in combo
                 nextEvents[position++] = emptyEvent;
             }
         }
         // TODO: wenn keine events an diesem tag auch keine ausgeben
-        
+
 
         // fehlerabfrage hier fixen/löschen/irgendwas?
         if (true) {
