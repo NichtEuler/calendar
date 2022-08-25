@@ -118,10 +118,10 @@ export class EventModalComponent implements OnInit {
 
     this.setTime();
     console.log(this.startDate);
+    this.groupId = uuid();
 
     if (this.isRecur) {
       this.daysOfWeek = [this.startDate.getDay()];
-      this.groupId = uuid();
       this.startRecur = this.startDate;
       this.startTime = this.startTimeString;
       this.endTime = this.endTimeString;
@@ -133,7 +133,6 @@ export class EventModalComponent implements OnInit {
     }
     else {
       this.daysOfWeek = null;
-      this.groupId = null;
       this.startRecur = null;
       this.startTime = null;
       this.endTime = null;
