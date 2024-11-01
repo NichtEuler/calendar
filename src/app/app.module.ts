@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -28,30 +28,24 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   timeGridPlugin
 ]);
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    CalendarComponent,
-    EventModalComponent,
-    MainLandingComponent,
-    SearchbarComponent
-  ],
-  imports: [
-    AngularMaterialModule,
-    MatSnackBarModule,
-    AppRoutingModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    FullCalendarModule,
-    HttpClientModule,
-    FormsModule
-  ],
-  providers: [
-    MatSnackBarModule,
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
-  ],
-  bootstrap: [AppComponent],
-})
+@NgModule({ declarations: [
+        AppComponent,
+        HeaderComponent,
+        CalendarComponent,
+        EventModalComponent,
+        MainLandingComponent,
+        SearchbarComponent
+    ],
+    bootstrap: [AppComponent], imports: [AngularMaterialModule,
+        MatSnackBarModule,
+        AppRoutingModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        FullCalendarModule,
+        FormsModule], providers: [
+        MatSnackBarModule,
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule { }
