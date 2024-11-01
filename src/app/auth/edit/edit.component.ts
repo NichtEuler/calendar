@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, NgForm, Validators } from '@angular/forms';
 import { HeaderTitleService } from 'src/app/header/headertitle.service';
 import { AuthService } from '../auth.service';
 import { checkPasswords, MyErrorStateMatcher } from '../MyErrorStateMatcher';
@@ -13,13 +13,13 @@ export class EditComponent implements OnInit {
 
 
   isLoading = false;
-  editUserForm: FormGroup;
+  editUserForm: UntypedFormGroup;
   hideOld = true;
   hideMain = true;
   hideRep = true;
   matcher = new MyErrorStateMatcher("notSame");
 
-  constructor(private authService: AuthService, private headerTitleService: HeaderTitleService, private formBuilder: FormBuilder) {
+  constructor(private authService: AuthService, private headerTitleService: HeaderTitleService, private formBuilder: UntypedFormBuilder) {
     this.editUserForm = this.formBuilder.group({
       username: ['', [Validators.minLength(5), Validators.maxLength(12), Validators.pattern("^[a-zA-Z0-9_]*$")]],
       email: ['', [Validators.required, Validators.email]],
@@ -33,7 +33,7 @@ export class EditComponent implements OnInit {
     this.headerTitleService.updateHeaderTitle("Edit user");
   }
 
-  onEdit(form: FormGroup) {
+  onEdit(form: UntypedFormGroup) {
     if (form.invalid) {
       return;
     }

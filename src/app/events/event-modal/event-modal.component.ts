@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CalendarEventService } from '../calendarEvent.service';
 import { EventApi } from '@fullcalendar/angular';
@@ -21,7 +21,7 @@ export interface CalendarEvent {
 })
 export class EventModalComponent implements OnInit {
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   startDate: Date;
   endDate: Date;
   startTimeString: string;
@@ -75,14 +75,14 @@ export class EventModalComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.form = new FormGroup({
-      title: new FormControl(null, { validators: [Validators.required, Validators.minLength(3), Validators.maxLength(15), Validators.pattern("^[a-zA-Z0-9_ ]*$")] }),
-      startDate: new FormControl(null, { validators: [Validators.required] }),
-      endDate: new FormControl(null, { validators: [Validators.required] }),
-      startTime: new FormControl({ value: "", disabled: this.eventApi.event.allDay }, { validators: [Validators.required] }),
-      endTime: new FormControl({ value: "", disabled: this.eventApi.event.allDay }, { validators: [Validators.required] }),
-      allDay: new FormControl(null, { validators: [Validators.required] }),
-      isRecur: new FormControl(null, { validators: [Validators.required] })
+    this.form = new UntypedFormGroup({
+      title: new UntypedFormControl(null, { validators: [Validators.required, Validators.minLength(3), Validators.maxLength(15), Validators.pattern("^[a-zA-Z0-9_ ]*$")] }),
+      startDate: new UntypedFormControl(null, { validators: [Validators.required] }),
+      endDate: new UntypedFormControl(null, { validators: [Validators.required] }),
+      startTime: new UntypedFormControl({ value: "", disabled: this.eventApi.event.allDay }, { validators: [Validators.required] }),
+      endTime: new UntypedFormControl({ value: "", disabled: this.eventApi.event.allDay }, { validators: [Validators.required] }),
+      allDay: new UntypedFormControl(null, { validators: [Validators.required] }),
+      isRecur: new UntypedFormControl(null, { validators: [Validators.required] })
       //endRecur: new FormControl(null)
     });
 

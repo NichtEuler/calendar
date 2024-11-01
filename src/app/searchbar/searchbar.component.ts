@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { map, Observable, startWith } from 'rxjs';
 import { Room } from '../rooms/room.model';
@@ -16,7 +16,7 @@ export class SearchbarComponent implements OnInit {
 
   constructor(private http: HttpClient, private router: Router, private roomService: HeaderTitleService) { }
 
-  roomname = new FormControl();
+  roomname = new UntypedFormControl();
   filteredOptions: Observable<Room[]>;
   options: Room[] = [];
 

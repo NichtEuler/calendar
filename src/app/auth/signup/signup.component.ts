@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { HeaderTitleService } from 'src/app/header/headertitle.service';
 
@@ -15,11 +15,11 @@ export class SignupComponent implements OnInit, OnDestroy {
   isLoading = false;
   hideMain = true;
   hideRep = true;
-  signupForm: FormGroup;
+  signupForm: UntypedFormGroup;
   matcher = new MyErrorStateMatcher("notSame");
   private authStatusSub: Subscription;
 
-  constructor(private authService: AuthService, private headerTitleService: HeaderTitleService, private formBuilder: FormBuilder) {
+  constructor(private authService: AuthService, private headerTitleService: HeaderTitleService, private formBuilder: UntypedFormBuilder) {
     this.signupForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(12), Validators.pattern("^[a-zA-Z0-9_]*$")]],
       email: ['', [Validators.required, Validators.email]],
@@ -41,7 +41,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.headerTitleService.updateHeaderTitle("Sign Up")
   }
 
-  onSignup(form: FormGroup) {
+  onSignup(form: UntypedFormGroup) {
     if (form.invalid) {
       return;
     }
