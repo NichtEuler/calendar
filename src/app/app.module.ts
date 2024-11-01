@@ -17,7 +17,7 @@ import { CalendarComponent } from './calendar/calendar.component';
 import { EventModalComponent } from './events/event-modal/event-modal.component';
 
 import { ErrorInterceptor } from './message-interceptor';
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatSnackBarModule as MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { MainLandingComponent } from './mainLanding/mainLanding.component';
 import { SearchbarComponent } from './searchbar/searchbar.component';
