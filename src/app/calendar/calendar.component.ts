@@ -2,7 +2,9 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { MatSnackBar as MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { CalendarOptions, DateSelectArg, EventApi, EventClickArg, EventDropArg, FullCalendarComponent } from '@fullcalendar/angular';
+import { FullCalendarComponent } from '@fullcalendar/angular';
+import { CalendarOptions, DateSelectArg, EventApi, EventClickArg, EventDropArg } from '@fullcalendar/core';
+
 import deLocale from '@fullcalendar/core/locales/de';
 import { EventResizeDoneArg } from '@fullcalendar/interaction';
 import { lastValueFrom, Subscription } from 'rxjs';

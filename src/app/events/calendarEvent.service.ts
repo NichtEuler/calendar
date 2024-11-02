@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { MatSnackBar as MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
-import { EventApi } from "@fullcalendar/angular";
+import { EventApi } from "@fullcalendar/core";
 import { userInfo } from "os";
 import { lastValueFrom, map, Subject } from "rxjs";
 import { environment } from "src/environments/environment";

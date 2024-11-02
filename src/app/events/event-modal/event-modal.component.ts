@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { MatDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CalendarEventService } from '../calendarEvent.service';
-import { EventApi } from '@fullcalendar/angular';
+import { EventApi } from '@fullcalendar/core';
 import { lastValueFrom } from 'rxjs';
 import { MyErrorStateMatcher } from 'src/app/auth/MyErrorStateMatcher';
 import { v4 as uuid } from "uuid";

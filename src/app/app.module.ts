@@ -22,11 +22,7 @@ import { AuthInterceptor } from './auth/auth-interceptor';
 import { MainLandingComponent } from './mainLanding/mainLanding.component';
 import { SearchbarComponent } from './searchbar/searchbar.component';
 
-FullCalendarModule.registerPlugins([ // register FullCalendar plugins
-  dayGridPlugin,
-  interactionPlugin,
-  timeGridPlugin
-]);
+
 
 @NgModule({ declarations: [
         AppComponent,
