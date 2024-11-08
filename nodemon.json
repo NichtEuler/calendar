@@ -1,12 +1,12 @@
 {
     "env": {
-        "MONGO_ATLAS_PW": "QMjnzKYXb856f7B",
-        "PORT": "3000",
-        "JWT_KEY": "fjlkaafsjdjfskjfasdsaflkjafdsdsaf",
-        "USER": "max",
-        "MONGO_DB_NAME": "myFirstDatabase",
-        "MONGO_URL": "cluster0.eyuvr.mongodb.net",
-        "MONGO_PORT": "",
-        "MONGO_SRV": "+srv"
+        "MONGO_ATLAS_PW": "test",
+        "USER": "test",
+        "NODE_ENV": "production",
+        "PORT": "27017",
+        "MONGO_URL": "richi-server",
+        "MONGO_DB_NAME": "admin",
+        "MONGO_PORT": ":27017",
+        "MONGO_SRV": ""
     }
 }

@@ -5,12 +5,11 @@ module.exports = {
         watch: true,
         exec_mode: "cluster",
         env: {
-            "MONGO_ATLAS_PW": "QMjnzKYXb856f7B",
-            "JWT_KEY": "fjlkaafsjdjfskjfasdsaflkjafdsdsaf",
-            "USER": "calendarAdmin",
+            "MONGO_ATLAS_PW": "test",
+            "USER": "test",
             "NODE_ENV": "production",
-            "PORT": "3000",
-            "MONGO_URL": "127.0.0.1",
+            "PORT": "27017",
+            "MONGO_URL": "richi-server",
             "MONGO_DB_NAME": "calendarDatabase",
             "MONGO_PORT": ":27017",
             "MONGO_SRV": ""
