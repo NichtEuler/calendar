@@ -45,6 +45,6 @@ jobs:
     - name: Build angular
       run: |
         npm run build --prod
-    - name: restart express
-      run: |
-        pm2 restart express
+    # - name: restart express
+    #   run: |
+    #     pm2 restart express
