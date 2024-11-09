@@ -59,3 +59,5 @@ oder die in VSCode zur Verfügung stehenden NPM-Scripts verwenden.
     - [x] Atlas clusters anlegen
     - [x] Lokale Datenbank anlegen (optional)
     - [x] Testdaten einfügen
+
+    test webhook
