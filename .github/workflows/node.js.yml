@@ -48,3 +48,6 @@ jobs:
     - name: copy angular app
       run: |
         cp -r /tmp/runner/work/calendar/calendar/dist/calendar/ /tmp/deploy/
+    - name: copy express app
+      run: |
+        cp -r /tmp/runner/work/calendar /tmp/backend/
