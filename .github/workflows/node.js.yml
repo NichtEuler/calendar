@@ -50,4 +50,4 @@ jobs:
         cp -r /tmp/runner/work/calendar/calendar/dist/calendar/ /tmp/deploy/
     - name: copy express app
       run: |
-        cp -r /tmp/runner/work/calendar/calendar/backend/ /tmp/backend/
+        cp -r /tmp/runner/work/calendar/calendar/backend/ /tmp/
