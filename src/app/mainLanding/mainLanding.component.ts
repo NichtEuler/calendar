@@ -13,7 +13,7 @@ export class MainLandingComponent implements OnInit {
   constructor(private headerTitleService: HeaderTitleService, private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
-    this.headerTitleService.updateHeaderTitle("Search room");
+    this.headerTitleService.updateHeaderTitle("Search car");
   }
 
 }
