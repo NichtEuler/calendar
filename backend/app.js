@@ -17,7 +17,7 @@ mongoose.connect(url)
         console.log(url)
         console.log("Connected");
     })
-    .catch(err => {
+    .catch(err: any => {
         console.log("Something went wrong")
         console.log(url)
         console.log(err);
