@@ -10,7 +10,7 @@ const roomRoutes = require("./routes/room")
 
 
 const app = express();
-const url = "mongodb" + process.env.MONGO_SRV + "://" + process.env.USER + ":" + process.env.MONGO_ATLAS_PW + "@" + process.env.MONGO_URL + ":" + process.env.MONGO_PORT + "/" + process.env.MONGO_DB_NAME + "?retryWrites=true&w=majority";
+const url = "mongodb" + process.env.MONGO_SRV + "://" + process.env.USER + ":" + process.env.MONGO_ATLAS_PW + "@" + process.env.MONGO_URL + process.env.MONGO_PORT + "/" + process.env.MONGO_DB_NAME + "?retryWrites=true&w=majority";
 
 mongoose.connect(url)
     .then(() => {
