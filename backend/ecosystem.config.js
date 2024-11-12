@@ -8,7 +8,7 @@ module.exports = {
             "MONGO_ATLAS_PW": "test",
             "USER": "test",
             "NODE_ENV": "production",
-            "PORT": "27017",
+            "PORT": "3000",
             "MONGO_URL": "richi-server",
             "MONGO_DB_NAME": "calendarDatabase",
             "MONGO_PORT": ":27017",
