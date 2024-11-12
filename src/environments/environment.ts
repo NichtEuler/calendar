@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: "https://api.testi.xyz/api"
+  apiUrl: "http://express:3000/api"
 };
 
 /*
