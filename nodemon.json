@@ -5,8 +5,8 @@
         "NODE_ENV": "production",
         "PORT": "27017",
         "MONGO_URL": "richi-server",
-        "MONGO_DB_NAME": "admin",
-        "MONGO_PORT": ":27017",
-        "MONGO_SRV": ""
+        "MONGO_DB_NAME": "calendarDatabase",
+        "MONGO_SRV": "",
+        "JWT_KEY": "test"
     }
 }
