@@ -44,7 +44,7 @@ jobs:
         npm ci
     - name: Build angular
       run: |
-        npm run ng build
+        npm run ng build --configuration production
     - name: copy angular app
       run: |
         cp -r /tmp/runner/work/calendar/calendar/dist/calendar/ /tmp/deploy/
