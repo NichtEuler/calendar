@@ -3,8 +3,16 @@ import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { MatSnackBar as MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { FullCalendarComponent } from '@fullcalendar/angular';
-import { CalendarOptions, DateSelectArg, EventApi, EventClickArg, EventDropArg } from '@fullcalendar/core';
-
+import {
+  CalendarOptions,
+  DateSelectArg,
+  EventApi,
+  EventClickArg,
+  EventDropArg,
+} from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import timeGridPlugin from '@fullcalendar/timegrid';
 import deLocale from '@fullcalendar/core/locales/de';
 import { EventResizeDoneArg } from '@fullcalendar/interaction';
 import { lastValueFrom, Subscription } from 'rxjs';
@@ -17,11 +25,9 @@ import { RoomService } from '../rooms/room.service';
 @Component({
   selector: 'app-fullcalendar',
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.css']
+  styleUrls: ['./calendar.component.css'],
 })
-
 export class CalendarComponent implements OnInit, OnDestroy {
-
   @ViewChild('calendar') calendarComponent: FullCalendarComponent;
 
   private calendarEventsUpdated: Subscription;
@@ -33,15 +39,16 @@ export class CalendarComponent implements OnInit, OnDestroy {
   userIsAuthenticated: boolean;
   currentEvents: EventApi[] = [];
 
-  constructor(public calenderEventService: CalendarEventService,
+  constructor(
+    public calenderEventService: CalendarEventService,
     public dialog: MatDialog,
     public route: ActivatedRoute,
     private authService: AuthService,
     private snackBar: MatSnackBar,
     private router: Router,
     private roomService: RoomService,
-    private headerTitleService: HeaderTitleService) {
-  }
+    private headerTitleService: HeaderTitleService
+  ) {}
 
   ngOnDestroy(): void {
     this.calendarEventAdded.unsubscribe();
@@ -53,48 +60,67 @@ export class CalendarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.userIsAuthenticated = this.authService.getIsAuthed();
     this.userId = this.authService.getUserId();
-    this.authStatusListenerSub = this.authService.getAuthStatusListener()
-      .subscribe(isAuthenticated => {
+    this.authStatusListenerSub = this.authService
+      .getAuthStatusListener()
+      .subscribe((isAuthenticated) => {
         this.userIsAuthenticated = isAuthenticated;
         this.calendarComponent.options.selectable = this.userIsAuthenticated;
         this.userId = this.authService.getUserId();
       });
 
-    this.calendarEventAdded = this.calenderEventService.getCalendarAddedListener()
+    this.calendarEventAdded = this.calenderEventService
+      .getCalendarAddedListener()
       .subscribe((calendarEventData: { calendarEvent: EventApi }) => {
-        this.calendarComponent.getApi().addEvent(calendarEventData.calendarEvent);
-        console.log("CalendarComponentn: ");
+        this.calendarComponent
+          .getApi()
+          .addEvent(calendarEventData.calendarEvent);
+        console.log('CalendarComponentn: ');
         console.log(calendarEventData.calendarEvent);
-
-
       });
 
-    this.calendarEventsUpdated = this.calenderEventService.getCalendarEventsUpdateListener()
+    this.calendarEventsUpdated = this.calenderEventService
+      .getCalendarEventsUpdateListener()
       .subscribe((calendarEventData: { calendarEvents: EventApi[] }) => {
-        console.log("calendarEventsUpdated " + calendarEventData.calendarEvents[1]);
+        console.log(
+          'calendarEventsUpdated ' + calendarEventData.calendarEvents[1]
+        );
 
-        this.calendarComponent.getApi().addEventSource(calendarEventData.calendarEvents);
+        this.calendarComponent
+          .getApi()
+          .addEventSource(calendarEventData.calendarEvents);
       });
 
-    this.calendarEventUpdated = this.calenderEventService.getCalendarEventUpdateListener()
-      .subscribe((calendarEventData: { calendarEvent: EventApi, isDeleted: boolean }) => {
-        if (calendarEventData.isDeleted) {
-          this.calendarComponent.getApi().getEventById(calendarEventData.calendarEvent.id).remove();
+    this.calendarEventUpdated = this.calenderEventService
+      .getCalendarEventUpdateListener()
+      .subscribe(
+        (calendarEventData: {
+          calendarEvent: EventApi;
+          isDeleted: boolean;
+        }) => {
+          if (calendarEventData.isDeleted) {
+            this.calendarComponent
+              .getApi()
+              .getEventById(calendarEventData.calendarEvent.id)
+              .remove();
+          } else {
+            // let calEvent = this.calendarComponent.getApi().getEventById(calendarEventData.calendarEvent.id);
+            // calEvent.setProp("title", calendarEventData.calendarEvent.title);
+            // if (calendarEventData.calendarEvent.allDay) {
+            //   calEvent.setDates(calendarEventData.calendarEvent.start, null, { allDay: calendarEventData.calendarEvent.allDay });
+            // }
+            // else {
+            //   calEvent.setDates(calendarEventData.calendarEvent.start, calendarEventData.calendarEvent.end);
+            // }
+            this.calendarComponent
+              .getApi()
+              .getEventById(calendarEventData.calendarEvent.id)
+              .remove();
+            this.calendarComponent
+              .getApi()
+              .addEvent(calendarEventData.calendarEvent);
+          }
         }
-        else {
-          // let calEvent = this.calendarComponent.getApi().getEventById(calendarEventData.calendarEvent.id);
-          // calEvent.setProp("title", calendarEventData.calendarEvent.title);
-          // if (calendarEventData.calendarEvent.allDay) {
-          //   calEvent.setDates(calendarEventData.calendarEvent.start, null, { allDay: calendarEventData.calendarEvent.allDay });
-          // }
-          // else {
-          //   calEvent.setDates(calendarEventData.calendarEvent.start, calendarEventData.calendarEvent.end);
-          // }
-          this.calendarComponent.getApi().getEventById(calendarEventData.calendarEvent.id).remove();
-          this.calendarComponent.getApi().addEvent(calendarEventData.calendarEvent);
-
-        }
-      });
+      );
   }
 
   //https://stackoverflow.com/questions/34947154/angular-2-viewchild-annotation-returns-undefined
@@ -102,21 +128,19 @@ export class CalendarComponent implements OnInit, OnDestroy {
   ngAfterViewInit() {
     let caughtRoom;
     this.route.paramMap.subscribe(async (paramMap: ParamMap) => {
-      this.calendarComponent.getApi().removeAllEvents()
-      if (paramMap.has("roomId")) {
-        this.roomId = paramMap.get("roomId");
+      this.calendarComponent.getApi().removeAllEvents();
+      if (paramMap.has('roomId')) {
+        this.roomId = paramMap.get('roomId');
         const caughtRoom$ = await this.roomService.getRoom(this.roomId);
-        caughtRoom = await lastValueFrom(caughtRoom$)
+        caughtRoom = await lastValueFrom(caughtRoom$);
         this.calenderEventService.getEvents(this.roomId);
         this.headerTitleService.updateHeaderTitle(caughtRoom.name);
       }
     });
-
-
-
   }
 
   calendarOptions: CalendarOptions = {
+    plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
@@ -138,7 +162,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     selectAllow: this.selectAllow.bind(this),
     locale: deLocale,
     firstDay: 1,
-    height: "auto",
+    height: 'auto',
     businessHours: {
       // days of week. an array of zero-based day of week integers (0=Sunday)
       daysOfWeek: [1, 2, 3, 4, 5, 6], // Monday - Friday
@@ -153,8 +177,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
       data: {
         event: selectInfo,
         roomId: this.roomId,
-        userId: this.userId
-      }
+        userId: this.userId,
+      },
     });
   }
 
@@ -164,13 +188,12 @@ export class CalendarComponent implements OnInit, OnDestroy {
         data: {
           event: clickInfo.event,
           roomId: this.roomId,
-          userId: this.userId
-        }
+          userId: this.userId,
+        },
       });
     } else {
       this.displayUnauthorizedSnackbar();
     }
-
   }
   selectAllow(selectAllow: DateSelectArg) {
     return this.userIsAuthenticated;
@@ -180,8 +203,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
     if (date === null) {
       return null;
     }
-    let hours = ("0" + date.getHours()).slice(-2);
-    let minutes = ("0" + date.getMinutes()).slice(-2);
+    let hours = ('0' + date.getHours()).slice(-2);
+    let minutes = ('0' + date.getMinutes()).slice(-2);
     let timeString = hours + ':' + minutes;
     return timeString;
   }
@@ -201,8 +224,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
       startRecur: null,
       startTime: null,
       endTime: null,
-      groupId: movedEvent.groupId
-    }
+      groupId: movedEvent.groupId,
+    };
     if (await this.isCreator(movedEvent.id)) {
       if (movedEvent.extendedProps.isRecur) {
         calendarEventData.daysOfWeek = [movedEvent.start.getDay()];
@@ -211,8 +234,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
         calendarEventData.endTime = this.extractTimeString(movedEvent.end);
       }
       this.calenderEventService.updateCalendarEvent(calendarEventData);
-    }
-    else {
+    } else {
       eventDropInfo.revert();
       this.displayUnauthorizedSnackbar();
     }
@@ -230,11 +252,14 @@ export class CalendarComponent implements OnInit, OnDestroy {
   async isCreator(eventId: string) {
     const eventCreator$ = this.calenderEventService.getEventCreator(eventId);
     let eventCreator = await lastValueFrom(eventCreator$);
-    return (this.userId === eventCreator);
+    return this.userId === eventCreator;
   }
 
   displayUnauthorizedSnackbar() {
     //eventuell snackbar mit nachricht dass dieses event nicht von einem selbst ist
-    this.snackBar.open("You are not authorized!", 'Close', { duration: 5000, panelClass: ['error-snackbar'] });
+    this.snackBar.open('You are not authorized!', 'Close', {
+      duration: 5000,
+      panelClass: ['error-snackbar'],
+    });
   }
 }
