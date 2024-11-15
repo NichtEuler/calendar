@@ -5,6 +5,7 @@ export interface CalendarEvent {
     start: Date;
     end: Date;
     isRecur: boolean;
+    isImportant: boolean,
     allDay: boolean;
     roomId: string;
     startRecur: Date;

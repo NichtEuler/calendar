@@ -103,14 +103,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
               .getEventById(calendarEventData.calendarEvent.id)
               .remove();
           } else {
-            // let calEvent = this.calendarComponent.getApi().getEventById(calendarEventData.calendarEvent.id);
-            // calEvent.setProp("title", calendarEventData.calendarEvent.title);
-            // if (calendarEventData.calendarEvent.allDay) {
-            //   calEvent.setDates(calendarEventData.calendarEvent.start, null, { allDay: calendarEventData.calendarEvent.allDay });
-            // }
-            // else {
-            //   calEvent.setDates(calendarEventData.calendarEvent.start, calendarEventData.calendarEvent.end);
-            // }
             this.calendarComponent
               .getApi()
               .getEventById(calendarEventData.calendarEvent.id)
@@ -165,10 +157,10 @@ export class CalendarComponent implements OnInit, OnDestroy {
     height: 'auto',
     businessHours: {
       // days of week. an array of zero-based day of week integers (0=Sunday)
-      daysOfWeek: [1, 2, 3, 4, 5, 6], // Monday - Friday
+      daysOfWeek: [1, 2, 3, 4, 5], // Monday - Friday
 
       startTime: '08:00', // a start time
-      endTime: '20:00', // an end time
+      endTime: '21:00', // an end time
     },
   };
 
@@ -219,6 +211,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
       end: movedEvent.end,
       allDay: movedEvent.allDay,
       roomId: movedEvent.extendedProps.roomId,
+      isImportant: movedEvent.extendedProps.isImportant,
       isRecur: movedEvent.extendedProps.isRecur,
       daysOfWeek: null,
       startRecur: null,
