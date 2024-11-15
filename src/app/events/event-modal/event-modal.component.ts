@@ -104,13 +104,10 @@ export class EventModalComponent implements OnInit {
         { validators: [Validators.required] }
       ),
       allDay: new UntypedFormControl(null, {
-        validators: [Validators.required],
       }),
       isRecur: new UntypedFormControl(null, {
-        validators: [Validators.required],
       }),
       isImportant: new UntypedFormControl(null, {
-        validators: [Validators.required],
       }),
       //endRecur: new FormControl(null)
     });
