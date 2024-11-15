@@ -73,8 +73,6 @@ export class EventModalComponent implements OnInit {
 
     this.userId = eventApi.userId;
 
-    console.log(eventApi.event.groupId);
-
     this.isRecur = eventApi.event.groupId !== 'null' ? true : false;
 
     this.groupId = null;
@@ -124,12 +122,13 @@ export class EventModalComponent implements OnInit {
 
     this.onAllDayCheckboxChange();
     if (this.eventId) {
-      const username$ = await this.calendarEventService.getUsername(
-        this.eventId
-      );
-      this.username = await lastValueFrom(username$);
-    } else {
-      this.username = localStorage.getItem('username');
+      const caughtCalendarEvent$ =
+        await this.calendarEventService.getCalendarEvent(this.eventId);
+      let caughtCalendarEvent;
+      caughtCalendarEvent = await lastValueFrom(caughtCalendarEvent$);
+      this.isRecur = caughtCalendarEvent.isRecur;
+      this.isImportant = caughtCalendarEvent.isImportant;
+      this.username = caughtCalendarEvent.username;
     }
   }
 

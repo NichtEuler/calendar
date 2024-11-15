@@ -81,6 +81,12 @@ export class CalendarEventService {
       .pipe(map((response) => response.username));
   }
 
+  async getCalendarEvent(eventId){
+    return this.http
+      .get<{ message: string, calendarEvent: CalendarEvent}>(BACKEND_URL + '/event/' + eventId)
+      .pipe(map((response) => response.calendarEvent));
+  }
+
   updateCalendarEvent(calendarEvent) {
     // const test = this.calendarComponent.calendarComponent.getApi();
     //hier snackbar oder ähnliches einfügen event gespeichert
