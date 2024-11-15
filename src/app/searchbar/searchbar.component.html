@@ -1,6 +1,6 @@
 <form>
     <mat-form-field class="searchbar">
-        <mat-label>Search Room</mat-label>
+        <mat-label>Search Car</mat-label>
         <input type="text" matInput [formControl]="roomname" [matAutocomplete]="auto">
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
             (optionSelected)='autoCompleteSelected($event.option.value)' [displayWith]="displayFn">
