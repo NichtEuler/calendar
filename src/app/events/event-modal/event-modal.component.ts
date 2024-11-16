@@ -185,6 +185,8 @@ export class EventModalComponent implements OnInit {
         startTime: this.startTime,
         endTime: this.endTime,
         groupId: this.groupId,
+        backgroundColor: this.isImportant === true?'red':this.isRecur?'lightblue' :this.allDay? 'green':'blue'
+        
       };
       this.calendarEventService.updateCalendarEvent(calEvent);
     } else {
@@ -202,6 +204,7 @@ export class EventModalComponent implements OnInit {
         startTime: this.startTime,
         endTime: this.endTime,
         groupId: this.groupId,
+        backgroundColor: this.isImportant === true?'red':this.isRecur?'lightblue' :this.allDay? 'green':'blue'
       };
       this.calendarEventService.createCalendarEvent(calEvent);
     }

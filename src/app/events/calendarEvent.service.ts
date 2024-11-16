@@ -50,9 +50,23 @@ export class CalendarEventService {
       )
       .subscribe((transformedCalendarEvents) => {
         transformedCalendarEvents.events.forEach((event) => {
-          if (event.isImportant) {
-            event.backgroundColor = 'red';
-          }
+          event.backgroundColor =
+            event.isImportant === true
+              ? 'red'
+              : event.isRecur
+              ? 'lightblue'
+              : event.allDay
+              ? 'green'
+              : 'blue';
+          console.log(
+            event.isImportant === true
+              ? 'red'
+              : event.isRecur
+              ? 'lightblue'
+              : event.allDay
+              ? 'green'
+              : 'blue'
+          );
         });
         this.calEvents = transformedCalendarEvents.events;
         this.calendarEventsUpdated.next({
@@ -81,9 +95,11 @@ export class CalendarEventService {
       .pipe(map((response) => response.username));
   }
 
-  async getCalendarEvent(eventId){
+  async getCalendarEvent(eventId) {
     return this.http
-      .get<{ message: string, calendarEvent: CalendarEvent}>(BACKEND_URL + '/event/' + eventId)
+      .get<{ message: string; calendarEvent: CalendarEvent }>(
+        BACKEND_URL + '/event/' + eventId
+      )
       .pipe(map((response) => response.calendarEvent));
   }
 
@@ -110,7 +126,6 @@ export class CalendarEventService {
       endTime: calendarEvent.endTime,
       groupId: calendarEvent.groupId,
     };
-    console.log(calendarEventData);
 
     this.http
       .put<{ message: string }>(
