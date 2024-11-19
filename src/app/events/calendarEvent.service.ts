@@ -75,20 +75,17 @@ export class CalendarEventService {
       });
   }
 
-  getEventCreator(id: string) {
+  getEventCreator(event_id: string) {
     return this.http
       .get<{
-        _id: string;
-        title: string;
-        content: string;
-        imagePath: string;
-        creator: string;
-      }>(BACKEND_URL + '/event/' + id)
-      .pipe(map((response) => response.creator));
+        message: string;
+        calendarEvent: CalendarEvent;
+      }>(BACKEND_URL + '/event/' + event_id)
+      .pipe(map((response) => response.calendarEvent.creator));
   }
 
-  async getUsername(id: string) {
-    const creatorId$ = this.getEventCreator(id);
+  async getUsername(event_id: string) {
+    const creatorId$ = this.getEventCreator(event_id);
     const creatorId = await lastValueFrom(creatorId$);
     return this.http
       .get<{ username: string }>(environment.apiUrl + '/user/' + creatorId)

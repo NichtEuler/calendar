@@ -103,12 +103,9 @@ export class EventModalComponent implements OnInit {
         { value: '', disabled: this.eventApi.event.allDay },
         { validators: [Validators.required] }
       ),
-      allDay: new UntypedFormControl(null, {
-      }),
-      isRecur: new UntypedFormControl(null, {
-      }),
-      isImportant: new UntypedFormControl(null, {
-      }),
+      allDay: new UntypedFormControl(null, {}),
+      isRecur: new UntypedFormControl(null, {}),
+      isImportant: new UntypedFormControl(null, {}),
       //endRecur: new FormControl(null)
     });
 
@@ -119,13 +116,12 @@ export class EventModalComponent implements OnInit {
 
     this.onAllDayCheckboxChange();
     if (this.eventId) {
-      const caughtCalendarEvent$ =
-        await this.calendarEventService.getCalendarEvent(this.eventId);
-      let caughtCalendarEvent;
-      caughtCalendarEvent = await lastValueFrom(caughtCalendarEvent$);
-      this.isRecur = caughtCalendarEvent.isRecur;
-      this.isImportant = caughtCalendarEvent.isImportant;
-      this.username = caughtCalendarEvent.username;
+      const username$ = await this.calendarEventService.getUsername(
+        this.eventId
+      );
+      this.username = await lastValueFrom(username$);
+    } else {
+      this.username = localStorage.getItem('username');
     }
   }
 
@@ -185,8 +181,14 @@ export class EventModalComponent implements OnInit {
         startTime: this.startTime,
         endTime: this.endTime,
         groupId: this.groupId,
-        backgroundColor: this.isImportant === true?'red':this.isRecur?'lightblue' :this.allDay? 'green':'blue'
-        
+        backgroundColor:
+          this.isImportant === true
+            ? 'red'
+            : this.isRecur
+            ? 'lightblue'
+            : this.allDay
+            ? 'green'
+            : 'blue',
       };
       this.calendarEventService.updateCalendarEvent(calEvent);
     } else {
@@ -204,7 +206,14 @@ export class EventModalComponent implements OnInit {
         startTime: this.startTime,
         endTime: this.endTime,
         groupId: this.groupId,
-        backgroundColor: this.isImportant === true?'red':this.isRecur?'lightblue' :this.allDay? 'green':'blue'
+        backgroundColor:
+          this.isImportant === true
+            ? 'red'
+            : this.isRecur
+            ? 'lightblue'
+            : this.allDay
+            ? 'green'
+            : 'blue',
       };
       this.calendarEventService.createCalendarEvent(calEvent);
     }
