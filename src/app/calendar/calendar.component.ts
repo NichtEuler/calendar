@@ -87,7 +87,6 @@ export class CalendarComponent implements OnInit, OnDestroy {
         this.calendarComponent
           .getApi()
           .addEventSource(calendarEventData.calendarEvents);
-        this.calendarComponent.getApi().render();
       });
 
     this.calendarEventUpdated = this.calenderEventService

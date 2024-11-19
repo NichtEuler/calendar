@@ -120,6 +120,13 @@ export class EventModalComponent implements OnInit {
         this.eventId
       );
       this.username = await lastValueFrom(username$);
+      const caughtCalendarEvent$ =
+        await this.calendarEventService.getCalendarEvent(this.eventId);
+      let caughtCalendarEvent;
+      caughtCalendarEvent = await lastValueFrom(caughtCalendarEvent$);
+      this.isRecur = caughtCalendarEvent.isRecur;
+      this.isImportant = caughtCalendarEvent.isImportant;
+      console.log('osimportant'+ this.isImportant)
     } else {
       this.username = localStorage.getItem('username');
     }
